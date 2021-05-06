@@ -1,6 +1,6 @@
 [![Github Actions Status](https://github.com/hexlet-components/projects-frontend-l4-server/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-components/projects-frontend-l4-server/actions)
 
-<h1> Build on React and Redux toolkit platforms beelingual application <h1>
+<h1> Build on React and Redux toolkit platforms bilingual (Ru by default and En by option) application <h1>
   
   <p>Please visit it:
   <a href='https://react-hexlet-chat.herokuapp.com/'>https://react-hexlet-chat.herokuapp.com</a>
