@@ -1,11 +1,11 @@
 {
-  "name": "@hexlet/code",
+  "name": "frontend_l4_chat_project",
   "version": "0.0.1",
   "description": "",
   "main": "server/index.js",
   "type": "module",
   "engines": {
-    "node": ">= 14"
+    "node": "14.x"
   },
   "scripts": {
     "test": "echo 'no tests for this project'",
@@ -15,16 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/WilhelmYakunin/frontend-project-lvl4"
+    "url": "git@github.com:hexlet-components/projects-frontend-l4-server.git"
   },
   "author": "Wilhelm Yakunin",
   "license": "ISC",
   "homepage": "",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.5.1",
-    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "classnames": "^2.3.1",
     "core-js": "^3.10.1",
     "debug": "^4.3.1",
     "fastify": "^3.14.2",
@@ -34,37 +31,22 @@
     "fastify-sensible": "^3.1.1",
     "fastify-socket.io": "^1.0.2",
     "fastify-static": "^4.0.1",
-    "formik": "^2.2.6",
     "http-errors": "^1.8.0",
-    "i18next": "^20.2.1",
-    "immer": "^9.0.1",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "pino-pretty": "^4.7.1",
     "point-of-view": "^4.14.0",
     "popper.js": "^1.16.1",
-    "prop-types": "^15.7.2",
     "pug": "^3.0.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-i18next": "^11.8.13",
-    "react-redux": "^7.2.3",
-    "react-router-dom": "^5.2.0",
-    "redux-persist": "^6.0.0",
-    "regenerator-runtime": "^0.13.7",
-    "socket.io-client": "^4.0.1",
-    "typescript": "^4.2.4",
-    "yup": "^0.32.9"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.14",
+    "@babel/core": "^7.13.15",
     "@babel/node": "^7.13.13",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/preset-env": "^7.13.12",
+    "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.1",
@@ -82,7 +64,7 @@
     "postcss-preset-env": "^6.7.0",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
-    "webpack": "^5.32.0",
+    "webpack": "^5.33.2",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2"
   }
