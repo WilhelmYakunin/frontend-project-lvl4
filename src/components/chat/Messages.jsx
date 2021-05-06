@@ -16,10 +16,8 @@ export default function Messages() {
         : channelMessages.map((messageInfo, index) => {
           const { user, body } = messageInfo;
           return (
-            <div key={_.uniqueId(index)} className={msgStyles}>
-              <b>{user}</b>
-              :
-              {body}
+            <div key={_.uniqueId(index)} className={msgStyles}>{}
+              <b>{user}</b>: {body}
             </div>
           );
         }) }

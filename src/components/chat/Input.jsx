@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 import { io } from 'socket.io-client';
 import {
   requestAddMessage,
@@ -23,11 +22,6 @@ export default function Input() {
   const inputStyles = cn('mr-2', 'form-control');
   const inputBtnStyles = cn('btn', 'btn-primary');
   const inputFeedbackStyles = cn('d-block', 'invalid-feedback');
-  const MessageSchema = yup.object().shape({
-    body: yup.string()
-      .min(1)
-      .required('chat.required'),
-  });
 
   return (
     <div className={inputContainerStyles}>
@@ -35,7 +29,6 @@ export default function Input() {
         initialValues={{
           body: '',
         }}
-        validationSchema={MessageSchema}
         onSubmit={async (messageBody, { setSubmitting, resetForm }) => {
           setSubmitting(true);
           try {
