@@ -1,30 +1,27 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import {
-  requestModalOpen, setModalOpen, reciveModalOpen, modalProccedingError,
-} from '../../reducers/newChannelModal';
+  setModalOpen, modalProccedingError,
+} from '../modals/modalSlice';
 import ChannelsList from './Channels';
 
 export default function ChannelsDash() {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  function handleOpenModal() {
+  function setAddChannelModal() {
     try {
-      dispatch(requestModalOpen());
-      dispatch(setModalOpen());
-      dispatch(reciveModalOpen());
+      dispatch(setModalOpen('addModal'));
     } catch (exception) {
       dispatch(modalProccedingError());
     }
   }
-
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>{t('channels.channels')}</span>
-        <button type="button" onClick={handleOpenModal} className="ml-auto p-0 btn btn-link">+</button>
+        <button type="button" onClick={setAddChannelModal} className="ml-auto p-0 btn btn-link">+</button>
       </div>
       <ChannelsList />
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
-import ChannelsDash from './ChannelsDash.jsx';
-import Messages from './Messages.jsx';
-import Input from './Input.jsx';
+import ChannelsDash from './channels/ChannelsDash.jsx';
+import Messages from './messages/Messages.jsx';
+import Input from './messages/Input.jsx';
 
 export default function Chat() {
   return (

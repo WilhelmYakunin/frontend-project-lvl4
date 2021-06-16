@@ -9,7 +9,7 @@ import {
   addMessage,
   receiveNewMessage,
   addMessageError,
-} from '../../reducers/messagesSlice';
+} from './messagesSlice';
 
 export default function Input() {
   const { t } = useTranslation();

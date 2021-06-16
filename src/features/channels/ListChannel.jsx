@@ -8,25 +8,16 @@ import {
   reciveChannelsChanges,
   channelsProccedingError,
   setCurrentChannel,
-} from '../../reducers/channelsSlice';
+} from './channelsSlice';
 import {
   requestDropdownOpen,
   setDropdownOpen,
   reciveDropdownOpen,
   dropdownProccedingError,
-} from '../../reducers/dropdownSlice';
+} from '../channels/dropdownSlice';
 import {
-  requestDeleteModalOpen,
-  setDeleteModalOpen,
-  reciveDeleteModalOpen,
-  deleteModalProccedingError,
-} from '../../reducers/deleteModalSlice';
-import {
-  requestRenameModalOpen,
-  setRenameModalOpen,
-  reciveRenameModalOpen,
-  renameModalProccedingError,
-} from '../../reducers/renameModalSlice';
+  setModalOpen, modalProccedingError,
+} from '../modals/modalSlice';
 
 export default function ListChannel({
   channel: { id, name, removable },
@@ -61,30 +52,25 @@ export default function ListChannel({
     }
   }
 
-  function handleOpenDeleteModal(e) {
+  const handleOpenDeleteModal = (e) => {
     e.preventDefault();
     try {
-      dispatch(requestDeleteModalOpen());
-      dispatch(setDeleteModalOpen());
-      dispatch(reciveDeleteModalOpen());
+      dispatch(setModalOpen('removeModal'));
     } catch (exception) {
-      dispatch(deleteModalProccedingError());
+      dispatch(modalProccedingError());
     }
   }
 
-  function handleOpenRenameModal(e) {
+  const handleOpenRenameModal = (e) => {
     e.preventDefault();
     try {
-      dispatch(requestRenameModalOpen());
-      dispatch(setRenameModalOpen());
-      dispatch(reciveRenameModalOpen());
+      dispatch(setModalOpen('renameModal'));
     } catch (exception) {
-      dispatch(renameModalProccedingError());
+      dispatch(modalProccedingError());
     }
   }
 
-  function handleReciveDropdownOpen(e) {
-    e.preventDefault();
+  function handleReciveDropdownOpen() {
     try {
       dispatch(requestDropdownOpen());
       dispatch(setDropdownOpen(id));

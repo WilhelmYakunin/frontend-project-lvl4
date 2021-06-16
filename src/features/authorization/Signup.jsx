@@ -6,9 +6,9 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { requestLogin, receiveLogin, loginError } from '../reducers/authorizationSlice';
-import { setInitialState } from '../reducers/channelsSlice';
-import routes from '../routes';
+import { requestLogin, receiveLogin, loginError } from './authorizationSlice';
+import { setInitialState } from '../channels/channelsSlice';
+import routes from '../../routes';
 
 const SignupSchema = yup.object().shape({
   username: yup.string()

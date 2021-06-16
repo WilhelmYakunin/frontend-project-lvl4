@@ -9,13 +9,11 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storageSession from 'redux-persist/es/storage/session.js';
-import authorizationSlice from '../reducers/authorizationSlice.jsx';
-import channelsSlice from '../reducers/channelsSlice.jsx';
-import newChannelModalSlice from '../reducers/newChannelModal.jsx';
-import deleteModaleSlice from '../reducers/deleteModalSlice.jsx';
-import renameModaleSlice from '../reducers/renameModalSlice.jsx';
-import dropdownInfoSlice from '../reducers/dropdownSlice.jsx';
-import messagesInfoSlice from '../reducers/messagesSlice.jsx';
+import authorizationSlice from '../features/authorization/authorizationSlice.jsx';
+import channelsSlice from '../features/channels/channelsSlice.jsx';
+import modalSlice from '../features/modals/modalSlice.jsx';
+import dropdownInfoSlice from '../features/channels/dropdownSlice.jsx';
+import messagesInfoSlice from '../features/messages/messagesSlice.jsx';
 
 const persistConfig = {
   key: 'root',
@@ -27,9 +25,7 @@ const rootReducer = combineReducers({
   channelsData: channelsSlice,
   messagesData: messagesInfoSlice,
   dropdown: dropdownInfoSlice,
-  newChannelModal: newChannelModalSlice,
-  deleteModal: deleteModaleSlice,
-  renameModal: renameModaleSlice,
+  modal: modalSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

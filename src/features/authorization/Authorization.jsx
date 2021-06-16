@@ -3,9 +3,9 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import Chat from './chat/Chat';
+import Chat from '../Chat';
 
-export default function IsLoggedIn() {
+export default function Authorization() {
   const isAuthorized = localStorage.user !== undefined;
 
   return (

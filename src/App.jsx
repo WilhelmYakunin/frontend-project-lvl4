@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './languages/i18n';
+import './locales/i18n';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter,
@@ -10,42 +10,35 @@ import {
 } from 'react-router-dom';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import store from './store/store';
-import Logo from './components/Logo';
-import Login from './components/Login';
-import QuitButton from './components/QuitButton';
-import Signup from './components/Signup';
-import NoMatch from './components/NoMatch';
-import IsLoggedIn from './components/IsLoggedIn';
-import NewChannelModal from './components/modals/NewChannelModal';
-import DeleteChannelModal from './components/modals/DeleteChannelModal';
-import RenameModal from './components/modals/RenameModal';
+import store from './app/store';
+import Logo from './features/authorization/Logo';
+import Login from './features/authorization/Login';
+import LogOutBtn from './features/authorization/LogOutBtn';
+import Signup from './features/authorization/Signup';
+import NoMatch from './features/noMatch/NoMatch';
+import Authorization from './features/authorization/Authorization';
+import Modal from './features/modals/Modal';
 
 export default function App() {
   const mountNode = document.querySelector('#chat');
-  const persistor = persistStore(store);
 
   ReactDOM.render(
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <div className="d-flex flex-column h-100">
-            <nav className="mb-3 navbar navbar-expand-lg navbar-light bg-light">
-              <Link className="mr-auto navbar-brand" to="/" component={Logo} />
-              <QuitButton />
-            </nav>
-            <Switch>
-              <IsLoggedIn exact path="/" />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="*" component={NoMatch} />
-            </Switch>
-          </div>
-          <NewChannelModal />
-          <DeleteChannelModal />
-          <RenameModal />
-        </BrowserRouter>
-      </PersistGate>
+      <BrowserRouter>
+        <div className="d-flex flex-column h-100">
+          <nav className="mb-3 navbar navbar-expand-lg navbar-light bg-light">
+            <Link className="mr-auto navbar-brand" to="/" component={Logo} />
+            <LogOutBtn />
+          </nav>
+          <Switch>
+            <Authorization exact path="/" />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="*" component={NoMatch} />
+          </Switch>
+        </div>
+        <Modal />
+      </BrowserRouter>
     </Provider>,
     mountNode,
   );

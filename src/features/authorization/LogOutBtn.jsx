@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { requestLogout, receiveLogout, logoutError } from '../reducers/authorizationSlice';
+import { requestLogout, receiveLogout, logoutError } from './authorizationSlice';
 
-export default function QuitButton() {
+const LogOutBtn = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isAuthorized = localStorage.user !== undefined;
@@ -28,3 +28,5 @@ export default function QuitButton() {
     )
   );
 }
+
+export default LogOutBtn;

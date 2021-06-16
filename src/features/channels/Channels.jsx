@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
-
 import ListChannel from './ListChannel';
 
 export default function ChannelsList() {

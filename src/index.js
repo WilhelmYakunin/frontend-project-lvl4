@@ -6,6 +6,6 @@ import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
 import 'bootstrap';
 import App from './App.jsx';
-import './rolbar.js';
+import './rollbar.js';
 
 App();
