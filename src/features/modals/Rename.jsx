@@ -5,9 +5,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import {
-  requestChannelsChanges,
   renameChannel,
-  reciveChannelsChanges,
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
@@ -51,9 +49,7 @@ const RenameModal = () => {
                     const socket = io();
                     await socket.emit('renameChannel',
                       req, () => {
-                        dispatch(requestChannelsChanges());
                         dispatch(renameChannel(req));
-                        dispatch(reciveChannelsChanges());
                         resetForm();
                         dispatch(setModalClose());
                       });

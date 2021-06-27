@@ -6,10 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import {
-  requestChannelsChanges,
   addChannel,
   setCurrentChannel,
-  reciveChannelsChanges,
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
@@ -44,10 +42,8 @@ const Add = () => {
               const socket = io();
               socket.emit('newChannel', name, (socketInfo) => {
                 const { id, removable } = socketInfo.data;
-                dispatch(requestChannelsChanges());
                 dispatch(addChannel({ name, id, removable }));
                 dispatch(setCurrentChannel(id));
-                dispatch(reciveChannelsChanges());
                 dispatch(setModalClose());
                 resetForm();
               });

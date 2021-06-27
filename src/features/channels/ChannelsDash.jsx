@@ -17,6 +17,7 @@ export default function ChannelsDash() {
       dispatch(modalProccedingError());
     }
   }
+
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">

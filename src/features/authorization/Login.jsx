@@ -3,13 +3,15 @@ import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { requestLogin, receiveLogin, loginError } from './authorizationSlice';
-import { setInitialState } from '../channels/channelsSlice';
+import { useLocation, useHistory } from 'react-router-dom';
+import { login, authError } from './authorizationSlice';
 import routes from '../../routes';
 
-export default function Login() {
+const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
 
   return (
     <div className="container-fluid">
@@ -20,31 +22,30 @@ export default function Login() {
               username: '',
               password: '',
             }}
-            onSubmit={async (userInfo, { setErrors, resetForm }) => {
+            onSubmit={async (userInfo, { setErrors, setSubmitting, resetForm }) => {
+              setSubmitting(true);
               const { username, password } = userInfo;
               const loginUrl = routes.loginPath();
               try {
-                dispatch(requestLogin());
                 const loginResponse = await axios.post(
                   loginUrl,
                   { username, password },
                 );
                 const loginInfo = loginResponse.data;
-                const { token } = loginInfo;
                 localStorage.setItem('user', JSON.stringify(loginInfo));
-                dispatch(receiveLogin());
-                const channelsDataUtl = routes.dataPath();
-                const channelsDataResponse = await axios.get(
-                  channelsDataUtl, {
-                    headers: { Authorization: 'Bearer '.concat(token) },
-                  },
-                );
-                dispatch(setInitialState(channelsDataResponse.data));
+                dispatch(login());
                 resetForm();
-                location.replace('/');
+                const { from } = location.state || { from: { pathname: '/' } };
+                history.replace(from);
+                setSubmitting(false);
               } catch (exception) {
-                dispatch(loginError(exception.message));
-                setErrors({ authFailed: true });
+                const { message } = exception;
+                if (exception.isAxiosError && exception.response.status === 401) {
+                  dispatch(authError(message));
+                  setErrors({ authFailed: true });
+                  return;
+                }
+                dispatch(authError(message));
               }
             }}
           >
@@ -59,7 +60,7 @@ export default function Login() {
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={`${'form-control'} ${errors.authFailed && touched.username ? 'is-invalid' : null}`}
+                    className={`${'form-control'} ${errors.authFailed && touched.username && 'is-invalid'}`}
                   />
                 </div>
                 <div className="form-group">
@@ -71,11 +72,9 @@ export default function Login() {
                     autoComplete="password"
                     required=""
                     id="password"
-                    className={`${'form-control'} ${errors.authFailed && touched.password ? 'is-invalid' : null}`}
+                    className={`${'form-control'} ${errors.authFailed && touched.password && 'is-invalid'}`}
                   />
-                  {errors.authFailed ? (
-                    <div className="invalid-feedback">{t('login.authFailed')}</div>
-                  ) : null}
+                  {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
                 </div>
                 <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
                   {t('login.submit')}
@@ -91,4 +90,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;

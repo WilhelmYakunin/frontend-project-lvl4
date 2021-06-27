@@ -1,14 +1,13 @@
 import React from 'react';
-import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import { msgContainerStyles, msgStyles } from './messagesStyles';
 
-export default function Messages() {
-  const msgContainerStyles = cn('chat-messages', 'overflow-auto', 'mb-3');
-  const msgStyles = cn('text-break');
+const Messages = () => {
   const messages = useSelector((state) => state.messagesData.messages);
   const currentChannelId = useSelector((state) => state.channelsData.currentChannelId);
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
+  const space = ': ';
 
   return (
     <div id="messages-box" className={msgContainerStyles}>
@@ -16,11 +15,15 @@ export default function Messages() {
         : channelMessages.map((messageInfo, index) => {
           const { user, body } = messageInfo;
           return (
-            <div key={_.uniqueId(index)} className={msgStyles}>{}
-              <b>{user}</b>: {body}
+            <div key={_.uniqueId(index)} className={msgStyles}>
+              <b>{user}</b>
+              {space}
+              {body}
             </div>
           );
         }) }
     </div>
   );
-}
+};
+
+export default Messages;

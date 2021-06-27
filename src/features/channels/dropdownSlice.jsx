@@ -5,34 +5,19 @@ export const dropdownSlice = createSlice({
   initialState: {
     id: 'none',
     dropdownProccedingError: 'none',
-    isProceeding: false,
   },
   reducers: {
-    requestDropdownOpen: (state) => ({
-      ...state,
-      isProceeding: true,
-      dropdownProccedingError: 'none',
-    }),
-    setDropdownOpen: (state, action) => ({
-      ...state,
-      id: action.payload,
-    }),
-    reciveDropdownOpen: (state) => ({
-      ...state,
-      isProceeding: false,
-      dropdownProccedingError: 'none',
-    }),
-    dropdownProccedingError: (state, action) => ({
-      ...state,
-      dropdownProccedingError: action.payload,
-    }),
+    setDropdownOpen(state, action) {
+      Object.assign(state, { id: action.payload });
+    },
+    dropdownProccedingError(state, action) {
+      Object.assign(state, { dropdownProccedingError: action.payload });
+    },
   },
 });
 
 export const {
-  requestDropdownOpen,
   setDropdownOpen,
-  reciveDropdownOpen,
   dropdownProccedingError,
 } = dropdownSlice.actions;
 

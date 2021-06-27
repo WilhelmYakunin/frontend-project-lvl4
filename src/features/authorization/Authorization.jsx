@@ -3,14 +3,14 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import Chat from '../Chat';
+import SpinnerChatSwitch from '../spinnerChatSwitch';
 
 export default function Authorization() {
   const isAuthorized = localStorage.user !== undefined;
 
   return (
     <Route
-      render={() => (isAuthorized ? <Chat /> : (
+      render={() => (isAuthorized ? <SpinnerChatSwitch /> : (
         <Redirect to="/login" />
       ))}
     />

@@ -1,11 +1,16 @@
+import Rollbar from 'rollbar';
+
 let _rollbarConfig = {
-  accessToken: process.env.ACCESS_TOKEN_ROLBAR,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment: 'production',
-  },
+  rollbar: new Rollbar({
+    accessToken: process.env.ACCESS_TOKEN_ROLBAR,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    payload: {
+      environment: 'production',
+    },
+  }),
 };
+
 // Rollbar Snippet
 !(function (r) { function e(n) { if (o[n]) return o[n].exports; const t = o[n] = { exports: {}, id: n, loaded: !1 }; return r[n].call(t.exports, t, t.exports, e), t.loaded = !0, t.exports; } var o = {}; return e.m = r, e.c = o, e.p = '', e(0); }([function (r, e, o) {
   const n = o(1); const t = o(4); _rollbarConfig = _rollbarConfig || {}, _rollbarConfig.rollbarJsUrl = _rollbarConfig.rollbarJsUrl || 'https://cdnjs.cloudflare.com/ajax/libs/rollbar.js/2.4.6/rollbar.min.js', _rollbarConfig.async = void 0 === _rollbarConfig.async || _rollbarConfig.async; const a = n.setupShim(window, _rollbarConfig); const l = t(_rollbarConfig); window.rollbar = n.Rollbar, a.loadFull(window, document, !_rollbarConfig.async, _rollbarConfig, l);

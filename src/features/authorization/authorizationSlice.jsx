@@ -3,51 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice({
   name: 'authorization',
   initialState: {
-    isFetching: false,
     isAuthenticated: false,
-    loginError: 'none',
-    logoutError: 'none',
+    authError: 'none',
   },
   reducers: {
-    requestLogin: (state) => ({
-      ...state,
-      isFetching: true,
-      isAuthenticated: false,
-    }),
-    receiveLogin: (state) => ({
-      ...state,
-      isFetching: false,
-      isAuthenticated: true,
-      loginError: 'none',
-    }),
-    loginError: (state, action) => ({
-      ...state,
-      isFetching: false,
-      isAuthenticated: false,
-      loginError: action.payload,
-    }),
-    requestLogout: (state) => ({
-      ...state,
-      isFetching: true,
-      isAuthenticated: false,
-    }),
-    receiveLogout: (state) => ({
-      ...state,
-      isFetching: false,
-      isAuthenticated: false,
-      logoutError: 'none',
-    }),
-    logoutError: (state, action) => ({
-      ...state,
-      isFetching: false,
-      isAuthenticated: false,
-      logoutError: action.payload,
-    }),
+    login(state) {
+      Object.assign(state, { isAuthenticated: true });
+    },
+    logout(state) {
+      Object.assign(state, { isAuthenticated: false });
+    },
+    authError(state, action) {
+      Object.assign(state, { authError: action.payload });
+    },
   },
 });
 
 export const {
-  requestLogin, receiveLogin, loginError, requestLogout, receiveLogout, logoutError,
+  login, logout, authError,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 export const channelsData = createSlice({
   name: 'channels',
   initialState: {
-    isFetching: false,
     serverDataLoaded: false,
     channels: [],
     currentChannelId: 1,
@@ -11,50 +10,25 @@ export const channelsData = createSlice({
     showDropdownForChannel: 0,
   },
   reducers: {
-    requestChannelsChanges: (state) => ({
-      ...state,
-      isFetching: true,
-      channelsProccedingError: 'none',
-    }),
-    reciveChannelsChanges: (state) => ({
-      ...state,
-      isFetching: false,
-      channelsProccedingError: 'none',
-    }),
-    channelsProccedingError: (state, action) => ({
-      ...state,
-      channelsProccedingError: action.payload,
-    }),
-    setInitialState: (state, action) => {
+    loadChatState(state, action) {
       const { channels, currentChannelId } = action.payload;
-      return {
-        ...state,
+      Object.assign(state, {
         serverDataLoaded: true,
         channels,
         currentChannelId,
-        channelsProccedingError: 'none',
-      };
+      });
     },
-    setCurrentChannel: (state, action) => ({
-      ...state,
-      currentChannelId: action.payload,
-    }),
+    setCurrentChannel(state, action) {
+      Object.assign(state, { currentChannelId: action.payload });
+    },
     addChannel: (state, action) => {
       const newChannel = action.payload;
-      const copyChannels = state.channels.slice();
-      copyChannels.push(newChannel);
-      return {
-        ...state,
-        channels: copyChannels,
-      };
+      state.channels.push(newChannel);
     },
     deleteChannel: (state, action) => {
       const id = action.payload;
-      const copyChannels = state.channels.slice();
-      return {
-        ...state,
-        channels: copyChannels.filter((channel) => channel.id !== id),
-      };
+      const newState = state.channels.filter((channel) => channel.id !== id);
+      state.channels = newState;
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
@@ -70,14 +44,15 @@ export const channelsData = createSlice({
         }),
       };
     },
+    channelsProccedingError(state, action) {
+      Object.assign(state, { channelsProccedingError: action.payload });
+    },
   },
 });
 
 export const {
-  requestChannelsChanges,
-  reciveChannelsChanges,
   channelsProccedingError,
-  setInitialState,
+  loadChatState,
   setCurrentChannel,
   addChannel,
   renameChannel,

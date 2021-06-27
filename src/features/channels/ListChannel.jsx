@@ -3,18 +3,8 @@ import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  requestChannelsChanges,
-  reciveChannelsChanges,
-  channelsProccedingError,
-  setCurrentChannel,
-} from './channelsSlice';
-import {
-  requestDropdownOpen,
-  setDropdownOpen,
-  reciveDropdownOpen,
-  dropdownProccedingError,
-} from '../channels/dropdownSlice';
+import { channelsProccedingError, setCurrentChannel } from './channelsSlice';
+import { setDropdownOpen, dropdownProccedingError } from '../channels/dropdownSlice';
 import {
   setModalOpen, modalProccedingError,
 } from '../modals/modalSlice';
@@ -44,9 +34,7 @@ export default function ListChannel({
 
   function handleSetCurrentChannel() {
     try {
-      dispatch(requestChannelsChanges());
       dispatch(setCurrentChannel(id));
-      dispatch(reciveChannelsChanges());
     } catch (exception) {
       dispatch(channelsProccedingError(exception.message));
     }
@@ -72,9 +60,7 @@ export default function ListChannel({
 
   function handleReciveDropdownOpen() {
     try {
-      dispatch(requestDropdownOpen());
       dispatch(setDropdownOpen(id));
-      dispatch(reciveDropdownOpen());
     } catch (exception) {
       dispatch(dropdownProccedingError());
     }

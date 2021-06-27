@@ -3,10 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import {
-  requestChannelsChanges,
   deleteChannel,
   setCurrentChannel,
-  reciveChannelsChanges,
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
@@ -21,10 +19,8 @@ const DeleteChannelModal = () => {
       const socket = io();
       const INITIAL_CURRENT_CHANNEL_ID = 1;
       socket.emit('removeChannel', { id: requestedChannleId }, () => {
-        dispatch(requestChannelsChanges());
         dispatch(deleteChannel(requestedChannleId));
         dispatch(setCurrentChannel(INITIAL_CURRENT_CHANNEL_ID));
-        dispatch(reciveChannelsChanges());
         dispatch(setModalClose());
       });
     } catch (exception) {

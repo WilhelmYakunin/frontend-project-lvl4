@@ -25,7 +25,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new Dotenv({
-      path: './ENV.env',
+      path: './.env',
     }),
   ],
   module: {

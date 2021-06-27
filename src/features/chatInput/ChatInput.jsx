@@ -1,27 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
+import {
+  inputContainerStyles,
+  formGroupStyles,
+  inputGroupStyles,
+  inputStyles,
+  inputBtnStyles,
+  inputFeedbackStyles,
+} from './chatInputStyles';
 import {
   requestAddMessage,
   addMessage,
   receiveNewMessage,
   addMessageError,
-} from './messagesSlice';
+} from '../messages/messagesSlice';
 
 export default function Input() {
   const { t } = useTranslation();
   const channelId = useSelector((state) => state.channelsData.currentChannelId);
   const user = JSON.parse(localStorage.getItem('user')).username;
   const dispatch = useDispatch();
-  const inputContainerStyles = cn('mt-auto');
-  const formGroupStyles = cn('form-group');
-  const inputGroupStyles = cn('input-group');
-  const inputStyles = cn('mr-2', 'form-control');
-  const inputBtnStyles = cn('btn', 'btn-primary');
-  const inputFeedbackStyles = cn('d-block', 'invalid-feedback');
 
   return (
     <div className={inputContainerStyles}>
