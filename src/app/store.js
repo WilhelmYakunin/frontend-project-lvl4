@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import authorizationSlice from '../features/authorization/authorizationSlice.jsx';
+import authorizationSlice from '../features/login/authorizationSlice.jsx';
 import channelsSlice from '../features/channels/channelsSlice.jsx';
 import modalSlice from '../features/modals/modalSlice.jsx';
 import dropdownInfoSlice from '../features/channels/dropdownSlice.jsx';

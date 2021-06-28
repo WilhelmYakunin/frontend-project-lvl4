@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { logout, authError } from './authorizationSlice';
+import { logout, authError } from '../login/authorizationSlice';
 
 export default function Logo() {
   const { t } = useTranslation();

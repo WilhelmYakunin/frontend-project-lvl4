@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
-import { login, authError } from './authorizationSlice';
+import { login, authError } from '../login/authorizationSlice';
 import routes from '../../routes';
 import signupSchema from './signupSchema';
 

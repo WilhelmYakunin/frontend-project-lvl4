@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import store from './app/store';
 import PublicPage from './features/authorization/PublicPage&Logo';
-import Login from './features/authorization/Login';
+import Login from './features/login';
 import Signup from './features/authorization/Signup';
 import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization/Authorization';
