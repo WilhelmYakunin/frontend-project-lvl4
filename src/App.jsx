@@ -16,12 +16,10 @@ import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
 
 const App = () => {
-  const mountNode = document.getElementById('chat');
-
   ReactDOM.render(
-    <div className="d-flex flex-column h-100">
-      <Provider store={store}>
-        <Router>
+    <Provider store={store}>
+      <Router>
+        <div className="d-flex flex-column h-100">
           <AppHeader />
           <Switch>
             <Authorization exact path="/" />
@@ -29,11 +27,11 @@ const App = () => {
             <Route path="/signup" component={Signup} />
             <Route path="*" component={NoMatch} />
           </Switch>
-          <Modal />
-        </Router>
-      </Provider>
-    </div>,
-    mountNode,
+        </div>
+        <Modal />
+      </Router>
+    </Provider>,
+    document.getElementById('chat'),
   );
 };
 
