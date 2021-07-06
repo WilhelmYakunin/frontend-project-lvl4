@@ -15,24 +15,21 @@ import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
 
-const App = () => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <AppHeader />
-          <Switch>
-            <Authorization exact path="/" />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="*" component={NoMatch} />
-          </Switch>
-        </div>
-        <Modal />
-      </Router>
-    </Provider>,
-    document.getElementById('chat'),
-  );
-};
+const App = async () => (
+  <Provider store={store}>
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <AppHeader />
+        <Switch>
+          <Authorization exact path="/" />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
+      </div>
+      <Modal />
+    </Router>
+  </Provider>
+);
 
 export default App;
