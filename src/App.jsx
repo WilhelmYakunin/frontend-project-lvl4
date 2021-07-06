@@ -19,9 +19,9 @@ const App = () => {
   const mountNode = document.getElementById('chat');
 
   ReactDOM.render(
-    <Provider store={store}>
-      <Router>
-        <div className="d-flex flex-column h-100">
+    <div className="d-flex flex-column h-100">
+      <Provider store={store}>
+        <Router>
           <AppHeader />
           <Switch>
             <Authorization exact path="/" />
@@ -29,10 +29,10 @@ const App = () => {
             <Route path="/signup" component={Signup} />
             <Route path="*" component={NoMatch} />
           </Switch>
-        </div>
-        <Modal />
-      </Router>
-    </Provider>,
+          <Modal />
+        </Router>
+      </Provider>
+    </div>,
     mountNode,
   );
 };
