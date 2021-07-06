@@ -16,7 +16,7 @@ import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
 
 const App = () => {
-  const mountNode = document.querySelector('#chat');
+  const mountNode = document.getElementById('chat');
 
   ReactDOM.render(
     <Provider store={store}>
