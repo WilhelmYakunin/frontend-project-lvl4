@@ -1,5 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
+import '../assets/application.scss';
+import 'bootstrap';
 import './locales/i18n';
 import { Provider } from 'react-redux';
 import {
