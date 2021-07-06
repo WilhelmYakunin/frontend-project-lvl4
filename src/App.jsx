@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './locales/i18n';
 import { Provider } from 'react-redux';
 import {
-  BrowserRouter,
+  BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
 import store from './app/store';
-import PublicPage from './features/authorization/PublicPage&Logo';
+import AppHeader from './features/appHeader';
 import Login from './features/login';
-import Signup from './features/authorization/Signup';
+import Signup from './features/signup';
 import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
@@ -20,9 +20,9 @@ const App = () => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter>
+      <Router>
         <div className="d-flex flex-column h-100">
-          <PublicPage />
+          <AppHeader />
           <Switch>
             <Authorization exact path="/" />
             <Route path="/login" component={Login} />
@@ -31,7 +31,7 @@ const App = () => {
           </Switch>
         </div>
         <Modal />
-      </BrowserRouter>
+      </Router>
     </Provider>,
     mountNode,
   );

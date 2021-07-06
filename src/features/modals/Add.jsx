@@ -40,7 +40,7 @@ const Add = () => {
             try {
               const { name } = newChannelName;
               const socket = io();
-              socket.emit('newChannel', name, (socketInfo) => {
+              socket.emit('newChannel', { name }, (socketInfo) => {
                 const { id, removable } = socketInfo.data;
                 dispatch(addChannel({ name, id, removable }));
                 dispatch(setCurrentChannel(id));

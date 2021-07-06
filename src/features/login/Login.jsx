@@ -3,8 +3,12 @@ import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useLocation, useHistory } from 'react-router-dom';
-import { login, authError } from './authorizationSlice';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { login, loginError } from './loginSlice';
+import {
+  wrapper, container, columnsStyles, formPadding, formStyle,
+  formLabelStyles, loginBtnStyles, newCommersWrapper, newCommersSpanStyles,
+} from './loginStyles';
 import routes from '../../routes';
 
 const Login = () => {
@@ -14,9 +18,9 @@ const Login = () => {
   const history = useHistory();
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center pt-5">
-        <div className="col-sm-4">
+    <div className={wrapper}>
+      <div className={container}>
+        <div className={columnsStyles}>
           <Formik
             initialValues={{
               username: '',
@@ -41,18 +45,17 @@ const Login = () => {
               } catch (exception) {
                 const { message } = exception;
                 if (exception.isAxiosError && exception.response.status === 401) {
-                  dispatch(authError(message));
-                  setErrors({ authFailed: true });
-                  return;
+                  dispatch(loginError(message));
+                  return setErrors({ authFailed: true });
                 }
-                dispatch(authError(message));
+                dispatch(loginError(message));
               }
             }}
           >
             {({ errors, touched }) => (
-              <Form className="p-3">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="username">
+              <Form className={formPadding}>
+                <div className={formStyle}>
+                  <label className={formLabelStyles} htmlFor="username">
                     {t('login.username')}
                   </label>
                   <Field
@@ -63,8 +66,8 @@ const Login = () => {
                     className={`${'form-control'} ${errors.authFailed && touched.username && 'is-invalid'}`}
                   />
                 </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="password">
+                <div className={formStyle}>
+                  <label className={formLabelStyles} htmlFor="password">
                     {t('login.password')}
                   </label>
                   <Field
@@ -76,12 +79,12 @@ const Login = () => {
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
                 </div>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <button type="submit" className={loginBtnStyles}>
                   {t('login.submit')}
                 </button>
-                <div className="d-flex flex-column align-items-center">
-                  <span className="small mb-2">{t('login.newToChat')}</span>
-                  <a href="/signup">{t('login.signup')}</a>
+                <div className={newCommersWrapper}>
+                  <span className={newCommersSpanStyles}>{t('login.newToChat')}</span>
+                  <Link to="/signup">{t('login.signup')}</Link>
                 </div>
               </Form>
             )}

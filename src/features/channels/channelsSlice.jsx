@@ -27,8 +27,8 @@ export const channelsData = createSlice({
     },
     deleteChannel: (state, action) => {
       const id = action.payload;
-      const newState = state.channels.filter((channel) => channel.id !== id);
-      state.channels = newState;
+      const indexOfDeletee = state.channels.findIndex((channel) => channel.id === id);
+      state.channels.splice(indexOfDeletee, 1);
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;

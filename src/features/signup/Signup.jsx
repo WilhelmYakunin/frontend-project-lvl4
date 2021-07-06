@@ -6,9 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
-import { login, authError } from '../login/authorizationSlice';
+import { signup, signupError } from './signupSlice';
 import routes from '../../routes';
 import signupSchema from './signupSchema';
+import {
+  wrapper, container, columnsStyles, formPadding, formStyle, formLabelStyles, signupBtnStyles,
+} from './signupStyles';
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -17,9 +20,9 @@ const Signup = () => {
   const history = useHistory();
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center pt-5">
-        <div className="col-sm-4">
+    <div className={wrapper}>
+      <div className={container}>
+        <div className={columnsStyles}>
           <Formik
             initialValues={{
               username: '',
@@ -38,7 +41,7 @@ const Signup = () => {
                 );
                 const loginInfo = loginResponse.data;
                 localStorage.setItem('user', JSON.stringify(loginInfo));
-                dispatch(login());
+                dispatch(signup());
                 resetForm();
                 const { from } = location.state || { from: { pathname: '/' } };
                 history.replace(from);
@@ -46,18 +49,18 @@ const Signup = () => {
               } catch (exception) {
                 const { message } = exception;
                 if (exception.isAxiosError && exception.response.status === 401) {
-                  dispatch(authError(message));
+                  dispatch(signupError(message));
                   setErrors({ authFailed: true });
                   return;
                 }
-                dispatch(authError(message));
+                dispatch(signupError(message));
               }
             }}
           >
             {({ errors, touched }) => (
-              <Form className="p-3">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="username">
+              <Form className={formPadding}>
+                <div className={formStyle}>
+                  <label className={formLabelStyles} htmlFor="username">
                     {t('signup.username')}
                   </label>
                   <Field
@@ -70,8 +73,8 @@ const Signup = () => {
                   />
                   {errors.username && <div className="invalid-feedback">{t(errors.username)}</div>}
                 </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="password">
+                <div className={formStyle}>
+                  <label className={formLabelStyles} htmlFor="password">
                     {t('signup.password')}
                   </label>
                   <Field
@@ -84,8 +87,8 @@ const Signup = () => {
                   />
                   {errors.password && touched.password && <div className="invalid-feedback">{t(errors.password)}</div>}
                 </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="confirmPassword">
+                <div className={formStyle}>
+                  <label className={formLabelStyles} htmlFor="confirmPassword">
                     {t('signup.confirm')}
                   </label>
                   <Field
@@ -99,7 +102,7 @@ const Signup = () => {
                   { errors.confirmPassword && <div className="invalid-feedback">{t(errors.confirmPassword)}</div> }
                   { errors.invalidUser && <div className="invalid-feedback">{t(errors.invalidUser)}</div>}
                 </div>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <button type="submit" className={signupBtnStyles}>
                   {t('signup.submit')}
                 </button>
               </Form>

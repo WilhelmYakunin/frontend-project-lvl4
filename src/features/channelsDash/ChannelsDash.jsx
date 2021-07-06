@@ -4,27 +4,30 @@ import { useDispatch } from 'react-redux';
 import {
   setModalOpen, modalProccedingError,
 } from '../modals/modalSlice';
-import ChannelsList from './Channels';
+import Channels from '../channels/Channels';
+import { wrapper, container } from './chaennelsDashStyles';
 
-export default function ChannelsDash() {
+const ChannelsDash = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  function setAddChannelModal() {
+  const setAddChannelModal = () => {
     try {
       dispatch(setModalOpen('addModal'));
     } catch (exception) {
       dispatch(modalProccedingError());
     }
-  }
+  };
 
   return (
-    <div className="col-3 border-right">
-      <div className="d-flex mb-2">
+    <div className={wrapper}>
+      <div className={container}>
         <span>{t('channels.channels')}</span>
         <button type="button" onClick={setAddChannelModal} className="ml-auto p-0 btn btn-link">+</button>
       </div>
-      <ChannelsList />
+      <Channels />
     </div>
   );
-}
+};
+
+export default ChannelsDash;

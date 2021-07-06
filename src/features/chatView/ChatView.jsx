@@ -1,5 +1,5 @@
 import React from 'react';
-import ChannelsDash from '../channels/ChannelsDash';
+import ChannelsDash from '../channelsDash';
 import Messages from '../messages';
 import ChatInput from '../chatInput';
 import { wrapper, container } from './chatViewStyles';
