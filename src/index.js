@@ -1,13 +1,12 @@
 // @ts-check
-import React from 'react';
-import { render } from 'react-dom';
+
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
+
+import '../assets/application.scss';
+import 'bootstrap';
 import App from './App.jsx';
-import Login from './features/login/index.js';
 
-const init = () => App().then((vdom) => {
-  render(<Login />, document.getElementById('chat'));
-});
+App();
 
-init();
-
-export default init;
+export default App;
