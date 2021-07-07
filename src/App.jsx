@@ -18,7 +18,7 @@ import Modal from './features/modals/Switch';
 const App = (socket) => {
   const mountNode = document.querySelector('#chat');
   console.log(socket)
-  ReactDOM.render(
+  return(
     <Provider store={store}>
       <Router>
         <div className="d-flex flex-column h-100">

@@ -7,6 +7,6 @@ import '../assets/application.scss';
 import 'bootstrap';
 import App from './App.jsx';
 
-App();
+// App();
 
 export default App;
