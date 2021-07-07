@@ -1,9 +1,6 @@
 import React from 'react';
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
-import '../assets/application.scss';
-import 'bootstrap';
 import './locales/i18n';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
@@ -18,21 +15,26 @@ import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization';
 import Modal from './features/modals/Switch';
 
-const App = async () => (
-  <Provider store={store}>
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <AppHeader />
-        <Switch>
-          <Authorization exact path="/" />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="*" component={NoMatch} />
-        </Switch>
-      </div>
-      <Modal />
-    </Router>
-  </Provider>
-);
+const App = () => {
+  const mountNode = document.getElementById('chat');
+
+  render(
+    <Provider store={store}>
+      <Router>
+        <div className="d-flex flex-column h-100">
+          <AppHeader />
+          <Switch>
+            <Authorization exact path="/" />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="*" component={NoMatch} />
+          </Switch>
+        </div>
+        <Modal />
+      </Router>
+    </Provider>,
+    mountNode,
+  );
+};
 
 export default App;
