@@ -17,8 +17,8 @@ import Modal from './features/modals/Switch';
 
 const App = (socket) => {
   const mountNode = document.querySelector('#chat');
-  console.log(socket)
-  return(
+  console.log(socket);
+  return (
     <Provider store={store}>
       <Router>
         <div className="d-flex flex-column h-100">
@@ -32,8 +32,7 @@ const App = (socket) => {
         </div>
         <Modal />
       </Router>
-    </Provider>,
-    mountNode,
+    </Provider>
   );
 };
 
