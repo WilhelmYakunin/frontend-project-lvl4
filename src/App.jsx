@@ -15,7 +15,7 @@ import AppHeader from './features/appHeader';
 import Login from './features/login';
 import Signup from './features/signup';
 import NoMatch from './features/noMatch/NoMatch';
-import Authorization from './features/authorization/Authorization';
+import Authorization from './features/authorization';
 import Modal from './features/modals/Switch';
 
 const App = async () => (
