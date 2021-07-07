@@ -1,4 +1,8 @@
 import React from 'react';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
+import '../assets/application.scss';
+import 'bootstrap';
 import './locales/i18n';
 import { Provider } from 'react-redux';
 import {
@@ -14,7 +18,7 @@ import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization';
 import Modal from './features/modals/Switch';
 
-const App = () => (
+const App = async () => (
   <Provider store={store}>
     <Router>
       <div className="d-flex flex-column h-100">
