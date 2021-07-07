@@ -24,7 +24,7 @@ const App = async () => (
       <div className="d-flex flex-column h-100">
         <AppHeader />
         <Switch>
-          <Authorization exact path="/" />
+          <Login exact path="/" />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="*" component={NoMatch} />
