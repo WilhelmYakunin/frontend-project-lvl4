@@ -19,13 +19,20 @@ import Authorization from './features/authorization';
 import Modal from './features/modals/Switch';
 
 const App = async () => (
-
+  <Provider store={store}>
+    <Router>
       <div className="d-flex flex-column h-100">
-
-          <Login exact path="/" />
-
+        <AppHeader />
+        <Switch>
+          <Authorization exact path="/" />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
       </div>
-
+      <Modal />
+    </Router>
+  </Provider>
 );
 
 export default App;
