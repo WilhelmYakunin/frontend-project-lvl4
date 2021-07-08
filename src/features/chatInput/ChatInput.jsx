@@ -18,11 +18,28 @@ import {
   addMessageError,
 } from '../messages/messagesSlice';
 
-export default function Input() {
+const Input = () => {
   const { t } = useTranslation();
   const channelId = useSelector((state) => state.channelsData.currentChannelId);
   const user = JSON.parse(localStorage.getItem('user')).username;
   const dispatch = useDispatch();
+  const handelMessageSubmit = async (messageBody, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
+    try {
+      const { body } = messageBody;
+      const messageInfo = { user, channelId, body };
+      const socket = io();
+      await socket.emit('newMessage', messageInfo, () => {
+        dispatch(requestAddMessage());
+        dispatch(addMessage(messageInfo));
+        dispatch(receiveNewMessage());
+        resetForm();
+      });
+    } catch (exception) {
+      dispatch(addMessageError(exception.message));
+    }
+    setSubmitting(false);
+  };
 
   return (
     <div className={inputContainerStyles}>
@@ -30,23 +47,7 @@ export default function Input() {
         initialValues={{
           body: '',
         }}
-        onSubmit={async (messageBody, { setSubmitting, resetForm }) => {
-          setSubmitting(true);
-          try {
-            const { body } = messageBody;
-            const messageInfo = { user, channelId, body };
-            const socket = io();
-            await socket.emit('newMessage', messageInfo, () => {
-              dispatch(requestAddMessage());
-              dispatch(addMessage(messageInfo));
-              dispatch(receiveNewMessage());
-              resetForm();
-            });
-          } catch (exception) {
-            dispatch(addMessageError(exception.message));
-          }
-          setSubmitting(false);
-        }}
+        onSubmit={handelMessageSubmit}
       >
         {({ errors, touched, isSubmitting }) => (
           <Form>
@@ -77,4 +78,6 @@ export default function Input() {
       </Formik>
     </div>
   );
-}
+};
+
+export default Input;
