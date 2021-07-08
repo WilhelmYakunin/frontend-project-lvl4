@@ -31,6 +31,7 @@ export default {
     logout: 'Выйти',
     chat: {
       send: 'Отправить',
+      placeholder: 'Введите сообщение...',
       required: 'Не менее 1 символа',
     },
     signup: {

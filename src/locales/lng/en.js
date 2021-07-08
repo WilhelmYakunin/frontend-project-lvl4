@@ -31,6 +31,7 @@ export default {
     logout: 'Log out',
     chat: {
       send: 'Send',
+      placeholder: 'Enter message...',
       required: 'Min 1 character',
     },
     signup: {

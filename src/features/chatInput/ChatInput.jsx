@@ -56,11 +56,12 @@ export default function Input() {
                   name="body"
                   aria-label="body"
                   data-testid="new-message"
+                  placeholder={`${t('chat.placeholder')}`}
                   className={`${inputStyles} ${errors.body && touched.body ? 'is-invalid' : null}`}
                 />
                 <button
                   aria-label="submit"
-                  role="button"
+                  name={`${t('chat.send')}`}
                   type="submit"
                   className={inputBtnStyles}
                   disabled={isSubmitting}
