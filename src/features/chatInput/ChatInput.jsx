@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
@@ -59,16 +60,13 @@ export default function Input() {
                   placeholder={`${t('chat.placeholder')}`}
                   className={`${inputStyles} ${errors.body && touched.body ? 'is-invalid' : null}`}
                 />
-                <button
+                <Button
                   aria-label="submit"
-                  name={`${t('chat.send')}`}
-                  type="submit"
-                  role="button"
                   className={inputBtnStyles}
                   disabled={isSubmitting}
                 >
                   {t('chat.send')}
-                </button>
+                </Button>
                 {errors.body && touched.body ? (
                   <div className={inputFeedbackStyles}>{t(errors.body)}</div>
                 ) : null}
