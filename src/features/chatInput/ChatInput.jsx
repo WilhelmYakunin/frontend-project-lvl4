@@ -60,6 +60,7 @@ export default function Input() {
                 />
                 <button
                   aria-label="submit"
+                  role="button"
                   type="submit"
                   className={inputBtnStyles}
                   disabled={isSubmitting}
