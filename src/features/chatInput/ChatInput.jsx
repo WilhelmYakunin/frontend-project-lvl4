@@ -62,7 +62,7 @@ export default function Input() {
                 <button
                   aria-label="submit"
                   name={`${t('chat.send')}`}
-                  type="submit"
+                  type="button"
                   className={inputBtnStyles}
                   disabled={isSubmitting}
                 >
