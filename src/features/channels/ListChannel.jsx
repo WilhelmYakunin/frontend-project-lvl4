@@ -49,7 +49,7 @@ CreateChannel.propTypes = {
   channel: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    removable: PropTypes.bool.isRequired,
+    removable: PropTypes.bool,
   }).isRequired,
   currentChannelId: PropTypes.number.isRequired,
 };
