@@ -60,8 +60,8 @@ export default function Input() {
                   className={`${inputStyles} ${errors.body && touched.body ? 'is-invalid' : null}`}
                 />
                 <button
-                  aria-label="submit"
-                  type="button"
+                  aria-label={`${t('chat.send')}`}
+                  type="submit"
                   className={inputBtnStyles}
                   disabled={isSubmitting}
                 >
