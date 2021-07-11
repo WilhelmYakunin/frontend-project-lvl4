@@ -9,7 +9,7 @@ import '../assets/application.scss';
 import 'bootstrap';
 import App from './App.jsx';
 
-const socket = io();
-App(socket).then((vdom) => render(vdom, document.getElementById('chat')));
+// const socket = io();
+// App(socket).then((vdom) => render(vdom, document.getElementById('chat')));
 
 export default App;
