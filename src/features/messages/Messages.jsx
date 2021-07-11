@@ -13,7 +13,7 @@ const Messages = () => {
   //   const newMessage = messages[messages.length - 1];
   //   console.log(newMessage);
   // });
-
+  console.log(channelMessages);
   const renderMessages = () => channelMessages.map((messageInfo, index) => {
     const { user, body } = messageInfo;
     return (

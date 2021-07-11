@@ -12,9 +12,7 @@ import {
   inputFeedbackStyles,
 } from './chatInputStyles';
 import {
-  requestAddMessage,
   addMessage,
-  receiveNewMessage,
   addMessageError,
 } from '../messages/messagesSlice';
 
@@ -30,9 +28,8 @@ const Input = () => {
       const messageInfo = { user, channelId, body };
       const socket = io();
       await socket.emit('newMessage', messageInfo, () => {
-        dispatch(requestAddMessage());
         dispatch(addMessage(messageInfo));
-        dispatch(receiveNewMessage());
+        console.log(messageInfo)
         resetForm();
       });
     } catch (exception) {
@@ -68,9 +65,9 @@ const Input = () => {
                 >
                   {t('chat.send')}
                 </button>
-                {errors.body && touched.body ? (
+                {(errors.body && touched.body) && (
                   <div className={inputFeedbackStyles}>{t(errors.body)}</div>
-                ) : null}
+                )}
               </div>
             </div>
           </Form>
