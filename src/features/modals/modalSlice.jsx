@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const modalSlice = createSlice({
+const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     modalType: 'unset',
@@ -8,14 +8,14 @@ export const modalSlice = createSlice({
   },
   reducers: {
     setModalOpen: (state, action) => {
-      state.modalType = action.payload;
+      Object.assign(state, { modalType: action.payload });
     },
     setModalClose: (state) => {
-      state.modalType = 'unset';
+      Object.assign(state, { modalType: 'unset' });
     },
     modalProccedingError: (state, action) => {
       const errInfo = action.payload;
-      state.modalProccedingError = errInfo;
+      Object.assign(state, { modalProccedingError: errInfo });
     },
   },
 });

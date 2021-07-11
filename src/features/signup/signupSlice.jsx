@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const signupSlice = createSlice({
+const signupSlice = createSlice({
   name: 'signup',
   initialState: {
     isSignuped: false,

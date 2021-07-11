@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { io } from 'socket.io-client';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import {
   addChannel,

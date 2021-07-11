@@ -32,17 +32,9 @@ export const channelsData = createSlice({
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      return {
-        ...state,
-        channels: state.channels.map((channel) => {
-          if (channel.id === id) {
-            const updatedChannel = { ...channel };
-            updatedChannel.name = name;
-            return updatedChannel;
-          }
-          return channel;
-        }),
-      };
+      const channel = state.channels.find((c) => c.id === id);
+      if (!channel) return;
+      channel.name = name;
     },
     channelsProccedingError(state, action) {
       Object.assign(state, { channelsProccedingError: action.payload });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { setDropdownOpen, dropdownProccedingError } from '../channels/dropdownSlice';
 import {

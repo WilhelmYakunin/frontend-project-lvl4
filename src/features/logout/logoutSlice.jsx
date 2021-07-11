@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const logoutSlice = createSlice({
+const logoutSlice = createSlice({
   name: 'logout',
   initialState: {
     isLogouted: true,

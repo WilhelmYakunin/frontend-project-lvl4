@@ -9,10 +9,10 @@ const Messages = () => {
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const space = ': ';
 
-  const renderMessages = () => channelMessages.map((messageInfo, index) => {
+  const renderMessages = () => channelMessages.map((messageInfo, i) => {
     const { user, body } = messageInfo;
     return (
-      <div key={index} className={msgStyles}>
+      <div key={_.uniqueId(i)} className={msgStyles}>
         <b>{user}</b>
         {space}
         {body}

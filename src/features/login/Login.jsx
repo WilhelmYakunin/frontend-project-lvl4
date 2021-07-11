@@ -41,7 +41,6 @@ const Login = () => {
                 resetForm();
                 const { from } = location.state || { from: { pathname: '/' } };
                 history.replace(from);
-                setSubmitting(false);
               } catch (exception) {
                 const { message } = exception;
                 if (exception.isAxiosError && exception.response.status === 401) {
@@ -50,6 +49,7 @@ const Login = () => {
                 }
                 dispatch(loginError(message));
               }
+              return setSubmitting(false);
             }}
           >
             {({ errors, touched }) => (
