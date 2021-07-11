@@ -27,7 +27,7 @@
 ```sh
 $ make install
 ```
-## Uncomment all the the strings in index.js
+## Uncomment all the the strings in the ./src/index.js
 
 ## Run
 

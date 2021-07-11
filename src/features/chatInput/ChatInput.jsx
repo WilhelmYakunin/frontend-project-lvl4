@@ -12,7 +12,7 @@ import {
 } from './chatInputStyles';
 import {
   addMessage,
-  addMessageError,
+  messageError,
 } from '../messages/messagesSlice';
 
 const Input = ({ socket }) => {
@@ -30,7 +30,7 @@ const Input = ({ socket }) => {
         resetForm();
       });
     } catch (exception) {
-      dispatch(addMessageError(exception.message));
+      dispatch(messageError(exception.message));
     }
     setSubmitting(false);
   };

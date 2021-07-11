@@ -11,12 +11,12 @@ const Logout = () => {
   const location = useLocation();
   const history = useHistory();
   const isLoged = localStorage.user !== undefined;
-  const makeLogOut = async () => {
+  const makeLogOut = () => {
     try {
-      await localStorage.clear();
-      await dispatch(logout());
+      localStorage.clear();
+      dispatch(logout());
       const { from } = location.state || { from: { pathname: '/login' } };
-      await history.replace(from);
+      history.replace(from);
     } catch (exception) {
       dispatch(logoutError(exception.message));
     }

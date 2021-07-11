@@ -1,53 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { deleteChannel } from '../channels/channelsSlice';
 
-export const messagesSlice = createSlice({
+const messagesSlice = createSlice({
   name: 'messagesData',
   initialState: {
     messages: [],
-    filing: true,
-    addMessageError: 'none',
+    messageError: 'none',
   },
   reducers: {
-    requestAddMessage: (state) => ({
-      ...state,
-      filing: true,
-      addMessageError: 'none',
-    }),
     addMessage: (state, action) => {
       const newMessage = action.payload;
-      const copyMessages = state.messages.slice();
-      copyMessages.push(newMessage);
-      return {
-        ...state,
-        messages: copyMessages,
-      };
+      state.messages.push(newMessage);
     },
-    receiveNewMessage: (state) => ({
-      ...state,
-      filing: false,
-      addMessageError: 'none',
-    }),
-    addMessageError: (state, action) => ({
-      ...state,
-      filing: false,
-      addMessageError: action.payload,
-    }),
+    messageError: (state, action) => {
+      Object.assign(state, { messageError: action.payload });
+    },
   },
   extraReducers: {
     [deleteChannel]: (state, action) => {
       const id = action.payload;
       const copyMessages = state.messages.slice();
-      return {
-        ...state,
+      Object.assign(state, {
         messages: copyMessages.filter((message) => message.channelId !== id),
-      };
+      });
     },
   },
 });
 
 export const {
-  requestAddMessage, addMessage, receiveNewMessage, addMessageError,
+  addMessage, messageError,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
