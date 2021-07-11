@@ -14,24 +14,21 @@ import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
 
-const App = (socket) => {
-  console.log(socket);
-  return (
-    <Provider store={store}>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <AppHeader />
-          <Switch>
-            <Authorization exact path="/" />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="*" component={NoMatch} />
-          </Switch>
-          <Modal />
-        </div>
-      </Router>
-    </Provider>
-  );
-};
+const App = async (socket) => (
+  <Provider store={store}>
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <AppHeader />
+        <Switch>
+          <Authorization exact path="/" socket={socket} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
+        <Modal socket={socket} />
+      </div>
+    </Router>
+  </Provider>
+);
 
 export default App;

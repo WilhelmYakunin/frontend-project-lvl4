@@ -9,14 +9,13 @@ import {
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 
-const DeleteChannelModal = () => {
+const DeleteChannelModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const requestedChannleId = useSelector((state) => state.dropdown.id);
 
   const handleDeleteChannel = () => {
     try {
-      const socket = io();
       const INITIAL_CURRENT_CHANNEL_ID = 1;
       socket.emit('removeChannel', { id: requestedChannleId }, () => {
         dispatch(deleteChannel(requestedChannleId));

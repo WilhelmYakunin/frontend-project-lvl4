@@ -5,12 +5,12 @@ import {
 } from 'react-router-dom';
 import SpinnerChatSwitch from '../spinnerChatSwitch';
 
-const Authorization = () => {
+const Authorization = ({ socket }) => {
   const isAuthorized = localStorage.user !== undefined;
 
   return (
     <Route
-      render={() => (isAuthorized ? <SpinnerChatSwitch /> : (
+      render={() => (isAuthorized ? <SpinnerChatSwitch socket={socket} /> : (
         <Redirect to="/login" />
       ))}
     />

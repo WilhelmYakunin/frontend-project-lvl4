@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ import {
   addMessageError,
 } from '../messages/messagesSlice';
 
-const Input = () => {
+const Input = ({ socket }) => {
   const { t } = useTranslation();
   const channelId = useSelector((state) => state.channelsData.currentChannelId);
   const user = JSON.parse(localStorage.getItem('user')).username;
@@ -26,10 +26,8 @@ const Input = () => {
     try {
       const { body } = messageBody;
       const messageInfo = { user, channelId, body };
-      const socket = io();
       await socket.emit('newMessage', messageInfo, () => {
         dispatch(addMessage(messageInfo));
-        console.log(messageInfo)
         resetForm();
       });
     } catch (exception) {

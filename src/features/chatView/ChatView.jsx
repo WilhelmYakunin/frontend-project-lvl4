@@ -4,13 +4,13 @@ import Messages from '../messages';
 import ChatInput from '../chatInput';
 import { wrapper, container } from './chatViewStyles';
 
-const ChatView = () => (
+const ChatView = ({ socket }) => (
   <>
     <ChannelsDash />
     <div className={wrapper}>
       <div className={container}>
         <Messages />
-        <ChatInput />
+        <ChatInput socket={socket} />
       </div>
     </div>
   </>

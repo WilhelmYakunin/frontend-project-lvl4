@@ -10,7 +10,7 @@ import {
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 
-const RenameModal = () => {
+const RenameModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -46,7 +46,6 @@ const RenameModal = () => {
                 onSubmit={async ({ name }, { resetForm }) => {
                   try {
                     const req = { id, name };
-                    const socket = io();
                     await socket.emit('renameChannel',
                       req, () => {
                         dispatch(renameChannel(req));

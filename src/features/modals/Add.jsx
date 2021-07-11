@@ -12,7 +12,7 @@ import {
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 
-const Add = () => {
+const Add = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channelsData.channels);
@@ -39,7 +39,6 @@ const Add = () => {
           onSubmit={(newChannelName, { resetForm }) => {
             try {
               const { name } = newChannelName;
-              const socket = io();
               socket.emit('newChannel', { name }, (socketInfo) => {
                 const { id, removable } = socketInfo.data;
                 dispatch(addChannel({ name, id, removable }));
