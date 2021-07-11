@@ -51,6 +51,6 @@ const DeleteChannelModal = ({ socket }) => {
       </div>
     </>
   );
-}
+};
 
 export default DeleteChannelModal;
