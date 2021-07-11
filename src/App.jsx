@@ -25,7 +25,7 @@ const App = async (socket) => (
           <Route path="/signup" component={Signup} />
           <Route path="*" component={NoMatch} />
         </Switch>
-        <Modal />
+        <Modal socket={socket} />
       </div>
     </Router>
   </Provider>
