@@ -1,8 +1,6 @@
 import React from 'react';
 import './locales/i18n';
 import { Provider } from 'react-redux';
-import { render } from 'react-dom';
-import { io } from 'socket.io-client';
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,7 +14,7 @@ import NoMatch from './features/noMatch/NoMatch';
 import Authorization from './features/authorization/Authorization';
 import Modal from './features/modals/Switch';
 
-const AppHOC = async (socket) => (
+const App = async (socket) => (
   <Provider store={store}>
     <Router>
       <div className="d-flex flex-column h-100">
@@ -27,17 +25,10 @@ const AppHOC = async (socket) => (
           <Route path="/signup" component={Signup} />
           <Route path="*" component={NoMatch} />
         </Switch>
-        <Modal socket={socket} />
+        <Modal />
       </div>
     </Router>
   </Provider>
 );
 
-const App = (socket) => {
-  if (socket) {
-    return AppHOC(socket);
-  }
-  const serverSocket = io();
-  return AppHOC(serverSocket).then((vdom) => render(vdom, document.getElementById('chat')));
-};
 export default App;

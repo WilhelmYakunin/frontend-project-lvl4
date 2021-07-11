@@ -1,4 +1,4 @@
-[![Github Actions Status](https://github.com/hexlet-components/projects-frontend-l4-server/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-components/projects-frontend-l4-server/actions)
+[![hexlet-check](https://github.com/WilhelmYakunin/frontend-project-lvl4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/WilhelmYakunin/frontend-project-lvl4/actions/workflows/hexlet-check.yml)
 
 <h1> Build on React and Redux toolkit platforms bilingual (Ru by default and En by option) application <h1>
   
@@ -18,7 +18,7 @@
   axios
 ```
 
-## Requirements for deleping
+## Requirements for developing
 
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
@@ -27,6 +27,7 @@
 ```sh
 $ make install
 ```
+## Uncomment alee the strings in index.js
 
 ## Run
 
