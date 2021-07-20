@@ -17,6 +17,10 @@ const rootReducer = combineReducers({
   modal: modalSlice,
 });
 
-export default configureStore({
-  reducer: rootReducer,
-});
+export default (preloadedState) => {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+  return store;
+};
