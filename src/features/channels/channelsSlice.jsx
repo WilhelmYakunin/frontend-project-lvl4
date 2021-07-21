@@ -38,13 +38,6 @@ export const channelsData = createSlice({
       state.channelsProccedingError = action.payload;
     },
   },
-  extraReducers: {
-    [deleteChannel]: (state, action) => {
-      const id = action.payload;
-      const copyMessages = state.messages.slice().filter((message) => message.channelId !== id);
-      state.messages = copyMessages;
-    },
-  },
 });
 
 export const {
