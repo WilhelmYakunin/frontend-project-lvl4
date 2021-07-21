@@ -8,14 +8,14 @@ const modalSlice = createSlice({
   },
   reducers: {
     setModalOpen: (state, action) => {
-      Object.assign(state, { modalType: action.payload });
+      state.modalType = action.payload;
     },
     setModalClose: (state) => {
-      Object.assign(state, { modalType: 'unset' });
+      state.modalType = 'unset';
     },
     modalProccedingError: (state, action) => {
       const errInfo = action.payload;
-      Object.assign(state, { modalProccedingError: errInfo });
+      state.modalProccedingError = errInfo;
     },
   },
 });

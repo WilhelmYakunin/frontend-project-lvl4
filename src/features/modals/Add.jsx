@@ -39,9 +39,8 @@ const Add = ({ socket }) => {
             try {
               const { name } = newChannelName;
               socket.emit('newChannel', { name }, (socketInfo) => {
-                const { id, removable } = socketInfo.data;
-                dispatch(addChannel({ name, id, removable }));
-                dispatch(setCurrentChannel(id));
+                dispatch(addChannel(socketInfo.data));
+                dispatch(setCurrentChannel(socketInfo.data.id));
                 dispatch(setModalClose());
                 resetForm();
               });
@@ -62,11 +61,11 @@ const Add = ({ socket }) => {
                     name="name"
                     data-testid="add-channel"
                     aria-label="add channel"
-                    className={`${'mb-2 form-control'} ${errors.name && touched.name ? 'is-invalid' : null}`}
+                    className={`${'mb-2 form-control'} ${(errors.name && touched.name) && 'is-invalid'}`}
                   />
-                  { errors.name && touched.name ? (
+                  { (errors.name && touched.name) && (
                     <div className="invalid-feedback">{t(errors.name)}</div>
-                  ) : null }
+                  ) }
                 </FormGroup>
               </Modal.Body>
               <Modal.Footer>

@@ -8,10 +8,10 @@ const signupSlice = createSlice({
   },
   reducers: {
     signup(state) {
-      Object.assign(state, { isSignuped: true });
+      state.isSignuped = true;
     },
     signupError(state, action) {
-      Object.assign(state, { signupError: action.payload });
+      state.signupError = action.payload;
     },
   },
 });

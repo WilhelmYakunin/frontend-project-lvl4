@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { deleteChannel } from '../channels/channelsSlice';
+import { loadChatState, deleteChannel } from '../channels/channelsSlice';
 
 const messagesSlice = createSlice({
   name: 'messagesData',
@@ -13,16 +13,18 @@ const messagesSlice = createSlice({
       state.messages.push(newMessage);
     },
     messageError: (state, action) => {
-      Object.assign(state, { messageError: action.payload });
+      state.messageError = action.payload;
     },
   },
   extraReducers: {
     [deleteChannel]: (state, action) => {
       const id = action.payload;
       const copyMessages = state.messages.slice();
-      Object.assign(state, {
-        messages: copyMessages.filter((message) => message.channelId !== id),
-      });
+      state.messages = copyMessages.filter((message) => message.channelId !== id);
+    },
+    [loadChatState]: (state, action) => {
+      const { messages } = action.payload;
+      state.messages = messages;
     },
   },
 });

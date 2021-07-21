@@ -12,14 +12,12 @@ export const channelsData = createSlice({
   reducers: {
     loadChatState(state, action) {
       const { channels, currentChannelId } = action.payload;
-      Object.assign(state, {
-        serverDataLoaded: true,
-        channels,
-        currentChannelId,
-      });
+      state.serverDataLoaded = true;
+      state.channels = channels;
+      state.currentChannelId = currentChannelId;
     },
     setCurrentChannel(state, action) {
-      Object.assign(state, { currentChannelId: action.payload });
+      state.currentChannelId = action.payload;
     },
     addChannel: (state, action) => {
       const newChannel = action.payload;
@@ -37,7 +35,14 @@ export const channelsData = createSlice({
       channel.name = name;
     },
     channelsProccedingError(state, action) {
-      Object.assign(state, { channelsProccedingError: action.payload });
+      state.channelsProccedingError = action.payload;
+    },
+  },
+  extraReducers: {
+    [deleteChannel]: (state, action) => {
+      const id = action.payload;
+      const copyMessages = state.messages.slice().filter((message) => message.channelId !== id);
+      state.messages = copyMessages;
     },
   },
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { msgContainerStyles, msgStyles } from './messagesStyles';
 
 const Messages = () => {
   const currentChannelId = useSelector((state) => state.channelsData.currentChannelId);
@@ -9,10 +8,10 @@ const Messages = () => {
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const space = ': ';
 
-  const renderMessages = () => channelMessages.map((messageInfo, i) => {
-    const { user, body } = messageInfo;
+  const renderMessages = () => channelMessages.map((messageInfo) => {
+    const { user, body, id } = messageInfo;
     return (
-      <div key={_.uniqueId(i)} className={msgStyles}>
+      <div key={id} className="text-break">
         <b>{user}</b>
         {space}
         {body}
@@ -21,7 +20,7 @@ const Messages = () => {
   });
 
   return (
-    <div id="messages-box" className={msgContainerStyles}>
+    <div id="messages-box" className="chat-messages overflow-auto mb-3">
       { channelMessages.length !== 0 && renderMessages() }
     </div>
   );

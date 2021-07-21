@@ -7,11 +7,8 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
 import { signup, signupError } from './signupSlice';
-import routes from '../../routes';
+import routes from '../../API/routes';
 import signupSchema from './signupSchema';
-import {
-  wrapper, container, columnsStyles, formPadding, formStyle, formLabelStyles, signupBtnStyles,
-} from './signupStyles';
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -20,9 +17,9 @@ const Signup = () => {
   const history = useHistory();
 
   return (
-    <div className={wrapper}>
-      <div className={container}>
-        <div className={columnsStyles}>
+    <div className="container-fluid">
+      <div className="row justify-content-center pt-5">
+        <div className="col-sm-4">
           <Formik
             initialValues={{
               username: '',
@@ -58,9 +55,9 @@ const Signup = () => {
             }}
           >
             {({ errors, touched }) => (
-              <Form className={formPadding}>
-                <div className={formStyle}>
-                  <label className={formLabelStyles} htmlFor="username">
+              <Form className="p-3">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="username">
                     {t('signup.username')}
                   </label>
                   <Field
@@ -69,12 +66,13 @@ const Signup = () => {
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={`${'form-control'} ${((errors.username && touched.password) || errors.invalidUser) && 'is-invalid'}`}
+                    className={`${'form-control'} ${((errors.username && touched.password)
+                      || errors.invalidUser) && 'is-invalid'}`}
                   />
                   {errors.username && <div className="invalid-feedback">{t(errors.username)}</div>}
                 </div>
-                <div className={formStyle}>
-                  <label className={formLabelStyles} htmlFor="password">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="password">
                     {t('signup.password')}
                   </label>
                   <Field
@@ -83,12 +81,13 @@ const Signup = () => {
                     autoComplete="password"
                     required=""
                     id="password"
-                    className={`${'form-control'} ${(errors.password && touched.password) || errors.invalidUser ? 'is-invalid' : null}`}
+                    className={`${'form-control'} ${((errors.password && touched.password)
+                      || errors.invalidUser) && 'is-invalid'}`}
                   />
-                  {errors.password && touched.password && <div className="invalid-feedback">{t(errors.password)}</div>}
+                  {(errors.password && touched.password) && <div className="invalid-feedback">{t(errors.password)}</div>}
                 </div>
-                <div className={formStyle}>
-                  <label className={formLabelStyles} htmlFor="confirmPassword">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="confirmPassword">
                     {t('signup.confirm')}
                   </label>
                   <Field
@@ -97,12 +96,13 @@ const Signup = () => {
                     autoComplete="confirmPassword"
                     required=""
                     id="confirmPassword"
-                    className={`${'form-control'} ${(errors.confirmPassword && touched.confirmPassword) || errors.invalidUser ? 'is-invalid' : null}`}
+                    className={`${'form-control'} ${((errors.confirmPassword && touched.confirmPassword)
+                      || errors.invalidUser) && 'is-invalid'}`}
                   />
                   { errors.confirmPassword && <div className="invalid-feedback">{t(errors.confirmPassword)}</div> }
                   { errors.invalidUser && <div className="invalid-feedback">{t(errors.invalidUser)}</div>}
                 </div>
-                <button type="submit" className={signupBtnStyles}>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
                   {t('signup.submit')}
                 </button>
               </Form>

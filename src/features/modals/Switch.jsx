@@ -6,12 +6,11 @@ const ModalDialog = ({ socket }) => {
   const modalType = useSelector((state) => state.modal.modalType);
   const Modal = getModal(modalType);
 
-  return modalType === 'unset' ? null
-    : (
-      <>
-        <Modal socket={socket} />
-      </>
-    );
+  return modalType !== 'unset' && (
+  <>
+    <Modal socket={socket} />
+  </>
+  );
 };
 
 export default ModalDialog;

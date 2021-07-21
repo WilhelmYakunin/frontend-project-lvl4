@@ -8,10 +8,10 @@ const loginSlice = createSlice({
   },
   reducers: {
     login(state) {
-      Object.assign(state, { isAuthenticated: true });
+      state.isAuthenticated = true;
     },
     loginError(state, action) {
-      Object.assign(state, { loginError: action.payload });
+      state.loginError = action.payload;
     },
   },
 });

@@ -1,11 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { setDropdownOpen, dropdownProccedingError } from '../channels/dropdownSlice';
+import { setDropdownOpen, dropdownProccedingError } from './dropdownSlice';
 import {
   setModalOpen, modalProccedingError,
 } from '../modals/modalSlice';
-import dropdawnBtnStyles from './dropDownStyles';
 
 const Dropdown = ({ channelId }) => {
   const { t } = useTranslation();
@@ -47,7 +46,7 @@ const Dropdown = ({ channelId }) => {
         role="menu"
         id="dropdownMenuButton"
         data-toggle="dropdown"
-        className={`${dropdawnBtnStyles} ${isCurrent()}`}
+        className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${isCurrent()}`}
       />
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a

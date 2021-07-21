@@ -1,5 +1,4 @@
 import React from 'react';
-import '../locales/i18n';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider } from 'react-redux';
 import rollbarConfig from '../rollbar/rollbar';

@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import {
   setModalOpen, modalProccedingError,
 } from '../modals/modalSlice';
-import Channels from '../channels/Channels';
-import { wrapper, container } from './chaennelsDashStyles';
+import Channels from './Channels';
 
 const ChannelsDash = () => {
   const { t } = useTranslation();
@@ -20,8 +19,8 @@ const ChannelsDash = () => {
   };
 
   return (
-    <div className={wrapper}>
-      <div className={container}>
+    <div className="col-3 border-right">
+      <div className="d-flex mb-2">
         <span>{t('channels.channels')}</span>
         <button type="button" onClick={setAddChannelModal} className="ml-auto p-0 btn btn-link">+</button>
       </div>

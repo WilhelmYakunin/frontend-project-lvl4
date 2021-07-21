@@ -5,11 +5,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { login, loginError } from './loginSlice';
-import {
-  wrapper, container, columnsStyles, formPadding, formStyle,
-  formLabelStyles, loginBtnStyles, newCommersWrapper, newCommersSpanStyles,
-} from './loginStyles';
-import routes from '../../routes';
+import routes from '../../API/routes';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -18,9 +14,9 @@ const Login = () => {
   const history = useHistory();
 
   return (
-    <div className={wrapper}>
-      <div className={container}>
-        <div className={columnsStyles}>
+    <div className="container-fluid">
+      <div className="row justify-content-center pt-5">
+        <div className="col-sm-4">
           <Formik
             initialValues={{
               username: '',
@@ -53,9 +49,9 @@ const Login = () => {
             }}
           >
             {({ errors, touched }) => (
-              <Form className={formPadding}>
-                <div className={formStyle}>
-                  <label className={formLabelStyles} htmlFor="username">
+              <Form className="p-3">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="username">
                     {t('login.username')}
                   </label>
                   <Field
@@ -63,11 +59,11 @@ const Login = () => {
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={`${'form-control'} ${errors.authFailed && touched.username && 'is-invalid'}`}
+                    className={`${'form-control'} ${(errors.authFailed && touched.username) && 'is-invalid'}`}
                   />
                 </div>
-                <div className={formStyle}>
-                  <label className={formLabelStyles} htmlFor="password">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="password">
                     {t('login.password')}
                   </label>
                   <Field
@@ -75,15 +71,15 @@ const Login = () => {
                     autoComplete="password"
                     required=""
                     id="password"
-                    className={`${'form-control'} ${errors.authFailed && touched.password && 'is-invalid'}`}
+                    className={`${'form-control'} ${(errors.authFailed && touched.password) && 'is-invalid'}`}
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
                 </div>
-                <button type="submit" className={loginBtnStyles}>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
                   {t('login.submit')}
                 </button>
-                <div className={newCommersWrapper}>
-                  <span className={newCommersSpanStyles}>{t('login.newToChat')}</span>
+                <div className="d-flex flex-column align-items-center">
+                  <span className="small mb-2">{t('login.newToChat')}</span>
                   <Link to="/signup">{t('login.signup')}</Link>
                 </div>
               </Form>

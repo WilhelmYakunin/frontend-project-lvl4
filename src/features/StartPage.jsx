@@ -3,18 +3,18 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import SpinnerChatSwitch from '../spinnerChatSwitch';
+import ChatPage from './ChatPage';
 
-const Authorization = ({ socket }) => {
+const StartPage = ({ socket }) => {
   const isAuthorized = localStorage.user !== undefined;
 
   return (
     <Route
-      render={() => (isAuthorized ? <SpinnerChatSwitch socket={socket} /> : (
+      render={() => (isAuthorized ? <ChatPage socket={socket} /> : (
         <Redirect to="/login" />
       ))}
     />
   );
 };
 
-export default Authorization;
+export default StartPage;

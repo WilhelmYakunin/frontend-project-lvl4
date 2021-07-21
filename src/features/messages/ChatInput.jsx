@@ -3,17 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
-  inputContainerStyles,
-  formGroupStyles,
-  inputGroupStyles,
-  inputStyles,
-  inputBtnStyles,
-  inputFeedbackStyles,
-} from './chatInputStyles';
-import {
   addMessage,
   messageError,
-} from '../messages/messagesSlice';
+} from './messagesSlice';
 
 const Input = ({ socket }) => {
   const { t } = useTranslation();
@@ -25,8 +17,8 @@ const Input = ({ socket }) => {
     try {
       const { body } = messageBody;
       const messageInfo = { user, channelId, body };
-      await socket.emit('newMessage', messageInfo, () => {
-        dispatch(addMessage(messageInfo));
+      await socket.emit('newMessage', messageInfo, (message) => {
+        dispatch(addMessage(message));
         resetForm();
       });
     } catch (exception) {
@@ -36,7 +28,7 @@ const Input = ({ socket }) => {
   };
 
   return (
-    <div className={inputContainerStyles}>
+    <div className="mt-auto">
       <Formik
         initialValues={{
           body: '',
@@ -45,25 +37,25 @@ const Input = ({ socket }) => {
       >
         {({ errors, touched, isSubmitting }) => (
           <Form>
-            <div className={formGroupStyles}>
-              <div className={`${inputGroupStyles} ${errors.body && touched.body ? 'has-validation' : null}`}>
+            <div className="form-group">
+              <div className={`input-group ${(errors.body && touched.body) && 'has-validation'}`}>
                 <Field
                   name="body"
                   aria-label="body"
                   data-testid="new-message"
                   placeholder={`${t('chat.placeholder')}`}
-                  className={`${inputStyles} ${errors.body && touched.body ? 'is-invalid' : null}`}
+                  className={`mr-2 form-control ${(errors.body && touched.body) && 'is-invalid'}`}
                 />
                 <button
                   aria-label={`${t('chat.send')}`}
                   type="submit"
-                  className={inputBtnStyles}
+                  className="btn btn-primary"
                   disabled={isSubmitting}
                 >
                   {t('chat.send')}
                 </button>
                 {(errors.body && touched.body) && (
-                  <div className={inputFeedbackStyles}>{t(errors.body)}</div>
+                  <div className="d-block invalid-feedback">{t(errors.body)}</div>
                 )}
               </div>
             </div>

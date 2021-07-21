@@ -63,11 +63,11 @@ const RenameModal = ({ socket }) => {
                         name="name"
                         data-testid="rename-channel"
                         aria-label="rename channel"
-                        className={`${'mb-2 form-control'} ${errors.name && touched.name ? 'is-invalid' : null}`}
+                        className={`${'mb-2 form-control'} ${(errors.name && touched.name) && 'is-invalid'}`}
                       />
-                      { errors.name && touched.name ? (
+                      { (errors.name && touched.name) && (
                         <div className="invalid-feedback">{t(errors.name)}</div>
-                      ) : null }
+                      )}
                     </div>
                     <div className="d-flex justify-content-end">
                       <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">
