@@ -9,11 +9,12 @@ import '../assets/application.scss';
 import 'bootstrap';
 import init from './app/init.jsx';
 
+const app = init();
+
 initLocalization().then(() => {
   const socket = io();
-  const app = init(socket);
   const container = document.getElementById('chat');
-  ReactDOM.render(app, container);
+  ReactDOM.render(init(socket), container);
 });
 
-export default init;
+export default app;
