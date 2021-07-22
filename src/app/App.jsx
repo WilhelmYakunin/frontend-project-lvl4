@@ -13,18 +13,16 @@ import Modal from '../features/modals/Switch';
 
 const App = ({ socket }) => (
   <Router>
-    <React.Suspense fallback="Loading...">
-      <div className="d-flex flex-column h-100">
-        <AppHeader />
-        <Switch>
-          <StartPage exact path="/" socket={socket} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="*" component={NoMatch} />
-        </Switch>
-        <Modal socket={socket} />
-      </div>
-    </React.Suspense>
+    <div className="d-flex flex-column h-100">
+      <AppHeader />
+      <Switch>
+        <StartPage exact path="/" socket={socket} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="*" component={NoMatch} />
+      </Switch>
+      <Modal socket={socket} />
+    </div>
   </Router>
 );
 

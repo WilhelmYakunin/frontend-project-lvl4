@@ -3,11 +3,11 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider } from 'react-redux';
 import rollbarConfig from '../rollbar/rollbar';
 import createStore from '../store/createStore';
-import '../locales/initLocalization';
+import initLocalization from '../locales/initLocalization';
 import App from './App';
 
 const init = (socket, preloadedState) => {
-  // initLocalization();
+  initLocalization();
 
   const store = createStore(preloadedState);
 
