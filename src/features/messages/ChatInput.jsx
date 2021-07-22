@@ -39,13 +39,13 @@ const Input = ({ socket }) => {
         {({ errors, touched, isSubmitting }) => (
           <Form>
             <div className="form-group">
-              <div className={`input-group ${(errors.body && touched.body) && 'has-validation'}`}>
+              <div className={`input-group ${(errors.body && touched.body) ? 'has-validation' : null}`}>
                 <Field
                   name="body"
                   aria-label="body"
                   data-testid="new-message"
                   placeholder={`${t('chat.placeholder')}`}
-                  className={`mr-2 form-control ${(errors.body && touched.body) && 'is-invalid'}`}
+                  className={`mr-2 form-control ${(errors.body && touched.body) ? 'is-invalid' : null}`}
                 />
                 <button
                   aria-label={`${t('chat.send')}`}
