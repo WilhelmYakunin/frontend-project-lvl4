@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './lng/en.js';
 import ru from './lng/ru.js';
 
-const initLocalization = () => i18n
+i18n
   .use(initReactI18next)
   .init({
     resources: {
@@ -15,5 +15,3 @@ const initLocalization = () => i18n
       escapeValue: false,
     },
   });
-
-export default initLocalization;
