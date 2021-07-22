@@ -7,11 +7,12 @@ import {
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
+import { getDropdownId } from '../../selectors/selectors';
 
 const DeleteChannelModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const requestedChannleId = useSelector((state) => state.dropdown.id);
+  const requestedChannleId = useSelector(getDropdownId);
 
   const handleDeleteChannel = () => {
     try {

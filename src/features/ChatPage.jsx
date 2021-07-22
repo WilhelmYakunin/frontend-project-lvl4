@@ -7,6 +7,7 @@ import LoadSpinner from '../components/LoadSpinner';
 import ChannelsDash from './channels/ChannelsDash';
 import Messages from './messages/Messages';
 import ChatInput from './messages/ChatInput';
+import { getIsServerDataLoaded } from '../selectors/selectors';
 
 const Chat = ({ socket }) => (
   <>
@@ -21,7 +22,7 @@ const Chat = ({ socket }) => (
 );
 
 const ChatPage = ({ socket }) => {
-  const isLoad = useSelector((state) => state.channelsData.serverDataLoaded);
+  const isLoad = useSelector(getIsServerDataLoaded);
   const spinner = !isLoad && <LoadSpinner />;
   const content = isLoad && <Chat socket={socket} />;
 

@@ -5,11 +5,12 @@ import { setDropdownOpen, dropdownProccedingError } from './dropdownSlice';
 import {
   setModalOpen, modalProccedingError,
 } from '../modals/modalSlice';
+import { getCurrentChannelsId } from '../../selectors/selectors';
 
 const Dropdown = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channelsData.currentChannelId);
+  const currentChannelId = useSelector(getCurrentChannelsId);
   const isCurrent = () => (channelId === currentChannelId ? 'btn-primary' : 'btn-light');
 
   const handleOpenDeleteModal = (e) => {

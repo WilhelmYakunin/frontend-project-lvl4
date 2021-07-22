@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Channel from './ListChannel';
+import { getChannelsData } from '../../selectors/selectors';
 
 const Channels = () => {
   const {
     channels,
     currentChannelId,
-  } = useSelector((state) => state.channelsData);
+  } = useSelector(getChannelsData);
 
   return (
     <ul className="nav flex-column nav-pills nav-fill">

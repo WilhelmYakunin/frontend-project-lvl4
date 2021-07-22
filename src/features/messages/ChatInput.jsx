@@ -6,10 +6,11 @@ import {
   addMessage,
   messageError,
 } from './messagesSlice';
+import { getCurrentChannelsId } from '../../selectors/selectors';
 
 const Input = ({ socket }) => {
   const { t } = useTranslation();
-  const channelId = useSelector((state) => state.channelsData.currentChannelId);
+  const channelId = useSelector(getCurrentChannelsId);
   const user = JSON.parse(localStorage.getItem('user')).username;
   const dispatch = useDispatch();
   const handelMessageSubmit = async (messageBody, { setSubmitting, resetForm }) => {

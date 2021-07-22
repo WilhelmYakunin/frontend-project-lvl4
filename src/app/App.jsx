@@ -14,10 +14,11 @@ import NoMatch from '../components/NoMatch';
 import StartPage from '../features/StartPage';
 import Modal from '../features/modals/Switch';
 import LoadSpinner from '../components/LoadSpinner';
+import { isI18nInit } from '../selectors/selectors';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
-  const isI18nLoaded = useSelector((state) => state.i18n.isInit);
+  const isI18nLoaded = useSelector(isI18nInit);
 
   initLocalization().then(() => {
     try {

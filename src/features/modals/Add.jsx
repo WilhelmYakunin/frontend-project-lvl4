@@ -10,11 +10,12 @@ import {
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
+import { getAllChannels } from '../../selectors/selectors';
 
 const Add = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const channels = useSelector((state) => state.channelsData.channels);
+  const channels = useSelector(getAllChannels);
   const channelsNames = channels.map((channel) => channel.name);
 
   return (

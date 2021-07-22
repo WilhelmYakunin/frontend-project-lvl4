@@ -8,13 +8,14 @@ import {
   channelsProccedingError,
 } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
+import { getAllChannels } from '../../selectors/selectors';
 
 const RenameModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const id = useSelector((state) => state.dropdown.id);
-  const allChannels = useSelector((state) => state.channelsData.channels);
+  const allChannels = useSelector(getAllChannels);
   const allChannelsNames = allChannels.map((channel) => channel.name);
   const RenameSchema = yup.object().shape({
     name: yup.string()
