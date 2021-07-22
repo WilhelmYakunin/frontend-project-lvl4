@@ -8,10 +8,12 @@ export const dropdownSlice = createSlice({
   },
   reducers: {
     setDropdownOpen(state, action) {
-      state.id = action.payload;
+      const copy = state;
+      copy.id = action.payload;
     },
     dropdownProccedingError(state, action) {
-      state.dropdownProccedingError = action.payload;
+      const copy = state;
+      copy.dropdownProccedingError = action.payload;
     },
   },
 });

@@ -8,10 +8,12 @@ const i18nSlice = createSlice({
   },
   reducers: {
     i18nLoaded(state) {
-      state.isInit = true;
+      const copy = state;
+      copy.isInit = true;
     },
     i18nError(state, action) {
-      state.i18nError = action.payload;
+      const copy = state;
+      copy.i18nError = action.payload;
     },
   },
 });

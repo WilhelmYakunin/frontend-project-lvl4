@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import _ from 'lodash';
 
 const Messages = () => {
   const currentChannelId = useSelector((state) => state.channelsData.currentChannelId);
@@ -10,7 +11,7 @@ const Messages = () => {
   const renderMessages = () => channelMessages.map((messageInfo, i) => {
     const { user, body } = messageInfo;
     return (
-      <div key={i} className="text-break">
+      <div key={_.uniqueId(i)} className="text-break">
         <b>{user}</b>
         {space}
         {body}

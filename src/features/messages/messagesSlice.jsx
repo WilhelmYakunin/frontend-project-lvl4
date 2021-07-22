@@ -13,18 +13,21 @@ const messagesSlice = createSlice({
       state.messages.push(newMessage);
     },
     messageError: (state, action) => {
-      state.messageError = action.payload;
+      const copy = state;
+      copy.messageError = action.payload;
     },
   },
   extraReducers: {
     [deleteChannel]: (state, action) => {
+      const copy = state;
       const id = action.payload;
       const copyMessages = state.messages.slice();
-      state.messages = copyMessages.filter((message) => message.channelId !== id);
+      copy.messages = copyMessages.filter((message) => message.channelId !== id);
     },
     [loadChatState]: (state, action) => {
+      const copy = state;
       const { messages } = action.payload;
-      state.messages = messages;
+      copy.messages = messages;
     },
   },
 });

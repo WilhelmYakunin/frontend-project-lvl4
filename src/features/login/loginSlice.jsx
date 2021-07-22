@@ -8,10 +8,12 @@ const loginSlice = createSlice({
   },
   reducers: {
     login(state) {
-      state.isAuthenticated = true;
+      const copy = state;
+      copy.isAuthenticated = true;
     },
     loginError(state, action) {
-      state.loginError = action.payload;
+      const copy = state;
+      copy.loginError = action.payload;
     },
   },
 });
