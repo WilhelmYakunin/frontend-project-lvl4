@@ -8,6 +8,6 @@ const getAllChannels = (state) => state.channelsData.channels;
 const getModalType = (state) => state.modal.modalType;
 
 export {
-  isI18nInit, getChannelsData, getIsServerDataLoaded, 
+  isI18nInit, getChannelsData, getIsServerDataLoaded,
   getDropdownId, getCurrentChannelsId, getMessages, getModalType, getAllChannels,
 };
