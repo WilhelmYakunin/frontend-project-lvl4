@@ -14,4 +14,4 @@ const container = document.getElementById('chat');
 
 ReactDOM.render(app, container);
 
-export default app;
+export default init;
