@@ -8,10 +8,10 @@ import '../assets/application.scss';
 import 'bootstrap';
 import init from './app/init.jsx';
 
-const socket = io();
-const app = init(socket);
-const container = document.getElementById('chat');
+// const socket = io();
+// const app = init(socket);
+// const container = document.getElementById('chat');
 
-ReactDOM.render(app, container);
+// ReactDOM.render(app, container);
 
 export default init;
