@@ -18,8 +18,8 @@ const Input = ({ socket }) => {
     try {
       const { body } = messageBody;
       const messageInfo = { user, channelId, body };
-      await socket.emit('newMessage', messageInfo, () => {
-        dispatch(addMessage(messageInfo));
+      await socket.emit('newMessage', messageInfo, (message) => {
+        dispatch(addMessage(message));
         resetForm();
       });
     } catch (exception) {
