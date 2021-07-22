@@ -7,8 +7,6 @@ import initLocalization from '../locales/initLocalization';
 import App from './App';
 
 const init = (socket, preloadedState) => {
-  initLocalization();
-
   const store = createStore(preloadedState);
 
   const vdom = (
