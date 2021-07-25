@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import cn from 'classnames';
 import { login, loginError } from './loginSlice';
+import LogContext from '../../contexts/logContext';
 import routes from '../../API/routes';
 
 const Login = () => {
@@ -12,6 +14,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const log = React.useContext(LogContext);
+  const logIn = () => log.logToggler();
 
   return (
     <div className="container-fluid">
@@ -33,6 +37,7 @@ const Login = () => {
                 );
                 const loginInfo = loginResponse.data;
                 localStorage.setItem('user', JSON.stringify(loginInfo));
+                logIn();
                 dispatch(login());
                 resetForm();
                 const { from } = location.state || { from: { pathname: '/' } };
@@ -48,18 +53,22 @@ const Login = () => {
               return setSubmitting(false);
             }}
           >
-            {({ errors, touched }) => (
+            {({ errors, isValid, touched }) => (
               <Form className="p-3">
                 <div className="form-group">
                   <label className="form-label" htmlFor="username">
                     {t('login.username')}
                   </label>
                   <Field
+                    autoFocus
                     name="username"
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={`${'form-control'} ${(errors.authFailed && touched.username) && 'is-invalid'}`}
+                    className={cn(
+                      'form-control',
+                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                    )}
                   />
                 </div>
                 <div className="form-group">
@@ -67,11 +76,15 @@ const Login = () => {
                     {t('login.password')}
                   </label>
                   <Field
+                    type="password"
                     name="password"
                     autoComplete="password"
                     required=""
                     id="password"
-                    className={`${'form-control'} ${(errors.authFailed && touched.password) && 'is-invalid'}`}
+                    className={cn(
+                      'form-control',
+                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                    )}
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
                 </div>

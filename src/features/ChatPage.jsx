@@ -6,7 +6,7 @@ import routes from '../API/routes';
 import LoadSpinner from '../components/LoadSpinner';
 import ChannelsDash from './channels/ChannelsDash';
 import Messages from './messages/Messages';
-import ChatInput from './messages/ChatInput';
+import ChatInput from './messages/NewMessageForm';
 import { getIsServerDataLoaded } from '../selectors/selectors';
 
 const Chat = ({ socket }) => (

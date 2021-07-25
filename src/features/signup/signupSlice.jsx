@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const signupSlice = createSlice({
@@ -8,12 +9,10 @@ const signupSlice = createSlice({
   },
   reducers: {
     signup(state) {
-      const copy = state;
-      copy.isSignuped = true;
+      state.isSignuped = true;
     },
     signupError(state, action) {
-      const copy = state;
-      copy.signupError = action.payload;
+      state.signupError = action.payload;
     },
   },
 });

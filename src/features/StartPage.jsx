@@ -3,14 +3,15 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import LogContext from '../contexts/logContext';
 import ChatPage from './ChatPage';
 
 const StartPage = ({ socket }) => {
-  const isAuthorized = localStorage.user !== undefined;
+  const log = React.useContext(LogContext);
 
   return (
     <Route
-      render={() => (isAuthorized ? <ChatPage socket={socket} /> : (
+      render={() => (log.isLoged ? <ChatPage socket={socket} /> : (
         <Redirect to="/login" />
       ))}
     />

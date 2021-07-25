@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Formik, Form, Field,
 } from 'formik';
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -9,12 +10,15 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { signup, signupError } from './signupSlice';
 import routes from '../../API/routes';
 import signupSchema from './signupSchema';
+import LogContext from '../../contexts/logContext';
 
 const Signup = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+  const log = React.useContext(LogContext);
+  const logIn = () => log.logToggler();
 
   return (
     <div className="container-fluid">
@@ -40,6 +44,7 @@ const Signup = () => {
                 localStorage.setItem('user', JSON.stringify(loginInfo));
                 dispatch(signup());
                 resetForm();
+                logIn();
                 const { from } = location.state || { from: { pathname: '/' } };
                 history.replace(from);
                 setSubmitting(false);
@@ -54,20 +59,23 @@ const Signup = () => {
               }
             }}
           >
-            {({ errors, touched }) => (
+            {({ errors, isValid, touched }) => (
               <Form className="p-3">
                 <div className="form-group">
                   <label className="form-label" htmlFor="username">
                     {t('signup.username')}
                   </label>
                   <Field
+                    autoFocus
                     name="username"
                     placeholder={t('signup.usernameConstraints')}
                     autoComplete="username"
                     required=""
                     id="username"
-                    className={`${'form-control'} ${((errors.username && touched.password)
-                      || errors.invalidUser) && 'is-invalid'}`}
+                    className={cn(
+                      'form-control',
+                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                    )}
                   />
                   {errors.username && <div className="invalid-feedback">{t(errors.username)}</div>}
                 </div>
@@ -76,13 +84,16 @@ const Signup = () => {
                     {t('signup.password')}
                   </label>
                   <Field
+                    type="password"
                     name="password"
                     placeholder={t('signup.passMin')}
                     autoComplete="password"
                     required=""
                     id="password"
-                    className={`${'form-control'} ${((errors.password && touched.password)
-                      || errors.invalidUser) && 'is-invalid'}`}
+                    className={cn(
+                      'form-control',
+                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                    )}
                   />
                   {(errors.password && touched.password) && <div className="invalid-feedback">{t(errors.password)}</div>}
                 </div>
@@ -91,12 +102,13 @@ const Signup = () => {
                     {t('signup.confirm')}
                   </label>
                   <Field
+                    type="password"
                     name="confirmPassword"
                     placeholder={t('signup.mustMatch')}
                     autoComplete="confirmPassword"
                     required=""
                     id="confirmPassword"
-                    className={`${'form-control'} ${((errors.confirmPassword && touched.confirmPassword)
+                    className={`${'form-control password-icon'} ${((errors.confirmPassword && touched.confirmPassword)
                       || errors.invalidUser) && 'is-invalid'}`}
                   />
                   { errors.confirmPassword && <div className="invalid-feedback">{t(errors.confirmPassword)}</div> }

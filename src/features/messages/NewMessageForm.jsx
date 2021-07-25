@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import {
   addMessage,
@@ -8,7 +9,7 @@ import {
 } from './messagesSlice';
 import { getCurrentChannelsId } from '../../selectors/selectors';
 
-const Input = ({ socket }) => {
+const NewMessageForm = ({ socket }) => {
   const { t } = useTranslation();
   const channelId = useSelector(getCurrentChannelsId);
   const user = JSON.parse(localStorage.getItem('user')).username;
@@ -36,16 +37,20 @@ const Input = ({ socket }) => {
         }}
         onSubmit={handelMessageSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched, isValid, isSubmitting }) => (
           <Form>
             <div className="form-group">
               <div className={`input-group ${(errors.body && touched.body) ? 'has-validation' : null}`}>
                 <Field
+                  autoFocus
                   name="body"
                   aria-label="body"
                   data-testid="new-message"
                   placeholder={`${t('chat.placeholder')}`}
-                  className={`mr-2 form-control ${(errors.body && touched.body) ? 'is-invalid' : null}`}
+                  className={cn(
+                    'mr-2 form-control',
+                    !!touched.body && (isValid ? 'is-valid' : 'is-invalid'),
+                  )}
                 />
                 <button
                   aria-label={`${t('chat.send')}`}
@@ -67,4 +72,4 @@ const Input = ({ socket }) => {
   );
 };
 
-export default Input;
+export default NewMessageForm;

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const modalSlice = createSlice({
@@ -8,17 +9,14 @@ const modalSlice = createSlice({
   },
   reducers: {
     setModalOpen: (state, action) => {
-      const copy = state;
-      copy.modalType = action.payload;
+      state.modalType = action.payload;
     },
     setModalClose: (state) => {
-      const copy = state;
-      copy.modalType = 'unset';
+      state.modalType = 'unset';
     },
     modalProccedingError: (state, action) => {
-      const copy = state;
       const errInfo = action.payload;
-      copy.modalProccedingError = errInfo;
+      state.modalProccedingError = errInfo;
     },
   },
 });

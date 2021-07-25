@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 export const channelsData = createSlice({
@@ -11,37 +12,31 @@ export const channelsData = createSlice({
   },
   reducers: {
     loadChatState(state, action) {
-      const copy = state;
       const { channels, currentChannelId } = action.payload;
-      copy.serverDataLoaded = true;
-      copy.channels = channels;
-      copy.currentChannelId = currentChannelId;
+      state.serverDataLoaded = true;
+      state.channels = channels;
+      state.currentChannelId = currentChannelId;
     },
     setCurrentChannel(state, action) {
-      const copy = state;
-      copy.currentChannelId = action.payload;
+      state.currentChannelId = action.payload;
     },
     addChannel: (state, action) => {
-      const copy = state;
       const newChannel = action.payload;
-      copy.channels.push(newChannel);
+      state.channels.push(newChannel);
     },
     deleteChannel: (state, action) => {
-      const copy = state;
       const id = action.payload;
       const indexOfDeletee = state.channels.findIndex((channel) => channel.id === id);
-      copy.channels.splice(indexOfDeletee, 1);
+      state.channels.splice(indexOfDeletee, 1);
     },
     renameChannel: (state, action) => {
-      const copy = state;
       const { id, name } = action.payload;
-      const channel = copy.channels.find((c) => c.id === id);
+      const channel = state.channels.find((c) => c.id === id);
       if (!channel) return;
       channel.name = name;
     },
     channelsProccedingError(state, action) {
-      const copy = state;
-      copy.channelsProccedingError = action.payload;
+      state.channelsProccedingError = action.payload;
     },
   },
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import {
   renameChannel,
@@ -28,8 +29,8 @@ const RenameModal = ({ socket }) => {
     <>
       <div className="fade modal-backdrop show" />
       <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingLeft: '21px', display: 'block' }}>
-        <div className="modal-dialog">
-          <div className="modal-content">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="m-auto modal-content">
             <div className="modal-header">
               <div className="modal-title h4">{t('modals.rename')}</div>
               <button type="button" onClick={() => dispatch(setModalClose())} className="close">
@@ -57,18 +58,22 @@ const RenameModal = ({ socket }) => {
                   }
                 }}
               >
-                {({ errors, touched }) => (
+                {({ errors, isValid, touched }) => (
                   <Form>
                     <div className="form-group">
                       <Field
+                        autoFocus
                         name="name"
                         data-testid="rename-channel"
                         aria-label="rename channel"
-                        className={`${'mb-2 form-control'} ${(errors.name && touched.name) && 'is-invalid'}`}
+                        className={cn(
+                          'mb-2 form-control',
+                          !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                        )}
                       />
                       { (errors.name && touched.name) && (
-                        <div className="invalid-feedback">{t(errors.name)}</div>
-                      )}
+                      <div className="invalid-feedback">{t(errors.name)}</div>
+                      ) }
                     </div>
                     <div className="d-flex justify-content-end">
                       <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">

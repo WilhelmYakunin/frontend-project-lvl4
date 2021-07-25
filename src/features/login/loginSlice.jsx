@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const loginSlice = createSlice({
@@ -8,12 +9,10 @@ const loginSlice = createSlice({
   },
   reducers: {
     login(state) {
-      const copy = state;
-      copy.isAuthenticated = true;
+      state.isAuthenticated = true;
     },
     loginError(state, action) {
-      const copy = state;
-      copy.loginError = action.payload;
+      state.loginError = action.payload;
     },
   },
 });
