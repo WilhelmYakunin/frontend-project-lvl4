@@ -31,33 +31,33 @@ const Add = ({ socket }) => {
                 <span className="sr-only">Close</span>
               </button>
             </div>
-            <div className="modal-body">
-              <Formik
-                initialValues={{
-                  name: '',
-                }}
-                validationSchema={yup.object().shape({
-                  name: yup.string()
-                    .min(3, 'modals.min')
-                    .max(20, 'modals.max')
-                    .notOneOf(channelsNames, 'modals.uniq'),
-                })}
-                onSubmit={(newChannelName, { resetForm }) => {
-                  try {
-                    const { name } = newChannelName;
-                    socket.emit('newChannel', { name }, (socketInfo) => {
-                      dispatch(addChannel(socketInfo.data));
-                      dispatch(setCurrentChannel(socketInfo.data.id));
-                      dispatch(setModalClose());
-                      resetForm();
-                    });
-                  } catch (exception) {
-                    dispatch(channelsProccedingError(exception.message));
-                  }
-                }}
-              >
-                {({ errors, isValid, touched }) => (
-                  <Form>
+            <Formik
+              initialValues={{
+                name: '',
+              }}
+              validationSchema={yup.object().shape({
+                name: yup.string()
+                  .min(3, 'modals.min')
+                  .max(20, 'modals.max')
+                  .notOneOf(channelsNames, 'modals.uniq'),
+              })}
+              onSubmit={(newChannelName, { resetForm }) => {
+                try {
+                  const { name } = newChannelName;
+                  socket.emit('newChannel', { name }, (socketInfo) => {
+                    dispatch(addChannel(socketInfo.data));
+                    dispatch(setCurrentChannel(socketInfo.data.id));
+                    dispatch(setModalClose());
+                    resetForm();
+                  });
+                } catch (exception) {
+                  dispatch(channelsProccedingError(exception.message));
+                }
+              }}
+            >
+              {({ errors, isValid, touched }) => (
+                <Form>
+                  <div className="modal-body">
                     <div className="form-group">
                       <Field
                         autoFocus
@@ -70,19 +70,19 @@ const Add = ({ socket }) => {
                         )}
                       />
                       { (errors.name && touched.name) && (
-                      <div className="invalid-feedback">{t(errors.name)}</div>
+                        <div className="invalid-feedback">{t(errors.name)}</div>
                       ) }
                     </div>
-                    <div className="d-flex justify-content-end">
-                      <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">
-                        {t('modals.cancel')}
-                      </button>
-                      <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">
+                      {t('modals.cancel')}
+                    </button>
+                    <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
