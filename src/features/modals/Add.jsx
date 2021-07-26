@@ -21,15 +21,17 @@ const Add = ({ socket }) => {
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="fade modal show"
-        tabIndex="-1"
-        style={{ paddingLeft: '21px', display: 'block' }}
-      >
+      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingLeft: '21px', display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
+          <div className="m-auto modal-content">
+            <div className="modal-header">
+              <div className="modal-title h4">{t('modals.add')}</div>
+              <button type="button" onClick={() => dispatch(setModalClose())} className="close">
+                <span aria-hidden="true">×</span>
+                <span className="sr-only">Close</span>
+              </button>
+            </div>
+            <div className="modal-body">
             <Formik
               initialValues={{
                 name: '',
@@ -56,14 +58,6 @@ const Add = ({ socket }) => {
             >
               {({ errors, isValid, touched }) => (
                 <Form>
-                  <div className="modal-header">
-                    <div className="modal-title h4">{t('modals.add')}</div>
-                    <button type="button" onClick={() => dispatch(setModalClose())} className="close">
-                      <span aria-hidden="true">×</span>
-                      <span className="sr-only">Close</span>
-                    </button>
-                  </div>
-                  <div className="modal-body">
                     <div className="form-group">
                       <Field
                         autoFocus
@@ -79,7 +73,6 @@ const Add = ({ socket }) => {
                         <div className="invalid-feedback">{t(errors.name)}</div>
                       ) }
                     </div>
-                  </div>
                   <div className="modal-footer">
                     <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">
                       {t('modals.cancel')}
@@ -89,6 +82,7 @@ const Add = ({ socket }) => {
                 </Form>
               )}
             </Formik>
+            </div>
           </div>
         </div>
       </div>
