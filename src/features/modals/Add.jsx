@@ -79,7 +79,7 @@ const Add = ({ socket }) => {
                     <Button variant="secondary" onClick={() => dispatch(setModalClose())}>
                       {t('modals.cancel')}
                     </Button>
-                    <Button type="submit" variant="primary">{t('modals.submit')}</Button>
+                    <Button type="submit" name={t('modals.submit')} variant="primary">{t('modals.submit')}</Button>
                   </Modal.Footer>
                 </Form>
               )}
