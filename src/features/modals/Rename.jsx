@@ -68,7 +68,7 @@ const RenameModal = ({ socket }) => {
                         aria-label="rename channel"
                         className={cn(
                           'mb-2 form-control',
-                          !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                          !!touched && (isValid || 'is-invalid'),
                         )}
                       />
                       { (errors.name && touched.name) && (

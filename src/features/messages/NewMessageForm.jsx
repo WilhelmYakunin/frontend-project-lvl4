@@ -37,7 +37,9 @@ const NewMessageForm = ({ socket }) => {
         }}
         onSubmit={handelMessageSubmit}
       >
-        {({ errors, touched, isValid, isSubmitting }) => (
+        {({
+          errors, touched, isValid, isSubmitting,
+        }) => (
           <Form>
             <div className="form-group">
               <div className={`input-group ${(errors.body && touched.body) ? 'has-validation' : null}`}>
@@ -49,7 +51,7 @@ const NewMessageForm = ({ socket }) => {
                   placeholder={`${t('chat.placeholder')}`}
                   className={cn(
                     'mr-2 form-control',
-                    !!touched.body && (isValid ? 'is-valid' : 'is-invalid'),
+                    !!touched.body && (!isValid && 'is-invalid'),
                   )}
                 />
                 <button
@@ -61,7 +63,7 @@ const NewMessageForm = ({ socket }) => {
                   {t('chat.send')}
                 </button>
                 {(errors.body && touched.body) && (
-                  <div className="d-block invalid-feedback">{t(errors.body)}</div>
+                <div className="d-block invalid-feedback">{t(errors.body)}</div>
                 )}
               </div>
             </div>
