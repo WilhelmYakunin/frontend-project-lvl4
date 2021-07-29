@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'lodash';
 import { getCurrentChannelsId, getMessages } from '../../selectors/selectors';
 
 const Messages = () => {

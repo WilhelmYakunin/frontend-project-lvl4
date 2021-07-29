@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import rollbarConfig from '../rollbar/rollbar';
 import createStore from '../store/createStore';
 import LogContext from '../contexts/logContext';
