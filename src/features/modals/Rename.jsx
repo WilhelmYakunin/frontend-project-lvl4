@@ -2,12 +2,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import { Modal, FormGroup, Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import {
-  renameChannel,
-  channelsProccedingError,
-} from '../channels/channelsSlice';
+import { channelsProccedingError } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 import { getAllChannels } from '../../selectors/selectors';
 
@@ -27,67 +25,64 @@ const RenameModal = ({ socket }) => {
 
   return (
     <>
-      <div className="fade modal-backdrop show" />
-      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ paddingLeft: '21px', display: 'block' }}>
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="m-auto modal-content">
-            <div className="modal-header">
-              <div className="modal-title h4">{t('modals.rename')}</div>
-              <button type="button" onClick={() => dispatch(setModalClose())} className="close">
-                <span aria-hidden="true">×</span>
-                <span className="sr-only">Close</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <Formik
-                initialValues={{
-                  name: allChannels.filter((channel) => channel.id === id)[0].name,
-                }}
-                validationSchema={RenameSchema}
-                onSubmit={async ({ name }, { resetForm }) => {
-                  try {
-                    const req = { id, name };
-                    await socket.emit('renameChannel',
-                      req, () => {
-                        dispatch(renameChannel(req));
-                        resetForm();
-                        dispatch(setModalClose());
-                      });
-                  } catch (exception) {
-                    dispatch(channelsProccedingError(exception.message));
-                  }
-                }}
-              >
-                {({ errors, isValid, touched }) => (
-                  <Form>
-                    <div className="form-group">
-                      <Field
-                        autoFocus
-                        name="name"
-                        data-testid="rename-channel"
-                        aria-label="rename channel"
-                        className={cn(
-                          'mb-2 form-control',
-                          !!touched && (isValid || 'is-invalid'),
-                        )}
-                      />
-                      { (errors.name && touched.name) && (
-                      <div className="invalid-feedback">{t(errors.name)}</div>
-                      ) }
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <button type="button" onClick={() => dispatch(setModalClose())} className="mr-2 btn btn-secondary">
-                        {t('modals.cancel')}
-                      </button>
-                      <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal
+        animation={false}
+        show
+        onHide={() => dispatch(setModalClose())}
+        backdrop="static"
+        centered
+      >
+        <Formik
+          initialValues={{
+            name: allChannels.filter((channel) => channel.id === id)[0].name,
+          }}
+          validationSchema={RenameSchema}
+          onSubmit={async ({ name }, { resetForm }) => {
+            try {
+              const req = { id, name };
+              await socket.emit('renameChannel', req, (acknowledge) => {
+                if (acknowledge.status === 'ok') {
+                  resetForm();
+                  dispatch(setModalClose());
+                }
+              });
+            } catch (exception) {
+              dispatch(channelsProccedingError(exception.message));
+            }
+          }}
+        >
+          {({ errors, isValid, touched }) => (
+            <Form>
+              <Modal.Header closeButton>
+                <Modal.Title>{t('modals.rename')}</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <FormGroup>
+                  <Field
+                    autoFocus
+                    name="name"
+                    data-testid="rename-channel"
+                    aria-label="rename channel"
+                    className={cn(
+                      'mb-2 form-control',
+                      !!touched && (isValid || 'is-invalid'),
+                    )}
+                  />
+                  { (errors.name && touched.name) && (
+                  <div className="invalid-feedback">{t(errors.name)}</div>
+                  ) }
+                </FormGroup>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => dispatch(setModalClose())}>
+                  {t('modals.cancel')}
+                </Button>
+                <Button type="submit" variant="primary">{t('modals.submit')}</Button>
+              </Modal.Footer>
+            </Form>
+          )}
+        </Formik>
+      </Modal>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import rollbarConfig from '../rollbar/rollbar';
 import createStore from '../store/createStore';
 import LogContext from '../contexts/logContext';
@@ -8,6 +8,7 @@ import App from './App';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
+
   const log = {
     isLoged: localStorage.user !== undefined,
     logToggler: () => {

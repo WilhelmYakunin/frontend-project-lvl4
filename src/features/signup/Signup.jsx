@@ -74,7 +74,7 @@ const Signup = () => {
                     id="username"
                     className={cn(
                       'form-control',
-                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                      !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                   {errors.username && <div className="invalid-feedback">{t(errors.username)}</div>}
@@ -92,7 +92,7 @@ const Signup = () => {
                     id="password"
                     className={cn(
                       'form-control',
-                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                      !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                   {(errors.password && touched.password) && <div className="invalid-feedback">{t(errors.password)}</div>}
@@ -108,7 +108,8 @@ const Signup = () => {
                     autoComplete="confirmPassword"
                     required=""
                     id="confirmPassword"
-                    className={`${'form-control password-icon'} ${((errors.confirmPassword && touched.confirmPassword)
+                    className={`${'form-control password-icon'} 
+                    ${((errors.confirmPassword && touched.confirmPassword)
                       || errors.invalidUser) && 'is-invalid'}`}
                   />
                   { errors.confirmPassword && <div className="invalid-feedback">{t(errors.confirmPassword)}</div> }

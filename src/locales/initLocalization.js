@@ -14,6 +14,9 @@ const initLocalization = () => i18n
     interpolation: {
       escapeValue: false,
     },
+    react: {
+      useSuspense: true,
+    },
   });
 
 export default initLocalization;

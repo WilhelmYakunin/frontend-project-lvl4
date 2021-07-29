@@ -5,11 +5,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import cn from 'classnames';
-import {
-  addChannel,
-  setCurrentChannel,
-  channelsProccedingError,
-} from '../channels/channelsSlice';
+import { channelsProccedingError } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 import { getAllChannels } from '../../selectors/selectors';
 
@@ -28,13 +24,6 @@ const Add = ({ socket }) => {
         backdrop="static"
         centered
       >
-        <div className="modal-header">
-          <div className="modal-title h4">{t('modals.add')}</div>
-          <button type="button" onClick={() => dispatch(setModalClose())} className="close">
-            <span aria-hidden="true">×</span>
-            <span className="sr-only">Close</span>
-          </button>
-        </div>
         <Formik
           initialValues={{
             name: '',
@@ -48,11 +37,11 @@ const Add = ({ socket }) => {
           onSubmit={(newChannelName, { resetForm }) => {
             try {
               const { name } = newChannelName;
-              socket.emit('newChannel', { name }, (socketInfo) => {
-                dispatch(addChannel(socketInfo.data));
-                dispatch(setCurrentChannel(socketInfo.data.id));
-                resetForm();
-                dispatch(setModalClose());
+              socket.emit('newChannel', { name }, (acknowledge) => {
+                if (acknowledge.status === 'ok') {
+                  resetForm();
+                  dispatch(setModalClose());
+                }
               });
             } catch (exception) {
               dispatch(channelsProccedingError(exception.message));
@@ -61,6 +50,9 @@ const Add = ({ socket }) => {
         >
           {({ errors, isValid, touched }) => (
             <Form>
+              <Modal.Header closeButton>
+                <Modal.Title>{t('modals.add')}</Modal.Title>
+              </Modal.Header>
               <Modal.Body>
                 <FormGroup>
                   <Field
@@ -74,7 +66,7 @@ const Add = ({ socket }) => {
                     )}
                   />
                   { (errors.name && touched.name) && (
-                  <div className="invalid-feedback">{t(errors.name)}</div>
+                    <div className="invalid-feedback">{t(errors.name)}</div>
                   ) }
                 </FormGroup>
               </Modal.Body>

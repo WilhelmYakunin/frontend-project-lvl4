@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import {
-  addMessage,
-  messageError,
-} from './messagesSlice';
+import { messageError } from './messagesSlice';
 import { getCurrentChannelsId } from '../../selectors/selectors';
 
 const NewMessageForm = ({ socket }) => {
@@ -19,9 +16,8 @@ const NewMessageForm = ({ socket }) => {
     try {
       const { body } = messageBody;
       const messageInfo = { user, channelId, body };
-      await socket.emit('newMessage', messageInfo, () => {
-        dispatch(addMessage(messageInfo));
-        resetForm();
+      await socket.emit('newMessage', messageInfo, (acknowledge) => {
+        if (acknowledge.status === 'ok') resetForm();
       });
     } catch (exception) {
       dispatch(messageError(exception.message));

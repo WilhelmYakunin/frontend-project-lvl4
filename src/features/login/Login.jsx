@@ -67,7 +67,7 @@ const Login = () => {
                     id="username"
                     className={cn(
                       'form-control',
-                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                      !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                 </div>
@@ -83,7 +83,7 @@ const Login = () => {
                     id="password"
                     className={cn(
                       'form-control',
-                      !!touched && (isValid ? 'is-valid' : 'is-invalid'),
+                      !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}

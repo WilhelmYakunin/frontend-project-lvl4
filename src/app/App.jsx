@@ -4,9 +4,8 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import initLocalization from '../locales/initLocalization';
-import { i18nLoaded, i18nError } from './i18nSlice';
 import AppHeader from '../features/AppHeader';
 import Login from '../features/login/Login';
 import Signup from '../features/signup/Signup';
@@ -14,23 +13,31 @@ import NoMatch from '../components/NoMatch';
 import StartPage from '../features/StartPage';
 import Modal from '../features/modals/Switch';
 import LoadSpinner from '../components/LoadSpinner';
-import { isI18nInit } from '../selectors/selectors';
+import { addMessage } from '../features/messages/messagesSlice';
+import {
+  addChannel, setCurrentChannel, renameChannel, deleteChannel,
+} from '../features/channels/channelsSlice';
 
 const App = ({ socket }) => {
   const dispatch = useDispatch();
-  const isI18nLoaded = useSelector(isI18nInit);
 
-  initLocalization().then(() => {
-    try {
-      dispatch(i18nLoaded());
-    } catch (exception) {
-      dispatch(i18nError(exception.message));
-    }
+  socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
+  socket.on('newChannel', (newChannel) => {
+    dispatch(addChannel(newChannel));
+    dispatch(setCurrentChannel(newChannel.id));
+  });
+  socket.on('renameChannel', (newName) => dispatch(renameChannel(newName)));
+  socket.on('removeChannel', (requestedChannleId) => {
+    const INITIAL_CURRENT_CHANNEL_ID = 1;
+    dispatch(deleteChannel(requestedChannleId));
+    dispatch(setCurrentChannel(INITIAL_CURRENT_CHANNEL_ID));
   });
 
-  return !isI18nLoaded ? <LoadSpinner /> : (
+  initLocalization();
+
+  return (
     <Router>
-      <React.Suspense fallback="Loading...">
+      <React.Suspense fallback={<LoadSpinner />}>
         <div className="d-flex flex-column h-100">
           <AppHeader />
           <Switch>
