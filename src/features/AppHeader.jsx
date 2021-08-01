@@ -13,7 +13,7 @@ const AppHeader = () => {
 
   const makeLogOut = () => {
     logOut();
-    delete localStorage.user;
+    localStorage.removeItem('user');
     const { from } = location.state || { from: { pathname: '/login' } };
     history.replace(from);
   };

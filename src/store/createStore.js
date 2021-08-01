@@ -5,10 +5,7 @@ import channelsSlice from '../features/channels/channelsSlice.jsx';
 import modalSlice from '../features/modals/modalSlice.jsx';
 import dropdownInfoSlice from '../features/channels/dropdownSlice.jsx';
 import messagesInfoSlice from '../features/messages/messagesSlice.jsx';
-import i18nSlice from '../app/i18nSlice.jsx';
-
 const rootReducer = combineReducers({
-  i18n: i18nSlice,
   login: loginSlice,
   signup: signupSlice,
   channelsData: channelsSlice,
