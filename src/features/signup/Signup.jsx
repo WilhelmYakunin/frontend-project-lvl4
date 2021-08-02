@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { Form } from 'react-bootstrap';
+import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -43,10 +43,8 @@ const Signup = () => {
         setSubmitting(false);
       } catch (exception) {
         const { message } = exception;
-        if (exception.isAxiosError && exception.response.status === 401) {
-          dispatch(signupError(message));
+        if (exception.isAxiosError && exception.response.status === 409) {
           setErrors({ authFailed: true });
-          return;
         }
         dispatch(signupError(message));
       }
@@ -68,7 +66,7 @@ const Signup = () => {
                 name="username"
                 id="username"
                 autoComplete="username"
-                isInvalid={formik.errors.authFailed}
+                isInvalid={formik.errors.username}
                 required
               />
               <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
@@ -83,7 +81,7 @@ const Signup = () => {
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={formik.errors.authFailed}
+                isInvalid={formik.errors.password}
                 required
               />
               <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>
@@ -98,15 +96,19 @@ const Signup = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 autoComplete="current-password"
-                isInvalid={formik.errors.authFailed}
+                isInvalid={formik.errors.confirmPassword}
                 required
               />
-              { formik.errors.confirmPassword && <div className="invalid-feedback">{t(errors.confirmPassword)}</div> }
-              { formik.invalidUser && <div className="invalid-feedback">{t(errors.invalidUser)}</div>}
+              <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>
             </Form.Group>
             <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
               {t('signup.submit')}
             </button>
+            { formik.errors.authFailed && (
+            <Alert variant="danger">
+              {t('signup.alreadyExists')}
+            </Alert>
+            )}
           </Form>
         </div>
       </div>

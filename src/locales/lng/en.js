@@ -45,5 +45,8 @@ export default {
       alreadyExists: 'Username already taken',
       submit: 'Submit',
     },
+    errors: {
+      network: 'Network error',
+    },
   },
 };

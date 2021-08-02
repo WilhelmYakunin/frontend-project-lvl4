@@ -64,7 +64,7 @@ const Login = () => {
                 name="username"
                 id="username"
                 autoComplete="username"
-                isInvalid={formik.errors.authFailed}
+                isInvalid={formik.errors.authFailed === true}
                 required
               />
             </Form.Group>
@@ -78,7 +78,7 @@ const Login = () => {
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={formik.errors.authFailed}
+                isInvalid={formik.errors.authFailed === true}
                 required
               />
               <Form.Control.Feedback type="invalid">{t('login.authFailed')}</Form.Control.Feedback>
