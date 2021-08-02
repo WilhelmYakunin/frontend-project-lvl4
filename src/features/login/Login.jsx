@@ -38,6 +38,7 @@ const Login = () => {
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (exception) {
+        console.log(exception.isAxiosError, '---', exception)
         const { message } = exception;
         if (exception.isAxiosError && exception.response.status === 401) {
           dispatch(loginError(message));
