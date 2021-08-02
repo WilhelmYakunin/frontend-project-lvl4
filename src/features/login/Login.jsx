@@ -17,8 +17,6 @@ const Login = () => {
   const log = React.useContext(LogContext);
   const logIn = () => log.logToggler();
 
-  
-
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -26,6 +24,7 @@ const Login = () => {
     },
     onSubmit: async (userInfo, { setErrors, setSubmitting, resetForm }) => {
       setSubmitting(true);
+      setErrors({ authFailed: false });
       const { username, password } = userInfo;
       const loginUrl = routes.loginPath();
       try {
@@ -41,7 +40,8 @@ const Login = () => {
         history.replace(from);
       } catch (exception) {
         const { message } = exception;
-        if (exception.isAxiosError && exception.response.status === 401) {
+        if (exception.isAxiosError && exception.response
+          && exception.response.status === 401) {
           dispatch(loginError(message));
           return setErrors({ authFailed: true });
         }
