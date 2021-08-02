@@ -17,6 +17,8 @@ const Login = () => {
   const log = React.useContext(LogContext);
   const logIn = () => log.logToggler();
 
+  
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -38,7 +40,6 @@ const Login = () => {
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (exception) {
-        console.log(exception.isAxiosError, '---', exception)
         const { message } = exception;
         if (exception.isAxiosError && exception.response.status === 401) {
           dispatch(loginError(message));
@@ -65,7 +66,7 @@ const Login = () => {
                 name="username"
                 id="username"
                 autoComplete="username"
-                isInvalid={formik.errors.authFailed === true}
+                isInvalid={formik.touched.username && formik.errors.authFailed === true}
                 required
               />
             </Form.Group>
@@ -79,7 +80,7 @@ const Login = () => {
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={formik.errors.authFailed === true}
+                isInvalid={formik.touched.password && formik.errors.authFailed === true}
                 required
               />
               <Form.Control.Feedback type="invalid">{t('login.authFailed')}</Form.Control.Feedback>

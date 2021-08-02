@@ -66,7 +66,7 @@ const Signup = () => {
                 name="username"
                 id="username"
                 autoComplete="username"
-                isInvalid={formik.errors.username}
+                isInvalid={formik.touched.username && formik.errors.username}
                 required
               />
               <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
@@ -81,7 +81,7 @@ const Signup = () => {
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={formik.errors.password}
+                isInvalid={formik.touched.password && formik.errors.password}
                 required
               />
               <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>
@@ -96,7 +96,7 @@ const Signup = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 autoComplete="current-password"
-                isInvalid={formik.errors.confirmPassword}
+                isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
                 required
               />
               <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>
