@@ -5,6 +5,7 @@ import channelsSlice from '../features/channels/channelsSlice.jsx';
 import modalSlice from '../features/modals/modalSlice.jsx';
 import dropdownInfoSlice from '../features/channels/dropdownSlice.jsx';
 import messagesInfoSlice from '../features/messages/messagesSlice.jsx';
+
 const rootReducer = combineReducers({
   login: loginSlice,
   signup: signupSlice,
