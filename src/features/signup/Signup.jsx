@@ -82,9 +82,8 @@ const Signup = () => {
                 id="password"
                 autoComplete="current-password"
                 isInvalid={formik.touched.password && formik.errors.password}
-                required
               />
-              <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t('signup.passMin')}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
               <Form.Label htmlFor="password">{t('signup.confirm')}</Form.Label>
@@ -96,10 +95,9 @@ const Signup = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 autoComplete="current-password"
-                isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                required
+                isInvalid={formik.touched.password || formik.errors.confirmPassword}
               />
-              <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t('signup.mustMatch')}</Form.Control.Feedback>
             </Form.Group>
             <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
               {t('signup.submit')}
