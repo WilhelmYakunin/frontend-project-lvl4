@@ -1,21 +1,40 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
+import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import cn from 'classnames';
+import getAuthData from '../../API/getAuthData';
 import { login, loginError } from './loginSlice';
-import LogContext from '../../contexts/logContext';
-import routes from '../../API/routes';
+import Context from '../../contexts/context';
 
 const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const log = React.useContext(LogContext);
-  const logIn = () => log.logToggler();
+  const { logToggler } = React.useContext(Context);
+  const logIn = () => logToggler();
+  const handleLoginAttempt = async (userInfo, { setErrors, resetForm }) => {
+    try {
+      const authData = await getAuthData(userInfo);
+      localStorage.setItem('user', JSON.stringify(authData));
+      logIn();
+      dispatch(login());
+      resetForm();
+      const { from } = location.state || { from: { pathname: '/' } };
+      history.replace(from);
+    } catch (exception) {
+      const { message } = exception;
+      if (exception.isAxiosError && exception.response
+        && exception.response.status === 401) {
+        dispatch(loginError(message));
+        return setErrors({ authFailed: true });
+      }
+      dispatch(loginError(message));
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -26,32 +45,7 @@ const Login = () => {
               username: '',
               password: '',
             }}
-            onSubmit={async (userInfo, { setErrors, setSubmitting, resetForm }) => {
-              setSubmitting(true);
-              const { username, password } = userInfo;
-              const loginUrl = routes.loginPath();
-              try {
-                const { data } = await axios.post(
-                  loginUrl,
-                  { username, password },
-                );
-                localStorage.setItem('user', JSON.stringify(data));
-                logIn();
-                dispatch(login());
-                resetForm();
-                const { from } = location.state || { from: { pathname: '/' } };
-                history.replace(from);
-              } catch (exception) {
-                const { message } = exception;
-                if (exception.isAxiosError && exception.response
-                  && exception.response.status === 401) {
-                  dispatch(loginError(message));
-                  return setErrors({ authFailed: true });
-                }
-                dispatch(loginError(message));
-              }
-              return setSubmitting(false);
-            }}
+            onSubmit={handleLoginAttempt}
           >
             {({
               errors, isSubmitting, isValid, touched,
@@ -94,9 +88,14 @@ const Login = () => {
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
                 </div>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <Button
+                  type="submit"
+                  variant="outline-primary"
+                  className="w-100 mb-3 btn"
+                  disabled={isSubmitting}
+                >
                   {t('login.submit')}
-                </button>
+                </Button>
                 <div className="d-flex flex-column align-items-center">
                   <span className="small mb-2">{t('login.newToChat')}</span>
                   <Link to="/signup">{t('login.signup')}</Link>

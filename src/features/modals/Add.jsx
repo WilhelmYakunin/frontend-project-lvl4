@@ -8,12 +8,14 @@ import cn from 'classnames';
 import { channelsProccedingError } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 import { getAllChannels } from '../../selectors/selectors';
+import Context from '../../contexts/context';
 
-const Add = ({ socket }) => {
+const Add = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(getAllChannels);
   const channelsNames = channels.map((channel) => channel.name);
+  const { addChannel } = React.useContext(Context);
 
   return (
     <>
@@ -37,12 +39,9 @@ const Add = ({ socket }) => {
           onSubmit={(newChannelName, { resetForm }) => {
             try {
               const { name } = newChannelName;
-              socket.emit('newChannel', { name }, (acknowledge) => {
-                if (acknowledge.status === 'ok') {
-                  resetForm();
-                  dispatch(setModalClose());
-                }
-              });
+              addChannel(name);
+              resetForm();
+              dispatch(setModalClose());
             } catch (exception) {
               dispatch(channelsProccedingError(exception.message));
             }

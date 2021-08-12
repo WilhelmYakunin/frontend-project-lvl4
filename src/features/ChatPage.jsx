@@ -1,30 +1,33 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { loadChatState, channelsProccedingError } from './channels/channelsSlice';
 import routes from '../API/routes';
 import LoadSpinner from '../components/LoadSpinner';
 import ChannelsDash from './channels/ChannelsDash';
 import Messages from './messages/Messages';
-import ChatInput from './messages/NewMessageForm';
+import NewMessageForm from './messages/NewMessageForm';
 import { getIsServerDataLoaded } from '../selectors/selectors';
 
-const Chat = ({ socket }) => (
+const Chat = () => (
   <>
     <ChannelsDash />
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
         <Messages />
-        <ChatInput socket={socket} />
+        <NewMessageForm />
       </div>
     </div>
   </>
 );
 
-const ChatPage = ({ socket }) => {
+const ChatPage = () => {
   const isLoad = useSelector(getIsServerDataLoaded);
   const spinner = !isLoad && <LoadSpinner />;
-  const content = isLoad && <Chat socket={socket} />;
+  const content = isLoad && <Chat />;
+  const location = useLocation();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const { token } = JSON.parse(localStorage.getItem('user'));
@@ -40,6 +43,8 @@ const ChatPage = ({ socket }) => {
     .catch((exception) => {
       const { message } = exception;
       dispatch(channelsProccedingError(message));
+      const { from } = location.state || { from: { pathname: '/login' } };
+      history.replace(from);
     });
 
   return (

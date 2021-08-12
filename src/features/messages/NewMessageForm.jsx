@@ -1,28 +1,28 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
+import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { messageError } from './messagesSlice';
 import { getCurrentChannelsId } from '../../selectors/selectors';
+import Context from '../../contexts/context';
 
-const NewMessageForm = ({ socket }) => {
+const NewMessageForm = () => {
   const { t } = useTranslation();
   const channelId = useSelector(getCurrentChannelsId);
   const user = JSON.parse(localStorage.getItem('user')).username;
+  const { addMessage } = React.useContext(Context);
   const dispatch = useDispatch();
-  const handelMessageSubmit = async (messageBody, { setSubmitting, resetForm }) => {
-    setSubmitting(true);
+  const handelMessageSubmit = (messageBody, { resetForm }) => {
     try {
       const { body } = messageBody;
       const messageInfo = { user, channelId, body };
-      await socket.emit('newMessage', messageInfo, (acknowledge) => {
-        if (acknowledge.status === 'ok') resetForm();
-      });
+      addMessage(messageInfo);
+      resetForm();
     } catch (exception) {
       dispatch(messageError(exception.message));
     }
-    setSubmitting(false);
   };
 
   return (
@@ -50,14 +50,14 @@ const NewMessageForm = ({ socket }) => {
                     !!touched.body && (!isValid && 'is-invalid'),
                   )}
                 />
-                <button
+                <Button
                   aria-label={`${t('chat.send')}`}
                   type="submit"
                   className="btn btn-primary"
                   disabled={isSubmitting}
                 >
                   {t('chat.send')}
-                </button>
+                </Button>
                 {(errors.body && touched.body) && (
                 <div className="d-block invalid-feedback">{t(errors.body)}</div>
                 )}

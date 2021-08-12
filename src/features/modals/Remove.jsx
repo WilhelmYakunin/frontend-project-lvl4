@@ -5,19 +5,19 @@ import { Modal, Button } from 'react-bootstrap';
 import { channelsProccedingError } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 import { getDropdownId } from '../../selectors/selectors';
+import Context from '../../contexts/context';
 
-const DeleteChannelModal = ({ socket }) => {
+const DeleteChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const requestedChannleId = useSelector(getDropdownId);
+  const { removeChannel } = React.useContext(Context);
 
   const handleDeleteChannel = () => {
     try {
-      socket.emit('removeChannel', { id: requestedChannleId }, (acknowledge) => {
-        if (acknowledge.status === 'ok') {
-          dispatch(setModalClose());
-        }
-      });
+      const removeChannelInfo = { id: requestedChannleId };
+      removeChannel(removeChannelInfo);
+      dispatch(setModalClose());
     } catch (exception) {
       dispatch(channelsProccedingError(exception.message));
     }

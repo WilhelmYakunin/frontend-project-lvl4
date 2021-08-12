@@ -13,20 +13,16 @@ import Signup from '../features/signup/Signup';
 import NoMatch from '../components/NoMatch';
 import Modal from '../features/modals/Switch';
 import LoadSpinner from '../components/LoadSpinner';
-import { addMessage } from '../features/messages/messagesSlice';
-import {
-  addChannel, setCurrentChannel, renameChannel, deleteChannel,
-} from '../features/channels/channelsSlice';
 import ChatPage from '../features/ChatPage';
-import LogContext from '../contexts/logContext';
+import Context from '../contexts/context';
 
 const PrivateRoute = ({ children, path }) => {
-  const auth = React.useContext(LogContext);
+  const { isLoged } = React.useContext(Context);
 
   return (
     <Route
       path={path}
-      render={({ location }) => (auth.isLoged
+      render={({ location }) => (isLoged
         ? children
         : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
     />
@@ -34,20 +30,10 @@ const PrivateRoute = ({ children, path }) => {
 };
 
 const App = ({ socket }) => {
-  initLocalization();
-  const dispatch = useDispatch();
+  const { subscribeSockets } = React.useContext(Context);
 
-  socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
-  socket.on('newChannel', (newChannel) => {
-    dispatch(addChannel(newChannel));
-    dispatch(setCurrentChannel(newChannel.id));
-  });
-  socket.on('renameChannel', (newName) => dispatch(renameChannel(newName)));
-  socket.on('removeChannel', (requestedChannleId) => {
-    const INITIAL_CURRENT_CHANNEL_ID = 1;
-    dispatch(deleteChannel(requestedChannleId));
-    dispatch(setCurrentChannel(INITIAL_CURRENT_CHANNEL_ID));
-  });
+  initLocalization();
+  subscribeSockets();
 
   return (
     <Router>
@@ -62,7 +48,7 @@ const App = ({ socket }) => {
             <Route path="/signup" component={Signup} />
             <Route path="*" component={NoMatch} />
           </Switch>
-          <Modal socket={socket} />
+          <Modal />
         </div>
       </React.Suspense>
     </Router>

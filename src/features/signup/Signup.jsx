@@ -3,19 +3,18 @@ import { useFormik } from 'formik';
 import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useLocation, useHistory } from 'react-router-dom';
 import { signup, signupError } from './signupSlice';
-import routes from '../../API/routes';
 import signupSchema from './signupSchema';
-import LogContext from '../../contexts/logContext';
+import Context from '../../contexts/context';
+import getSignupData from '../../API/getSignupData';
 
 const Signup = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const log = React.useContext(LogContext);
+  const log = React.useContext(Context);
   const logIn = () => log.logToggler();
 
   const formik = useFormik({
@@ -27,13 +26,8 @@ const Signup = () => {
     validationSchema: signupSchema,
     onSubmit: async (userInfo, { setSubmitting, setErrors, resetForm }) => {
       setSubmitting(true);
-      const { username, password } = userInfo;
-      const signupUrl = routes.signupPath();
       try {
-        const { data } = await axios.post(
-          signupUrl,
-          { username, password },
-        );
+        const data = await getSignupData(userInfo);
         localStorage.setItem('user', JSON.stringify(data));
         dispatch(signup());
         resetForm();

@@ -8,8 +8,10 @@ import { useTranslation } from 'react-i18next';
 import { channelsProccedingError } from '../channels/channelsSlice';
 import { setModalClose } from './modalSlice';
 import { getAllChannels } from '../../selectors/selectors';
+import Context from '../../contexts/context';
 
-const RenameModal = ({ socket }) => {
+const RenameModal = () => {
+  const { renameChannel } = React.useContext(Context);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -39,13 +41,10 @@ const RenameModal = ({ socket }) => {
           validationSchema={RenameSchema}
           onSubmit={async ({ name }, { resetForm }) => {
             try {
-              const req = { id, name };
-              await socket.emit('renameChannel', req, (acknowledge) => {
-                if (acknowledge.status === 'ok') {
-                  resetForm();
-                  dispatch(setModalClose());
-                }
-              });
+              const renameChannelInfo = { id, name };
+              renameChannel(renameChannelInfo);
+              resetForm();
+              dispatch(setModalClose());
             } catch (exception) {
               dispatch(channelsProccedingError(exception.message));
             }
