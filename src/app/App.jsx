@@ -5,7 +5,6 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import initLocalization from '../locales/initLocalization';
 import AppHeader from '../features/AppHeader';
 import Login from '../features/login/Login';
@@ -29,29 +28,29 @@ const PrivateRoute = ({ children, path }) => {
   );
 };
 
-const App = ({ socket }) => {
-  const { subscribeSockets } = React.useContext(Context);
+const App = () => {
+  const { SubscribeSockets } = React.useContext(Context);
 
   initLocalization();
-  subscribeSockets();
+  SubscribeSockets();
 
   return (
-    <Router>
-      <React.Suspense fallback={<LoadSpinner />}>
-        <div className="d-flex flex-column h-100">
+    <div className="d-flex flex-column h-100">
+      <Router>
+        <React.Suspense fallback={<LoadSpinner />}>
           <AppHeader />
           <Switch>
             <PrivateRoute exact path="/">
-              <ChatPage exact path="/" socket={socket} />
+              <ChatPage exact path="/" />
             </PrivateRoute>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="*" component={NoMatch} />
           </Switch>
           <Modal />
-        </div>
-      </React.Suspense>
-    </Router>
+        </React.Suspense>
+      </Router>
+    </div>
   );
 };
 

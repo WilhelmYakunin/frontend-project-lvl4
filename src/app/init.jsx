@@ -9,16 +9,29 @@ import { addMessage } from '../features/messages/messagesSlice';
 import {
   addChannel, setCurrentChannel, renameChannel, deleteChannel,
 } from '../features/channels/channelsSlice';
+import getAuthData from '../API/getAuthData';
+import getSignupData from '../API/getSignupData';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
 
   const context = {
     isLoged: localStorage.user !== undefined,
-    logToggler: () => {
-      context.isLoged = !context.isLoged;
+    logAttemptWith: async (userInfo) => {
+      const data = await getAuthData(userInfo);
+      localStorage.setItem('user', JSON.stringify(data));
+      context.isLoged = true;
     },
-    subscribeSockets: () => {
+    signupAttepmtWith: async (userInfo) => {
+      const data = await getSignupData(userInfo);
+      localStorage.setItem('user', JSON.stringify(data));
+      context.isLoged = true;
+    },
+    quitLog: () => {
+      localStorage.removeItem('user');
+      context.isLoged = false;
+    },
+    SubscribeSockets: () => {
       const dispatch = useDispatch();
       socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
       socket.on('newChannel', (newChannel) => {
@@ -53,7 +66,6 @@ const init = (socket, preloadedState) => {
         return 'ok';
       } throw new Error('remove channel socket error');
     }),
-
   };
 
   const vdom = (
@@ -61,7 +73,7 @@ const init = (socket, preloadedState) => {
       <ErrorBoundary>
         <Provider store={store}>
           <Context.Provider value={context}>
-            <App socket={socket} />
+            <App />
           </Context.Provider>
         </Provider>
       </ErrorBoundary>

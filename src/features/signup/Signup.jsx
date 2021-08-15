@@ -7,15 +7,13 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { signup, signupError } from './signupSlice';
 import signupSchema from './signupSchema';
 import Context from '../../contexts/context';
-import getSignupData from '../../API/getSignupData';
 
 const Signup = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const log = React.useContext(Context);
-  const logIn = () => log.logToggler();
+  const { signupAttepmtWith } = React.useContext(Context);
 
   const formik = useFormik({
     initialValues: {
@@ -27,11 +25,9 @@ const Signup = () => {
     onSubmit: async (userInfo, { setSubmitting, setErrors, resetForm }) => {
       setSubmitting(true);
       try {
-        const data = await getSignupData(userInfo);
-        localStorage.setItem('user', JSON.stringify(data));
+        await signupAttepmtWith(userInfo);
         dispatch(signup());
         resetForm();
-        logIn();
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
         setSubmitting(false);
@@ -41,6 +37,8 @@ const Signup = () => {
           setErrors({ authFailed: true });
         }
         dispatch(signupError(message));
+        const { from } = location.state || { from: { pathname: '/signup' } };
+        history.replace(from);
       }
     },
   });

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import cn from 'classnames';
-import getAuthData from '../../API/getAuthData';
 import { login, loginError } from './loginSlice';
 import Context from '../../contexts/context';
 
@@ -14,13 +13,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { logToggler } = React.useContext(Context);
-  const logIn = () => logToggler();
-  const handleLoginAttempt = async (userInfo, { setErrors, resetForm }) => {
+  const { logAttemptWith } = React.useContext(Context);
+  const handleLoginAttempt = async (userInfo, { setErrors, resetForm, isSubmitting }) => {
+    isSubmitting(true);
     try {
-      const authData = await getAuthData(userInfo);
-      localStorage.setItem('user', JSON.stringify(authData));
-      logIn();
+      await logAttemptWith(userInfo);
       dispatch(login());
       resetForm();
       const { from } = location.state || { from: { pathname: '/' } };
@@ -29,17 +26,19 @@ const Login = () => {
       const { message } = exception;
       if (exception.isAxiosError && exception.response
         && exception.response.status === 401) {
-        dispatch(loginError(message));
-        return setErrors({ authFailed: true });
+        setErrors({ authFailed: true });
       }
       dispatch(loginError(message));
+      const { from } = location.state || { from: { pathname: '/login' } };
+      history.replace(from);
     }
+    return isSubmitting(false);
   };
 
   return (
     <div className="container-fluid">
-      <div className="row justify-content-center pt-5">
-        <div className="col-sm-4">
+      <div className="card shadow row justify-content-center pt-5">
+        <div className="m-auto col-sm-4">
           <Formik
             initialValues={{
               username: '',
@@ -50,8 +49,8 @@ const Login = () => {
             {({
               errors, isSubmitting, isValid, touched,
             }) => (
-              <Form className="p-3">
-                <div className="form-group">
+              <Form className=" p-5">
+                <div className="form-floating mb-3 form-group">
                   <label className="form-label" htmlFor="username">
                     {t('login.username')}
                   </label>
@@ -64,12 +63,12 @@ const Login = () => {
                     required
                     readOnly={isSubmitting}
                     className={cn(
-                      'form-control',
+                      'shadow form-control',
                       !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-floating mb-3 form-group">
                   <label className="form-label" htmlFor="password">
                     {t('login.password')}
                   </label>
@@ -82,7 +81,7 @@ const Login = () => {
                     readOnly={isSubmitting}
                     required
                     className={cn(
-                      'form-control',
+                      'shadow form-control',
                       !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
@@ -91,18 +90,20 @@ const Login = () => {
                 <Button
                   type="submit"
                   variant="outline-primary"
-                  className="w-100 mb-3 btn"
+                  className="shadow w-100 mb-3 btn"
                   disabled={isSubmitting}
                 >
                   {t('login.submit')}
                 </Button>
-                <div className="d-flex flex-column align-items-center">
-                  <span className="small mb-2">{t('login.newToChat')}</span>
-                  <Link to="/signup">{t('login.signup')}</Link>
-                </div>
               </Form>
             )}
           </Formik>
+        </div>
+        <div className="card-footer p-4">
+          <div className="text-center">
+            <span className="mr-2">{t('login.newToChat')}</span>
+            <Link to="/signup">{t('login.signup')}</Link>
+          </div>
         </div>
       </div>
     </div>
