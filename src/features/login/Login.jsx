@@ -14,8 +14,7 @@ const Login = () => {
   const location = useLocation();
   const history = useHistory();
   const { logAttemptWith } = React.useContext(Context);
-  const handleLoginAttempt = async (userInfo, { setErrors, resetForm, isSubmitting }) => {
-    isSubmitting(true);
+  const handleLoginAttempt = async (userInfo, { setErrors, resetForm }) => {
     try {
       await logAttemptWith(userInfo);
       dispatch(login());
@@ -26,19 +25,17 @@ const Login = () => {
       const { message } = exception;
       if (exception.isAxiosError && exception.response
         && exception.response.status === 401) {
-        setErrors({ authFailed: true });
+        dispatch(loginError(message));
+        return setErrors({ authFailed: true });
       }
       dispatch(loginError(message));
-      const { from } = location.state || { from: { pathname: '/login' } };
-      history.replace(from);
     }
-    return isSubmitting(false);
   };
 
   return (
     <div className="container-fluid">
-      <div className="card shadow row justify-content-center pt-5">
-        <div className="m-auto col-sm-4">
+      <div className="row justify-content-center pt-5">
+        <div className="col-sm-4">
           <Formik
             initialValues={{
               username: '',
@@ -49,8 +46,8 @@ const Login = () => {
             {({
               errors, isSubmitting, isValid, touched,
             }) => (
-              <Form className=" p-5">
-                <div className="form-floating mb-3 form-group">
+              <Form className="p-3">
+                <div className="form-group">
                   <label className="form-label" htmlFor="username">
                     {t('login.username')}
                   </label>
@@ -63,12 +60,12 @@ const Login = () => {
                     required
                     readOnly={isSubmitting}
                     className={cn(
-                      'shadow form-control',
+                      'form-control',
                       !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
                 </div>
-                <div className="form-floating mb-3 form-group">
+                <div className="form-group">
                   <label className="form-label" htmlFor="password">
                     {t('login.password')}
                   </label>
@@ -81,7 +78,7 @@ const Login = () => {
                     readOnly={isSubmitting}
                     required
                     className={cn(
-                      'shadow form-control',
+                      'form-control',
                       !!touched && (!isValid && 'is-invalid'),
                     )}
                   />
@@ -90,20 +87,18 @@ const Login = () => {
                 <Button
                   type="submit"
                   variant="outline-primary"
-                  className="shadow w-100 mb-3 btn"
+                  className="w-100 mb-3 btn"
                   disabled={isSubmitting}
                 >
                   {t('login.submit')}
                 </Button>
+                <div className="d-flex flex-column align-items-center">
+                  <span className="small mb-2">{t('login.newToChat')}</span>
+                  <Link to="/signup">{t('login.signup')}</Link>
+                </div>
               </Form>
             )}
           </Formik>
-        </div>
-        <div className="card-footer p-4">
-          <div className="text-center">
-            <span className="mr-2">{t('login.newToChat')}</span>
-            <Link to="/signup">{t('login.signup')}</Link>
-          </div>
         </div>
       </div>
     </div>
