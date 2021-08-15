@@ -31,7 +31,7 @@ const Login = () => {
       }
       dispatch(loginError(message));
     }
-    setSubmitting(false);
+    return setSubmitting(false);
   };
 
   return (
