@@ -14,7 +14,8 @@ const Login = () => {
   const location = useLocation();
   const history = useHistory();
   const { logAttemptWith } = React.useContext(Context);
-  const handleLoginAttempt = async (userInfo, { setErrors, resetForm }) => {
+  const handleLoginAttempt = async (userInfo, { setErrors, resetForm, setSubmitting }) => {
+    setSubmitting(true);
     try {
       await logAttemptWith(userInfo);
       dispatch(login());
@@ -30,6 +31,7 @@ const Login = () => {
       }
       dispatch(loginError(message));
     }
+    setSubmitting(false);
   };
 
   return (
