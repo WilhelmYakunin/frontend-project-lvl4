@@ -5,14 +5,14 @@ import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { messageError } from './messagesSlice';
-import { getCurrentChannelsId } from '../../selectors/selectors';
-import Context from '../../contexts/context';
+import { getCurrentChannelId } from '../../store/selectors';
+import SocketContext from '../../contexts/SocketContext';
 
 const NewMessageForm = () => {
   const { t } = useTranslation();
-  const channelId = useSelector(getCurrentChannelsId);
+  const channelId = useSelector(getCurrentChannelId);
   const user = JSON.parse(localStorage.getItem('user')).username;
-  const { addMessage } = React.useContext(Context);
+  const { addMessage } = React.useContext(SocketContext);
   const dispatch = useDispatch();
   const handelMessageSubmit = (messageBody, { resetForm }) => {
     try {

@@ -1,36 +1,40 @@
 import React from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider, useDispatch } from 'react-redux';
-import rollbarConfig from '../rollbar/rollbar';
+import rollbarConfig from '../rollbar';
 import createStore from '../store/createStore';
-import Context from '../contexts/context';
+import AuthContext from '../contexts/AuthContext';
+import SocketContext from '../contexts/SocketContext';
 import App from './App';
 import { addMessage } from '../features/messages/messagesSlice';
 import {
   addChannel, setCurrentChannel, renameChannel, deleteChannel,
 } from '../features/channels/channelsSlice';
 import getAuthData from '../API/getAuthData';
-import getSignupData from '../API/getSignupData';
+import postSignupData from '../API/postSignupData';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
 
-  const context = {
+  const LogContext = {
     isLoged: localStorage.user !== undefined,
     logAttemptWith: async (userInfo) => {
       const data = await getAuthData(userInfo);
       localStorage.setItem('user', JSON.stringify(data));
-      context.isLoged = true;
+      LogContext.isLoged = true;
     },
     signupAttepmtWith: async (userInfo) => {
-      const data = await getSignupData(userInfo);
+      const data = await postSignupData(userInfo);
       localStorage.setItem('user', JSON.stringify(data));
-      context.isLoged = true;
+      LogContext.isLoged = true;
     },
     quitLog: () => {
       localStorage.removeItem('user');
-      context.isLoged = false;
+      LogContext.isLoged = false;
     },
+  };
+
+  const SocketAPIContext = {
     SubscribeSockets: () => {
       const dispatch = useDispatch();
       socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
@@ -72,9 +76,11 @@ const init = (socket, preloadedState) => {
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <Provider store={store}>
-          <Context.Provider value={context}>
-            <App />
-          </Context.Provider>
+          <AuthContext.Provider value={LogContext}>
+            <SocketContext.Provider value={SocketAPIContext}>
+              <App />
+            </SocketContext.Provider>
+          </AuthContext.Provider>
         </Provider>
       </ErrorBoundary>
     </RollbarProvider>

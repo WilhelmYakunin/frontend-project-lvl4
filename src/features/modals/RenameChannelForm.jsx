@@ -5,17 +5,17 @@ import * as yup from 'yup';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { channelsProccedingError } from '../channels/channelsSlice';
-import { setModalClose } from './modalSlice';
-import { getAllChannels } from '../../selectors/selectors';
-import Context from '../../contexts/context';
+import { channelsGotError } from '../channels/channelsSlice';
+import { closeModal } from './modalFormsSlice';
+import { getAllChannels, showDropdownForChannel } from '../../store/selectors';
+import SocketContext from '../../contexts/SocketContext';
 
-const RenameModal = () => {
-  const { renameChannel } = React.useContext(Context);
+const RenameChannelForm = () => {
+  const { renameChannel } = React.useContext(SocketContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const id = useSelector((state) => state.dropdown.id);
+  const idOfRenamingChannel = useSelector(showDropdownForChannel);
   const allChannels = useSelector(getAllChannels);
   const allChannelsNames = allChannels.map((channel) => channel.name);
   const RenameSchema = yup.object().shape({
@@ -30,23 +30,23 @@ const RenameModal = () => {
       <Modal
         animation={false}
         show
-        onHide={() => dispatch(setModalClose())}
+        onHide={() => dispatch(closeModal())}
         backdrop="static"
         centered
       >
         <Formik
           initialValues={{
-            name: allChannels.filter((channel) => channel.id === id)[0].name,
+            name: allChannels.filter((channel) => channel.id === idOfRenamingChannel)[0].name,
           }}
           validationSchema={RenameSchema}
-          onSubmit={async ({ name }, { resetForm }) => {
+          onSubmit={({ name }, { resetForm }) => {
             try {
-              const renameChannelInfo = { id, name };
+              const renameChannelInfo = { id: idOfRenamingChannel, name };
               renameChannel(renameChannelInfo);
               resetForm();
-              dispatch(setModalClose());
+              dispatch(closeModal());
             } catch (exception) {
-              dispatch(channelsProccedingError(exception.message));
+              dispatch(channelsGotError(exception.message));
             }
           }}
         >
@@ -73,7 +73,7 @@ const RenameModal = () => {
                 </FormGroup>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => dispatch(setModalClose())}>
+                <Button variant="secondary" onClick={() => dispatch(closeModal())}>
                   {t('modals.cancel')}
                 </Button>
                 <Button type="submit" variant="primary">{t('modals.submit')}</Button>
@@ -86,4 +86,4 @@ const RenameModal = () => {
   );
 };
 
-export default RenameModal;
+export default RenameChannelForm;

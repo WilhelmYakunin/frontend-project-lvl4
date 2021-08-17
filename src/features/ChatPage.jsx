@@ -2,17 +2,17 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { loadChatState, channelsProccedingError } from './channels/channelsSlice';
+import { loadChatState, channelsGotError } from './channels/channelsSlice';
 import routes from '../API/routes';
 import LoadSpinner from '../components/LoadSpinner';
-import ChannelsDash from './channels/ChannelsDash';
+import ChannelsMenagingDash from './channels/ChannelsMenagingDash';
 import Messages from './messages/Messages';
 import NewMessageForm from './messages/NewMessageForm';
-import { getIsServerDataLoaded } from '../selectors/selectors';
+import { isServerDataLoaded } from '../store/selectors';
 
 const Chat = () => (
   <>
-    <ChannelsDash />
+    <ChannelsMenagingDash />
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
         <Messages />
@@ -23,7 +23,7 @@ const Chat = () => (
 );
 
 const ChatPage = () => {
-  const isLoad = useSelector(getIsServerDataLoaded);
+  const isLoad = useSelector(isServerDataLoaded);
   const spinner = !isLoad && <LoadSpinner />;
   const content = isLoad && <Chat />;
   const location = useLocation();
@@ -42,7 +42,7 @@ const ChatPage = () => {
   })
     .catch((exception) => {
       const { message } = exception;
-      dispatch(channelsProccedingError(message));
+      dispatch(channelsGotError(message));
       const { from } = location.state || { from: { pathname: '/login' } };
       history.replace(from);
     });

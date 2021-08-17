@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import Context from '../contexts/context';
+import AuthContext from '../contexts/AuthContext';
 import Logo from '../components/Logo';
 
 const AppHeader = () => {
   const [isActive, setActive] = useState(false);
-  const { isLoged, quitLog } = React.useContext(Context);
+  const { isLoged, quitLog } = React.useContext(AuthContext);
 
   const { t } = useTranslation();
 

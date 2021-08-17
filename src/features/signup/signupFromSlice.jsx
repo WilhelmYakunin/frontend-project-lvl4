@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const signupSlice = createSlice({
+const signupFromSlice = createSlice({
   name: 'signup',
   initialState: {
     isSignuped: false,
@@ -19,6 +19,6 @@ const signupSlice = createSlice({
 
 export const {
   signup, signupError,
-} = signupSlice.actions;
+} = signupFromSlice.actions;
 
-export default signupSlice.reducer;
+export default signupFromSlice.reducer;

@@ -1,18 +1,16 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import loginSlice from '../features/login/loginSlice.jsx';
-import signupSlice from '../features/signup/signupSlice.jsx';
+import LoginFromSlice from '../features/login/LoginFromSlice.jsx';
+import signupFromSlice from '../features/signup/signupFromSlice.jsx';
 import channelsSlice from '../features/channels/channelsSlice.jsx';
-import modalSlice from '../features/modals/modalSlice.jsx';
-import dropdownInfoSlice from '../features/channels/dropdownSlice.jsx';
+import modalFormsSlice from '../features/modals/modalFormsSlice.jsx';
 import messagesInfoSlice from '../features/messages/messagesSlice.jsx';
 
 const rootReducer = combineReducers({
-  login: loginSlice,
-  signup: signupSlice,
+  login: LoginFromSlice,
+  signup: signupFromSlice,
   channelsData: channelsSlice,
   messagesData: messagesInfoSlice,
-  dropdown: dropdownInfoSlice,
-  modal: modalSlice,
+  modal: modalFormsSlice,
 });
 
 export default (preloadedState) => {

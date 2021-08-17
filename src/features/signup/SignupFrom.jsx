@@ -4,16 +4,16 @@ import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { signup, signupError } from './signupSlice';
+import { signup, signupError } from './signupFromSlice';
 import signupSchema from './signupSchema';
-import Context from '../../contexts/context';
+import AuthContext from '../../contexts/AuthContext';
 
-const Signup = () => {
+const SignupFrom = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { signupAttepmtWith } = React.useContext(Context);
+  const { signupAttepmtWith } = React.useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -106,4 +106,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupFrom;

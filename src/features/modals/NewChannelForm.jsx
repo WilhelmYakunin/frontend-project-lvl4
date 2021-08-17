@@ -5,24 +5,24 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { Modal, FormGroup, Button } from 'react-bootstrap';
 import cn from 'classnames';
-import { channelsProccedingError } from '../channels/channelsSlice';
-import { setModalClose } from './modalSlice';
-import { getAllChannels } from '../../selectors/selectors';
-import Context from '../../contexts/context';
+import { channelsGotError } from '../channels/channelsSlice';
+import { closeModal } from './modalFormsSlice';
+import { getAllChannels } from '../../store/selectors';
+import SocketContext from '../../contexts/SocketContext';
 
-const Add = () => {
+const NewChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(getAllChannels);
   const channelsNames = channels.map((channel) => channel.name);
-  const { addChannel } = React.useContext(Context);
+  const { addChannel } = React.useContext(SocketContext);
 
   return (
     <>
       <Modal
         animation={false}
         show
-        onHide={() => dispatch(setModalClose())}
+        onHide={() => dispatch(closeModal())}
         backdrop="static"
         centered
       >
@@ -41,9 +41,9 @@ const Add = () => {
               const { name } = newChannelName;
               addChannel(name);
               resetForm();
-              dispatch(setModalClose());
+              dispatch(closeModal());
             } catch (exception) {
-              dispatch(channelsProccedingError(exception.message));
+              dispatch(channelsGotError(exception.message));
             }
           }}
         >
@@ -70,7 +70,7 @@ const Add = () => {
                 </FormGroup>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => dispatch(setModalClose())}>
+                <Button variant="secondary" onClick={() => dispatch(closeModal())}>
                   {t('modals.cancel')}
                 </Button>
                 <Button type="submit" variant="primary">{t('modals.submit')}</Button>
@@ -83,4 +83,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default NewChannelForm;

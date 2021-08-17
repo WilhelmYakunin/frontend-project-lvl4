@@ -1,20 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const modalSlice = createSlice({
+const modalFromsSlice = createSlice({
   name: 'modal',
   initialState: {
     modalType: 'unset',
     modalProccedingError: 'none',
   },
   reducers: {
-    setModalOpen: (state, action) => {
+    openModal: (state, action) => {
       state.modalType = action.payload;
     },
-    setModalClose: (state) => {
+    closeModal: (state) => {
       state.modalType = 'unset';
     },
-    modalProccedingError: (state, action) => {
+    modalsGotError: (state, action) => {
       const errInfo = action.payload;
       state.modalProccedingError = errInfo;
     },
@@ -22,9 +22,9 @@ const modalSlice = createSlice({
 });
 
 export const {
-  setModalOpen,
-  setModalClose,
-  modalProccedingError,
-} = modalSlice.actions;
+  openModal,
+  closeModal,
+  modalsGotError,
+} = modalFromsSlice.actions;
 
-export default modalSlice.reducer;
+export default modalFromsSlice.reducer;

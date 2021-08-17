@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import {
-  setModalOpen, modalProccedingError,
-} from '../modals/modalSlice';
-import Channels from './Channels';
+import { openModal, modalsGotError } from '../modals/modalFormsSlice';
+import ChannelsContainer from './ChannelsContainer';
 
 const ChannelsDash = () => {
   const { t } = useTranslation();
@@ -12,9 +10,9 @@ const ChannelsDash = () => {
 
   const setAddChannelModal = () => {
     try {
-      dispatch(setModalOpen('addModal'));
+      dispatch(openModal('addModal'));
     } catch (exception) {
-      dispatch(modalProccedingError());
+      dispatch(modalsGotError(exception));
     }
   };
 
@@ -24,7 +22,7 @@ const ChannelsDash = () => {
         <span>{t('channels.channels')}</span>
         <button type="button" onClick={setAddChannelModal} className="ml-auto p-0 btn btn-link">+</button>
       </div>
-      <Channels />
+      <ChannelsContainer />
     </div>
   );
 };

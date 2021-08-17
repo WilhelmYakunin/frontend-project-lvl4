@@ -1,41 +1,39 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { setDropdownOpen, dropdownProccedingError } from './dropdownSlice';
-import {
-  setModalOpen, modalProccedingError,
-} from '../modals/modalSlice';
-import { getCurrentChannelsId } from '../../selectors/selectors';
+import { OpenDropDownFor, channelsGotError } from './channelsSlice';
+import { openModal, modalsGotError } from '../modals/modalFormsSlice';
+import { getCurrentChannelId } from '../../store/selectors';
 
-const Dropdown = ({ channelId }) => {
+const ChannelDropdownMenu = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentChannelId = useSelector(getCurrentChannelsId);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const isCurrent = () => (channelId === currentChannelId ? 'btn-primary' : 'btn-light');
 
   const handleOpenDeleteModal = (e) => {
     e.preventDefault();
     try {
-      dispatch(setModalOpen('removeModal'));
+      dispatch(openModal('removeModal'));
     } catch (exception) {
-      dispatch(modalProccedingError());
+      dispatch(modalsGotError());
     }
   };
 
   const handleOpenRenameModal = (e) => {
     e.preventDefault();
     try {
-      dispatch(setModalOpen('renameModal'));
+      dispatch(openModal('renameModal'));
     } catch (exception) {
-      dispatch(modalProccedingError());
+      dispatch(modalsGotError());
     }
   };
 
   function handleReciveDropdownOpen() {
     try {
-      dispatch(setDropdownOpen(channelId));
+      dispatch(OpenDropDownFor(channelId));
     } catch (exception) {
-      dispatch(dropdownProccedingError());
+      dispatch(channelsGotError());
     }
   }
 
@@ -71,4 +69,4 @@ const Dropdown = ({ channelId }) => {
   );
 };
 
-export default Dropdown;
+export default ChannelDropdownMenu;

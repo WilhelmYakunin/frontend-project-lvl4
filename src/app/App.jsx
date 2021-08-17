@@ -7,16 +7,17 @@ import {
 } from 'react-router-dom';
 import initLocalization from '../locales/initLocalization';
 import AppHeader from '../features/AppHeader';
-import Login from '../features/login/Login';
-import Signup from '../features/signup/Signup';
+import LoginFrom from '../features/login/LoginFrom';
+import SignupFrom from '../features/signup/SignupFrom';
 import NoMatch from '../components/NoMatch';
-import Modal from '../features/modals/Switch';
+import ModalForm from '../features/modals/SwitchModalForm';
 import LoadSpinner from '../components/LoadSpinner';
 import ChatPage from '../features/ChatPage';
-import Context from '../contexts/context';
+import AuthContext from '../contexts/AuthContext';
+import SocketContext from '../contexts/SocketContext';
 
 const PrivateRoute = ({ children, path }) => {
-  const { isLoged } = React.useContext(Context);
+  const { isLoged } = React.useContext(AuthContext);
 
   return (
     <Route
@@ -29,7 +30,7 @@ const PrivateRoute = ({ children, path }) => {
 };
 
 const App = () => {
-  const { SubscribeSockets } = React.useContext(Context);
+  const { SubscribeSockets } = React.useContext(SocketContext);
 
   initLocalization();
   SubscribeSockets();
@@ -43,11 +44,11 @@ const App = () => {
             <PrivateRoute exact path="/">
               <ChatPage exact path="/" />
             </PrivateRoute>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={LoginFrom} />
+            <Route path="/signup" component={SignupFrom} />
             <Route path="*" component={NoMatch} />
           </Switch>
-          <Modal />
+          <ModalForm />
         </React.Suspense>
       </Router>
     </div>

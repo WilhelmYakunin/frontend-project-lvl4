@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const loginSlice = createSlice({
+const LoginFromSlice = createSlice({
   name: 'login',
   initialState: {
     isAuthenticated: false,
@@ -19,6 +19,6 @@ const loginSlice = createSlice({
 
 export const {
   login, loginError,
-} = loginSlice.actions;
+} = LoginFromSlice.actions;
 
-export default loginSlice.reducer;
+export default LoginFromSlice.reducer;

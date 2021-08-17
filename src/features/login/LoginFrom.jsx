@@ -5,15 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import cn from 'classnames';
-import { login, loginError } from './loginSlice';
-import Context from '../../contexts/context';
+import { login, loginError } from './LoginFromSlice';
+import AuthContext from '../../contexts/AuthContext';
 
-const Login = () => {
+const LoginFrom = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { logAttemptWith } = React.useContext(Context);
+  const { logAttemptWith } = React.useContext(AuthContext);
   const handleLoginAttempt = async (userInfo, { setErrors, resetForm, setSubmitting }) => {
     setSubmitting(true);
     try {
@@ -107,4 +107,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginFrom;

@@ -3,7 +3,7 @@ import routes from './routes.js';
 
 const signupUrl = routes.signupPath();
 
-const getSignupData = async (signupInputInfo) => {
+const postSignupData = async (signupInputInfo) => {
   const { username, password } = signupInputInfo;
   const { data } = await axios.post(
     signupUrl,
@@ -12,4 +12,4 @@ const getSignupData = async (signupInputInfo) => {
   return data;
 };
 
-export default getSignupData;
+export default postSignupData;

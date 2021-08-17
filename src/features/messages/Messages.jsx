@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getCurrentChannelsId, getMessages } from '../../selectors/selectors';
+import { getCurrentChannelId, getMessages } from '../../store/selectors';
 
 const Messages = () => {
-  const currentChannelId = useSelector(getCurrentChannelsId);
+  const currentChannelId = useSelector(getCurrentChannelId);
   const messages = useSelector(getMessages);
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
   const space = ': ';

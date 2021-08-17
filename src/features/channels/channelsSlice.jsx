@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 export const channelsData = createSlice({
   name: 'channels',
@@ -7,7 +7,7 @@ export const channelsData = createSlice({
     serverDataLoaded: false,
     channels: [],
     currentChannelId: 1,
-    channelsProccedingError: 'none',
+    channelsGotError: 'none',
     showDropdownForChannel: 0,
   },
   reducers: {
@@ -20,14 +20,16 @@ export const channelsData = createSlice({
     setCurrentChannel(state, action) {
       state.currentChannelId = action.payload;
     },
+    OpenDropDownFor(state, action) {
+      state.showDropdownForChannel = action.payload;
+    },
     addChannel: (state, action) => {
       const newChannel = action.payload;
       state.channels.push(newChannel);
     },
     deleteChannel: (state, action) => {
-      const id = action.payload;
-      const indexOfDeletee = state.channels.findIndex((channel) => channel.id === id);
-      state.channels.splice(indexOfDeletee, 1);
+      const { id } = action.payload;
+      state.channels = current(state.channels).filter((channel) => channel.id !== id);
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
@@ -35,16 +37,17 @@ export const channelsData = createSlice({
       if (!channel) return;
       channel.name = name;
     },
-    channelsProccedingError(state, action) {
+    channelsGotError(state, action) {
       state.channelsProccedingError = action.payload;
     },
   },
 });
 
 export const {
-  channelsProccedingError,
+  channelsGotError,
   loadChatState,
   setCurrentChannel,
+  OpenDropDownFor,
   addChannel,
   renameChannel,
   deleteChannel,
