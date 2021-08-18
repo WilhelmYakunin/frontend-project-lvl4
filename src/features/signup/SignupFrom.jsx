@@ -2,18 +2,17 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { signup, signupError } from './signupFromSlice';
+import axios from 'axios';
 import signupSchema from './signupSchema';
 import AuthContext from '../../contexts/AuthContext';
+import routes from '../../API/routes';
 
 const SignupFrom = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { signupAttepmtWith } = React.useContext(AuthContext);
+  const { logIn } = React.useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -25,18 +24,20 @@ const SignupFrom = () => {
     onSubmit: async (userInfo, { setSubmitting, setErrors, resetForm }) => {
       setSubmitting(true);
       try {
-        await signupAttepmtWith(userInfo);
-        dispatch(signup());
+        const signupUrl = routes.signupPath();
+        const { data } = await axios.post(
+          signupUrl,
+          userInfo,
+        );
+        logIn(data);
         resetForm();
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
         setSubmitting(false);
       } catch (exception) {
-        const { message } = exception;
         if (exception.isAxiosError && exception.response.status === 409) {
           setErrors({ authFailed: true });
         }
-        dispatch(signupError(message));
         const { from } = location.state || { from: { pathname: '/signup' } };
         history.replace(from);
       }
@@ -87,7 +88,7 @@ const SignupFrom = () => {
                 name="confirmPassword"
                 id="confirmPassword"
                 autoComplete="current-password"
-                isInvalid={formik.touched.password || formik.errors.confirmPassword}
+                isInvalid={formik.errors.confirmPassword}
               />
               <Form.Control.Feedback type="invalid">{t('signup.mustMatch')}</Form.Control.Feedback>
             </Form.Group>

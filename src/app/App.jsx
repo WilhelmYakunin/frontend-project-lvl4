@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import initLocalization from '../locales/initLocalization';
 import AppHeader from '../features/AppHeader';
-import LoginFrom from '../features/login/LoginFrom';
+import LoginFrom from '../features/LoginFrom';
 import SignupFrom from '../features/signup/SignupFrom';
 import NoMatch from '../components/NoMatch';
 import ModalForm from '../features/modals/SwitchModalForm';

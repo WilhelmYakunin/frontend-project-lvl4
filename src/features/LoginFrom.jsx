@@ -1,35 +1,32 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
+import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import cn from 'classnames';
-import { login, loginError } from './LoginFromSlice';
-import AuthContext from '../../contexts/AuthContext';
+import AuthContext from '../contexts/AuthContext';
+import routes from '../API/routes';
 
 const LoginFrom = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { logAttemptWith } = React.useContext(AuthContext);
+  const { logIn } = React.useContext(AuthContext);
   const handleLoginAttempt = async (userInfo, { setErrors, resetForm, setSubmitting }) => {
     setSubmitting(true);
     try {
-      await logAttemptWith(userInfo);
-      dispatch(login());
+      const loginPath = routes.loginPath();
+      const { data } = await axios.post(loginPath, userInfo);
+      logIn(data);
       resetForm();
       const { from } = location.state || { from: { pathname: '/' } };
       history.replace(from);
     } catch (exception) {
-      const { message } = exception;
       if (exception.isAxiosError && exception.response
         && exception.response.status === 401) {
-        dispatch(loginError(message));
         return setErrors({ authFailed: true });
       }
-      dispatch(loginError(message));
     }
     return setSubmitting(false);
   };

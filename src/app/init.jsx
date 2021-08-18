@@ -10,25 +10,17 @@ import { addMessage } from '../features/messages/messagesSlice';
 import {
   addChannel, setCurrentChannel, renameChannel, deleteChannel,
 } from '../features/channels/channelsSlice';
-import getAuthData from '../API/getAuthData';
-import postSignupData from '../API/postSignupData';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
 
   const LogContext = {
     isLoged: localStorage.user !== undefined,
-    logAttemptWith: async (userInfo) => {
-      const data = await getAuthData(userInfo);
-      localStorage.setItem('user', JSON.stringify(data));
+    logIn: (userInfo) => {
+      localStorage.setItem('user', JSON.stringify(userInfo));
       LogContext.isLoged = true;
     },
-    signupAttepmtWith: async (userInfo) => {
-      const data = await postSignupData(userInfo);
-      localStorage.setItem('user', JSON.stringify(data));
-      LogContext.isLoged = true;
-    },
-    quitLog: () => {
+    logOut: () => {
       localStorage.removeItem('user');
       LogContext.isLoged = false;
     },

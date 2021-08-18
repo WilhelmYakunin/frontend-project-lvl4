@@ -7,7 +7,7 @@ import Logo from '../components/Logo';
 
 const AppHeader = () => {
   const [isActive, setActive] = useState(false);
-  const { isLoged, quitLog } = React.useContext(AuthContext);
+  const { isLoged, logOut } = React.useContext(AuthContext);
 
   const { t } = useTranslation();
 
@@ -16,7 +16,7 @@ const AppHeader = () => {
 
   const makeLogOut = () => {
     setActive(true);
-    quitLog();
+    logOut();
     const { from } = location.state || { from: { pathname: '/login' } };
     history.replace(from);
     setActive(false);
