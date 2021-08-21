@@ -1,46 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import rollbarConfig from '../rollbar';
 import createStore from '../store/createStore';
 import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 import App from './App';
-import { addMessage } from '../features/messages/messagesSlice';
-import {
-  addChannel, setCurrentChannel, renameChannel, deleteChannel,
-} from '../features/channels/channelsSlice';
+import subscribeSocketURLs from '../API/socketURLs';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
 
   const LogContext = {
-    isLoged: localStorage.user !== undefined,
+    isLoged: () => localStorage.user !== undefined,
     logIn: (userInfo) => {
       localStorage.setItem('user', JSON.stringify(userInfo));
-      LogContext.isLoged = true;
     },
     logOut: () => {
       localStorage.removeItem('user');
-      LogContext.isLoged = false;
     },
   };
 
   const SocketAPIContext = {
-    SubscribeSockets: () => {
-      const dispatch = useDispatch();
-      socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
-      socket.on('newChannel', (newChannel) => {
-        dispatch(addChannel(newChannel));
-        dispatch(setCurrentChannel(newChannel.id));
-      });
-      socket.on('renameChannel', (newName) => dispatch(renameChannel(newName)));
-      socket.on('removeChannel', (requestedChannleId) => {
-        const INITIAL_CURRENT_CHANNEL_ID = 1;
-        dispatch(deleteChannel(requestedChannleId));
-        dispatch(setCurrentChannel(INITIAL_CURRENT_CHANNEL_ID));
-      });
-    },
+    SubscribeSockets: () => subscribeSocketURLs(socket),
     addMessage: (messageInfo) => socket.emit('newMessage', messageInfo, (acknowledge) => {
       if (acknowledge.status === 'ok') {
         return 'ok';

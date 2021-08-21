@@ -39,6 +39,8 @@ const RenameChannelForm = () => {
             name: allChannels.filter((channel) => channel.id === idOfRenamingChannel)[0].name,
           }}
           validationSchema={RenameSchema}
+          validateOnMount
+          validateOnChange
           onSubmit={({ name }, { resetForm }) => {
             try {
               const renameChannelInfo = { id: idOfRenamingChannel, name };
@@ -50,7 +52,7 @@ const RenameChannelForm = () => {
             }
           }}
         >
-          {({ errors, isValid, touched }) => (
+          {({ errors, isValid }) => (
             <Form>
               <Modal.Header closeButton>
                 <Modal.Title>{t('modals.rename')}</Modal.Title>
@@ -62,12 +64,13 @@ const RenameChannelForm = () => {
                     name="name"
                     data-testid="rename-channel"
                     aria-label="rename channel"
+                    required
                     className={cn(
                       'mb-2 form-control',
-                      !!touched && (isValid || 'is-invalid'),
+                      !isValid && 'is-invalid',
                     )}
                   />
-                  { (errors.name && touched.name) && (
+                  { errors && (
                   <div className="invalid-feedback">{t(errors.name)}</div>
                   ) }
                 </FormGroup>

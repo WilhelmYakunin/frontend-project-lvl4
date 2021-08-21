@@ -36,6 +36,8 @@ const NewChannelForm = () => {
               .max(20, 'modals.max')
               .notOneOf(channelsNames, 'modals.uniq'),
           })}
+          validateOnMount
+          validateOnChange={false}
           onSubmit={(newChannelName, { resetForm }) => {
             try {
               const { name } = newChannelName;
@@ -47,7 +49,7 @@ const NewChannelForm = () => {
             }
           }}
         >
-          {({ errors, isValid, touched }) => (
+          {({ errors, isValid }) => (
             <Form>
               <Modal.Header closeButton>
                 <Modal.Title>{t('modals.add')}</Modal.Title>
@@ -59,12 +61,13 @@ const NewChannelForm = () => {
                     name="name"
                     data-testid="add-channel"
                     aria-label="add channel"
+                    required
                     className={cn(
                       'mr-2 form-control',
-                      !!touched.name && (!isValid && 'is-invalid'),
+                      !isValid && 'is-invalid',
                     )}
                   />
-                  { (errors.name && touched.name) && (
+                  { errors.name && (
                     <div className="invalid-feedback">{t(errors.name)}</div>
                   ) }
                 </FormGroup>

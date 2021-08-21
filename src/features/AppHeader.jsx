@@ -14,19 +14,19 @@ const AppHeader = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const makeLogOut = () => {
-    setActive(true);
+  const makeLogOut = async () => {
+    await setActive(true);
     logOut();
     const { from } = location.state || { from: { pathname: '/login' } };
     history.replace(from);
-    setActive(false);
+    await setActive(false);
   };
 
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <Logo />
-        { isLoged
+        { isLoged()
       && (
         <Button type="button" onClick={makeLogOut} variant="primary" disabled={isActive}>
           {t('logout')}

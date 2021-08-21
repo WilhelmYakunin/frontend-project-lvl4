@@ -40,10 +40,11 @@ const LoginFrom = () => {
               username: '',
               password: '',
             }}
+            validateOnChange
             onSubmit={handleLoginAttempt}
           >
             {({
-              errors, isSubmitting, isValid, touched,
+              errors, isSubmitting, isValid,
             }) => (
               <Form className="p-3">
                 <div className="form-group">
@@ -60,7 +61,7 @@ const LoginFrom = () => {
                     readOnly={isSubmitting}
                     className={cn(
                       'form-control',
-                      !!touched && (!isValid && 'is-invalid'),
+                      !isValid && 'is-invalid',
                     )}
                   />
                 </div>
@@ -78,7 +79,7 @@ const LoginFrom = () => {
                     required
                     className={cn(
                       'form-control',
-                      !!touched && (!isValid && 'is-invalid'),
+                      !isValid && 'is-invalid',
                     )}
                   />
                   {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
