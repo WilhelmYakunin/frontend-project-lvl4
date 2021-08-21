@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider } from 'react-redux';
 import rollbarConfig from '../rollbar';
@@ -6,7 +6,7 @@ import createStore from '../store/createStore';
 import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 import App from './App';
-import subscribeSocketURLs from '../API/socketURLs';
+import SubscribeSocketURLs from '../API/socketURLs';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
@@ -22,7 +22,7 @@ const init = (socket, preloadedState) => {
   };
 
   const SocketAPIContext = {
-    SubscribeSockets: () => subscribeSocketURLs(socket),
+    SubscribeSockets: () => SubscribeSocketURLs(socket),
     addMessage: (messageInfo) => socket.emit('newMessage', messageInfo, (acknowledge) => {
       if (acknowledge.status === 'ok') {
         return 'ok';

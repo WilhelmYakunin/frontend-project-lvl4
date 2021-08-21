@@ -4,7 +4,7 @@ import {
   addChannel, setCurrentChannel, renameChannel, deleteChannel,
 } from '../features/channels/channelsSlice.jsx';
 
-const subscribeSocketURLs = (socket) => {
+const SubscribeSocketURLs = (socket) => {
   const dispatch = useDispatch();
   socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
   socket.on('newChannel', (newChannel) => {
@@ -19,4 +19,4 @@ const subscribeSocketURLs = (socket) => {
   });
 };
 
-export default subscribeSocketURLs;
+export default SubscribeSocketURLs;
