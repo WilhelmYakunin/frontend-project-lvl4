@@ -14,7 +14,6 @@ import ModalForm from '../features/modals/SwitchModalForm';
 import LoadSpinner from '../components/LoadSpinner';
 import ChatPage from '../features/ChatPage';
 import AuthContext from '../contexts/AuthContext';
-import SocketContext from '../contexts/SocketContext';
 
 const PrivateRoute = ({ children, path }) => {
   const { isLoged } = useContext(AuthContext);
