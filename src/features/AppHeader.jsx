@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
@@ -7,8 +7,7 @@ import Logo from '../components/Logo';
 
 const AppHeader = () => {
   const [isActive, setActive] = useState(false);
-  const { isLoged, logOut } = React.useContext(AuthContext);
-
+  const { isLoged, logOut } = useContext(AuthContext);
   const { t } = useTranslation();
 
   const location = useLocation();
@@ -16,7 +15,7 @@ const AppHeader = () => {
 
   const makeLogOut = async () => {
     await setActive(true);
-    logOut();
+    await logOut();
     const { from } = location.state || { from: { pathname: '/login' } };
     history.replace(from);
     await setActive(false);
@@ -26,7 +25,7 @@ const AppHeader = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <Logo />
-        { isLoged()
+        { isLoged
       && (
         <Button type="button" onClick={makeLogOut} variant="primary" disabled={isActive}>
           {t('logout')}

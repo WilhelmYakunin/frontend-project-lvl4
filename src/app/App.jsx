@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -17,12 +17,12 @@ import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 
 const PrivateRoute = ({ children, path }) => {
-  const { isLoged } = React.useContext(AuthContext);
+  const { isLoged } = useContext(AuthContext);
 
   return (
     <Route
       path={path}
-      render={({ location }) => (isLoged()
+      render={({ location }) => (isLoged
         ? children
         : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
     />
@@ -30,10 +30,7 @@ const PrivateRoute = ({ children, path }) => {
 };
 
 const App = () => {
-  const { SubscribeSockets } = React.useContext(SocketContext);
-
   initLocalization();
-  SubscribeSockets();
 
   return (
     <div className="d-flex flex-column h-100">

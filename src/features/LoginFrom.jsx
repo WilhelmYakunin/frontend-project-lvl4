@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
@@ -12,16 +12,17 @@ const LoginFrom = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
-  const { logIn } = React.useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
+
   const handleLoginAttempt = async (userInfo, { setErrors, resetForm, setSubmitting }) => {
     setSubmitting(true);
     try {
       const loginPath = routes.loginPath();
       const { data } = await axios.post(loginPath, userInfo);
-      logIn(data);
+      await logIn(data);
       resetForm();
       const { from } = location.state || { from: { pathname: '/' } };
-      history.replace(from);
+      await history.replace(from);
     } catch (exception) {
       if (exception.isAxiosError && exception.response
         && exception.response.status === 401) {

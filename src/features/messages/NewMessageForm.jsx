@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
@@ -7,12 +7,13 @@ import { useTranslation } from 'react-i18next';
 import { messageError } from './messagesSlice';
 import { getCurrentChannelId } from '../../store/selectors';
 import SocketContext from '../../contexts/SocketContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const NewMessageForm = () => {
   const { t } = useTranslation();
   const channelId = useSelector(getCurrentChannelId);
-  const user = JSON.parse(localStorage.getItem('user')).username;
-  const { addMessage } = React.useContext(SocketContext);
+  const { user } = useContext(AuthContext);
+  const { addMessage } = useContext(SocketContext);
   const dispatch = useDispatch();
   const handelMessageSubmit = (messageBody, { resetForm }) => {
     try {

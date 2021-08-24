@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import ChannelsMenagingDash from './channels/ChannelsMenagingDash';
 import Messages from './messages/Messages';
 import NewMessageForm from './messages/NewMessageForm';
 import { isServerDataLoaded } from '../store/selectors';
+import AuthContext from '../contexts/AuthContext';
 
 const Chat = () => (
   <>
@@ -30,14 +31,14 @@ const ChatPage = () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { token } = JSON.parse(localStorage.getItem('user'));
+  const { token } = useContext(AuthContext);
   const channelsDataUrl = routes.dataPath();
-
-  axios.get(
-    channelsDataUrl, {
-      headers: { Authorization: 'Bearer '.concat(token) },
-    },
-  ).then((res) => {
+  axios({
+    method: 'get',
+    url: channelsDataUrl,
+    headers: { Authorization: 'Bearer '.concat(token) },
+    timeout: 10000,
+  }).then((res) => {
     dispatch(loadChatState(res.data));
   })
     .catch((exception) => {
