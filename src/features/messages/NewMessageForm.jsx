@@ -18,7 +18,7 @@ const NewMessageForm = () => {
   const handelMessageSubmit = (messageBody, { resetForm }) => {
     try {
       const { body } = messageBody;
-      const messageInfo = { user, channelId, body };
+      const messageInfo = { user: user.username, channelId, body };
       addMessage(messageInfo);
       resetForm();
     } catch (exception) {
@@ -27,19 +27,20 @@ const NewMessageForm = () => {
   };
 
   return (
-    <div className="mt-auto">
+    <div className="mt-auto px-5 py-3">
       <Formik
         initialValues={{
           body: '',
         }}
+        validateOnChange
         onSubmit={handelMessageSubmit}
       >
         {({
-          errors, touched, isValid, isSubmitting,
+          errors, isValid, isSubmitting,
         }) => (
           <Form>
             <div className="form-group">
-              <div className={`input-group ${(errors.body && touched.body) ? 'has-validation' : null}`}>
+              <div className={`input-group ${errors.body && 'has-validation'}`}>
                 <Field
                   autoFocus
                   name="body"
@@ -48,7 +49,7 @@ const NewMessageForm = () => {
                   placeholder={`${t('chat.placeholder')}`}
                   className={cn(
                     'mr-2 form-control',
-                    !!touched.body && (!isValid && 'is-invalid'),
+                    !isValid && 'is-invalid',
                   )}
                 />
                 <Button
@@ -59,7 +60,7 @@ const NewMessageForm = () => {
                 >
                   {t('chat.send')}
                 </Button>
-                {(errors.body && touched.body) && (
+                {errors.body && (
                 <div className="d-block invalid-feedback">{t(errors.body)}</div>
                 )}
               </div>

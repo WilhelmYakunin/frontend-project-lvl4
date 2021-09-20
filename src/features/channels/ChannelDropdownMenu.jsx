@@ -9,7 +9,7 @@ const ChannelDropdownMenu = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannelId = useSelector(getCurrentChannelId);
-  const isCurrent = () => (channelId === currentChannelId ? 'btn-primary' : 'btn-light');
+  const isCurrent = () => (channelId === currentChannelId && 'btn-secondary');
 
   const handleOpenDeleteModal = (e) => {
     e.preventDefault();
@@ -29,13 +29,13 @@ const ChannelDropdownMenu = ({ channelId }) => {
     }
   };
 
-  function handleReciveDropdownOpen() {
+  const handleReciveDropdownOpen = () => {
     try {
       dispatch(OpenDropDownFor(channelId));
     } catch (exception) {
       dispatch(channelsGotError());
     }
-  }
+  };
 
   return (
     <>

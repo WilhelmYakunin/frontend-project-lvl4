@@ -33,73 +33,79 @@ const LoginFrom = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center pt-5">
-        <div className="col-sm-4">
-          <Formik
-            initialValues={{
-              username: '',
-              password: '',
-            }}
-            validateOnChange
-            onSubmit={handleLoginAttempt}
-          >
-            {({
-              errors, isSubmitting, isValid,
-            }) => (
-              <Form className="p-3">
-                <div className="form-group">
-                  <label className="form-label" htmlFor="username">
-                    {t('login.username')}
-                  </label>
-                  <Field
-                    autoFocus
-                    placeholder={t('login.username')}
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    required
-                    readOnly={isSubmitting}
-                    className={cn(
-                      'form-control',
-                      !isValid && 'is-invalid',
-                    )}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label" htmlFor="password">
-                    {t('login.password')}
-                  </label>
-                  <Field
-                    type="password"
-                    placeholder={t('login.password')}
-                    name="password"
-                    id="password"
-                    autoComplete="current-password"
-                    readOnly={isSubmitting}
-                    required
-                    className={cn(
-                      'form-control',
-                      !isValid && 'is-invalid',
-                    )}
-                  />
-                  {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
-                </div>
-                <Button
-                  type="submit"
-                  variant="outline-primary"
-                  className="w-100 mb-3 btn"
-                  disabled={isSubmitting}
-                >
-                  {t('login.submit')}
-                </Button>
-                <div className="d-flex flex-column align-items-center">
-                  <span className="small mb-2">{t('login.newToChat')}</span>
-                  <Link to="/signup">{t('login.signup')}</Link>
-                </div>
-              </Form>
-            )}
-          </Formik>
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow">
+            <div className="card-body row p-5">
+              <Formik
+                initialValues={{
+                  username: '',
+                  password: '',
+                }}
+                validateOnChange
+                onSubmit={handleLoginAttempt}
+              >
+                {({
+                  errors, isSubmitting, isValid,
+                }) => (
+                  <Form className="m-auto p-3 w-50">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="username">
+                        {t('login.username')}
+                      </label>
+                      <Field
+                        autoFocus
+                        placeholder={t('login.username')}
+                        name="username"
+                        id="username"
+                        autoComplete="username"
+                        required
+                        readOnly={isSubmitting}
+                        className={cn(
+                          'form-control shadow',
+                          !isValid && 'is-invalid',
+                        )}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="password">
+                        {t('login.password')}
+                      </label>
+                      <Field
+                        type="password"
+                        placeholder={t('login.password')}
+                        name="password"
+                        id="password"
+                        autoComplete="current-password"
+                        readOnly={isSubmitting}
+                        required
+                        className={cn(
+                          'form-control shadow',
+                          !isValid && 'is-invalid',
+                        )}
+                      />
+                      {errors.authFailed && <div className="invalid-feedback">{t('login.authFailed')}</div>}
+                    </div>
+                    <Button
+                      type="submit"
+                      variant="outline-primary"
+                      className="w-100 mb-3 btn shadow"
+                      disabled={isSubmitting}
+                    >
+                      {t('login.submit')}
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+            <div className="card-footer p-4">
+              <div className="text-center">
+                <span className="small mr-2">{t('login.newToChat')}</span>
+                <Link className="text-primary" to="/signup">{t('login.signup')}</Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

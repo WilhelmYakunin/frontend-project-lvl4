@@ -9,6 +9,7 @@ import fastifySocketIo from 'fastify-socket.io';
 import fastifyStatic from 'fastify-static';
 import fastifyJWT from 'fastify-jwt';
 import HttpErrors from 'http-errors';
+import axios from 'axios';
 
 import addRoutes from './routes.js';
 
@@ -53,7 +54,8 @@ const setUpAuth = (app) => {
     .decorate('authenticate', async (req, reply) => {
       try {
         await req.jwtVerify();
-      } catch (_err) {
+      } catch (err) {
+        if (err.message === 'No Authorization was found in request.headers') return reply.redirect('/login');
         reply.send(new Unauthorized());
       }
     });

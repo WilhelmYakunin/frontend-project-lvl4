@@ -16,12 +16,12 @@ import ChatPage from '../features/ChatPage';
 import AuthContext from '../contexts/AuthContext';
 
 const PrivateRoute = ({ children, path }) => {
-  const { isLoged } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <Route
       path={path}
-      render={({ location }) => (isLoged
+      render={({ location }) => (user
         ? children
         : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
     />
@@ -40,8 +40,8 @@ const App = () => {
             <PrivateRoute exact path="/">
               <ChatPage exact path="/" />
             </PrivateRoute>
-            <Route path="/login" component={LoginFrom} />
-            <Route path="/signup" component={SignupFrom} />
+            <Route exact path="/login" component={LoginFrom} />
+            <Route exact path="/signup" component={SignupFrom} />
             <Route path="*" component={NoMatch} />
           </Switch>
           <ModalForm />

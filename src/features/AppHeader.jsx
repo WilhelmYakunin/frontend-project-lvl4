@@ -7,7 +7,7 @@ import Logo from '../components/Logo';
 
 const AppHeader = () => {
   const [isActive, setActive] = useState(false);
-  const { isLoged, logOut } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const { t } = useTranslation();
 
   const location = useLocation();
@@ -25,7 +25,7 @@ const AppHeader = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <Logo />
-        { isLoged
+        { user
       && (
         <Button type="button" onClick={makeLogOut} variant="primary" disabled={isActive}>
           {t('logout')}

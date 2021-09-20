@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ const SignupFrom = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
-  const { logIn } = React.useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -21,6 +21,7 @@ const SignupFrom = () => {
       confirmPassword: '',
     },
     validationSchema: signupSchema,
+    validateOnChange: true,
     onSubmit: async (userInfo, { setSubmitting, setErrors, resetForm }) => {
       setSubmitting(true);
       try {
@@ -45,62 +46,69 @@ const SignupFrom = () => {
   });
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-center pt-5">
-        <div className="col-sm-4">
-          <Form onSubmit={formik.handleSubmit} className="p-3">
-            <Form.Group>
-              <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
-              <Form.Control
-                autoFocus
-                onChange={formik.handleChange}
-                value={formik.values.username}
-                placeholder={t('signup.usernameConstraints')}
-                name="username"
-                id="username"
-                autoComplete="username"
-                isInvalid={formik.touched.username && formik.errors.username}
-                required
-              />
-              <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
-              <Form.Control
-                type="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                placeholder={t('signup.passMin')}
-                name="password"
-                id="password"
-                autoComplete="current-password"
-                isInvalid={formik.touched.password && formik.errors.password}
-              />
-              <Form.Control.Feedback type="invalid">{t('signup.passMin')}</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="password">{t('signup.confirm')}</Form.Label>
-              <Form.Control
-                type="password"
-                onChange={formik.handleChange}
-                value={formik.values.confirmPassword}
-                placeholder={t('signup.mustMatch')}
-                name="confirmPassword"
-                id="confirmPassword"
-                autoComplete="current-password"
-                isInvalid={formik.errors.confirmPassword}
-              />
-              <Form.Control.Feedback type="invalid">{t('signup.mustMatch')}</Form.Control.Feedback>
-            </Form.Group>
-            <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
-              {t('signup.submit')}
-            </button>
-            { formik.errors.authFailed && (
-            <Alert variant="danger">
-              {t('signup.alreadyExists')}
-            </Alert>
-            )}
-          </Form>
+    <div className="container-fluid h-100">
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow">
+            <div className="card-body row p-5">
+              <Form onSubmit={formik.handleSubmit} className="m-auto p-3 w-50">
+                <Form.Group>
+                  <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
+                  <Form.Control
+                    autoFocus
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    placeholder={t('signup.usernameConstraints')}
+                    name="username"
+                    id="username"
+                    autoComplete="username"
+                    className="shadow"
+                    isInvalid={formik.touched.username && formik.errors.username}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
+                  <Form.Control
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    placeholder={t('signup.passMin')}
+                    name="password"
+                    id="password"
+                    autoComplete="current-password"
+                    className="shadow"
+                    isInvalid={formik.touched.password && formik.errors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">{t('signup.passMin')}</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label htmlFor="password">{t('signup.confirm')}</Form.Label>
+                  <Form.Control
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.confirmPassword}
+                    placeholder={t('signup.mustMatch')}
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    autoComplete="current-password"
+                    className="shadow"
+                    isInvalid={formik.errors.confirmPassword}
+                  />
+                  <Form.Control.Feedback type="invalid">{t('signup.mustMatch')}</Form.Control.Feedback>
+                </Form.Group>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                  {t('signup.submit')}
+                </button>
+                { formik.errors.authFailed && (
+                <Alert variant="danger">
+                  {t('signup.alreadyExists')}
+                </Alert>
+                )}
+              </Form>
+            </div>
+          </div>
         </div>
       </div>
     </div>

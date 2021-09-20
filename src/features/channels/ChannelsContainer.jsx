@@ -10,15 +10,13 @@ const ChannelsContainer = () => {
   } = useSelector(getChannelsData);
 
   return (
-    <ul className="nav flex-column nav-pills nav-fill">
+    <ul className="nav flex-column nav-pills nav-fill px-2">
       {channels !== undefined && channels.map((channel) => (
-        <li key={channel.id} className="nav-item">
-          <div role="group" className="d-flex mb-2 dropdown btn-group">
-            <ChannelButton
-              channel={channel}
-              currentChannelId={currentChannelId}
-            />
-          </div>
+        <li key={channel.id} className="nav-item w-100">
+          <ChannelButton
+            channel={channel}
+            currentChannelId={currentChannelId}
+          />
         </li>
       ))}
 

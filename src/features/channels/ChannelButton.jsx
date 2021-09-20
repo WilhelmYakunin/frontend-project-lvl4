@@ -10,7 +10,7 @@ const ChannelButton = ({
 }) => {
   const dispatch = useDispatch();
 
-  const isCurrent = () => (id === currentChannelId ? 'btn-primary' : 'btn-light');
+  const isCurrent = () => (id === currentChannelId && 'btn-secondary');
 
   const handleSetCurrentChannel = () => {
     try {
@@ -21,16 +21,17 @@ const ChannelButton = ({
   };
 
   return (
-    <>
+    <div role="group" className="d-flex dropdown btn-group">
       <button
-        className={`flex-grow-1 nav-link btn-block text-left btn ${isCurrent(id)}`}
+        className={`w-100 rounded-0 mr-0 btn ${isCurrent(id)}`}
         onClick={handleSetCurrentChannel}
         type="submit"
       >
+        <span className="me-1"># </span>
         {name}
       </button>
       {removable && <ChannelDropdownMenu channelId={id} />}
-    </>
+    </div>
   );
 };
 

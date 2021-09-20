@@ -38,6 +38,7 @@ export const channelsData = createSlice({
       channel.name = name;
     },
     channelsGotError(state, action) {
+      state.serverDataLoaded = false;
       state.channelsProccedingError = action.payload;
     },
   },

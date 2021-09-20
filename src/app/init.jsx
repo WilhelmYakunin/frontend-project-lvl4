@@ -6,35 +6,33 @@ import createStore from '../store/createStore';
 import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 import App from './App';
-import { addMessage } from '../features/messages/messagesSlice';
-import {
-  addChannel, setCurrentChannel, renameChannel, deleteChannel,
-} from '../features/channels/channelsSlice';
+import subscribeSocekts from '../API/sockets';
+// import Interceptor from '../Interceptor';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
+  // Interceptor.interceptor(store);
 
   const AuthContextProvider = ({ children }) => {
-    const [LogContext, setIsLoged] = useState({
-      isLoged: false,
-      user: 'idle',
-      token: 'idle',
-      logIn: (userInfo) => {
-        localStorage.setItem('user', JSON.stringify(userInfo));
-        setIsLoged({
-          ...LogContext, isLoged: true, user: userInfo.username, token: userInfo.token,
-        });
-      },
-      logOut: () => {
-        localStorage.removeItem('user');
-        setIsLoged({
-          ...LogContext, isLoged: false, user: 'idle', token: 'idle',
-        });
-      },
-    });
+    const [user, setUser] = useState(null);
+    const logIn = (userInfo) => {
+      localStorage.setItem('user', JSON.stringify(userInfo));
+      setUser(userInfo);
+    };
+    const logOut = () => {
+      localStorage.removeItem('user');
+      setUser(null);
+    };
+    const getAuthHeader = () => {
+      if (user) return { Authorization: 'Bearer '.concat(user.token) };
+      return {};
+    };
 
     return (
-      <AuthContext.Provider value={LogContext}>
+      <AuthContext.Provider value={{
+        user, logIn, logOut, getAuthHeader,
+      }}
+      >
         {children}
       </AuthContext.Provider>
     );
@@ -42,17 +40,7 @@ const init = (socket, preloadedState) => {
 
   const SocketContextProdiver = ({ children }) => {
     const dispatch = useDispatch();
-    socket.on('newMessage', (newMessage) => dispatch(addMessage(newMessage)));
-    socket.on('newChannel', (newChannel) => {
-      dispatch(addChannel(newChannel));
-      dispatch(setCurrentChannel(newChannel.id));
-    });
-    socket.on('renameChannel', (newName) => dispatch(renameChannel(newName)));
-    socket.on('removeChannel', (requestedChannleId) => {
-      const INITIAL_CURRENT_CHANNEL_ID = 1;
-      dispatch(deleteChannel(requestedChannleId));
-      dispatch(setCurrentChannel(INITIAL_CURRENT_CHANNEL_ID));
-    });
+    subscribeSocekts(socket, dispatch);
 
     const SocketAPIContext = {
       addMessage: (messageInfo) => socket.emit('newMessage', messageInfo, (acknowledge) => {
