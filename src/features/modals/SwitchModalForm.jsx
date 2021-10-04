@@ -1,15 +1,26 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Modal } from 'react-bootstrap';
 import getModalFormType from './getModalFormType';
 import { getModalType } from '../../store/selectors';
+import { closeModal } from './modalFormsSlice';
 
 const ModalForm = () => {
   const modalType = useSelector(getModalType);
-  const Modal = getModalFormType(modalType);
+  const dispatch = useDispatch();
+  const ModalInner = getModalFormType(modalType);
 
   return modalType !== 'unset' && (
   <>
-    <Modal />
+    <Modal
+      animation={false}
+      show
+      onHide={() => dispatch(closeModal())}
+      backdrop="static"
+      centered
+    >
+      <ModalInner />
+    </Modal>
   </>
   );
 };

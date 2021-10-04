@@ -6,12 +6,10 @@ import createStore from '../store/createStore';
 import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 import App from './App';
-import subscribeSocekts from '../API/sockets';
-// import Interceptor from '../Interceptor';
+import registerSocketsHandlers from '../API/registerSocketsHandlers';
 
 const init = (socket, preloadedState) => {
   const store = createStore(preloadedState);
-  // Interceptor.interceptor(store);
 
   const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -40,30 +38,19 @@ const init = (socket, preloadedState) => {
 
   const SocketContextProdiver = ({ children }) => {
     const dispatch = useDispatch();
-    subscribeSocekts(socket, dispatch);
+    registerSocketsHandlers(socket, dispatch);
+
+    const emitEvent = (eventName, eventData) => socket.emit(eventName, eventData, (acknowledge) => {
+      if (acknowledge.status === 'ok') {
+        return 'ok';
+      } throw new Error(`${eventName} socket error`);
+    });
 
     const SocketAPIContext = {
-      addMessage: (messageInfo) => socket.emit('newMessage', messageInfo, (acknowledge) => {
-        if (acknowledge.status === 'ok') {
-          return 'ok';
-        } throw new Error('new message socket error');
-      }),
-      addChannel: (name) => socket.emit('newChannel', { name }, (acknowledge) => {
-        if (acknowledge.status === 'ok') {
-          return 'ok';
-        } throw new Error('add new channel socket error');
-      }),
-      renameChannel: (renameChannelInfo) => socket.emit('renameChannel', renameChannelInfo,
-        (acknowledge) => {
-          if (acknowledge.status === 'ok') {
-            return 'ok';
-          } throw new Error('rename channel socket error');
-        }),
-      removeChannel: (removeChannelInfo) => socket.emit('removeChannel', removeChannelInfo, (acknowledge) => {
-        if (acknowledge.status === 'ok') {
-          return 'ok';
-        } throw new Error('remove channel socket error');
-      }),
+      addMessage: (messageInfo) => emitEvent('newMessage', messageInfo),
+      addChannel: (name) => emitEvent('newChannel', { name }),
+      renameChannel: (renameChannelInfo) => emitEvent('renameChannel', renameChannelInfo),
+      removeChannel: (removeChannelInfo) => emitEvent('removeChannel', removeChannelInfo),
     };
 
     return (

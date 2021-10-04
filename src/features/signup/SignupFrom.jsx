@@ -26,10 +26,7 @@ const SignupFrom = () => {
       setSubmitting(true);
       try {
         const signupUrl = routes.signupPath();
-        const { data } = await axios.post(
-          signupUrl,
-          userInfo,
-        );
+        const { data } = await axios.post(signupUrl, userInfo);
         logIn(data);
         resetForm();
         const { from } = location.state || { from: { pathname: '/' } };

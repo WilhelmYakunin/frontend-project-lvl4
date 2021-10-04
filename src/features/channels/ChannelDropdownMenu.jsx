@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { OpenDropDownFor, channelsGotError } from './channelsSlice';
+import { openDropDownFor, channelsGotError } from './channelsSlice';
 import { openModal, modalsGotError } from '../modals/modalFormsSlice';
 import { getCurrentChannelId } from '../../store/selectors';
 
@@ -31,7 +31,7 @@ const ChannelDropdownMenu = ({ channelId }) => {
 
   const handleReciveDropdownOpen = () => {
     try {
-      dispatch(OpenDropDownFor(channelId));
+      dispatch(openDropDownFor(channelId));
     } catch (exception) {
       dispatch(channelsGotError());
     }

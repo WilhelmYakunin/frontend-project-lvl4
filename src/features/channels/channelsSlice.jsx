@@ -20,16 +20,19 @@ export const channelsData = createSlice({
     setCurrentChannel(state, action) {
       state.currentChannelId = action.payload;
     },
-    OpenDropDownFor(state, action) {
+    openDropDownFor(state, action) {
       state.showDropdownForChannel = action.payload;
     },
-    addChannel: (state, action) => {
+    newChannel: (state, action) => {
       const newChannel = action.payload;
+      state.currentChannelId = newChannel.id;
       state.channels.push(newChannel);
     },
-    deleteChannel: (state, action) => {
+    removeChannel: (state, action) => {
       const { id } = action.payload;
+      const INITIAL_CURRENT_CHANNEL_ID = 1;
       state.channels = current(state.channels).filter((channel) => channel.id !== id);
+      state.currentChannelId = INITIAL_CURRENT_CHANNEL_ID;
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
@@ -48,10 +51,10 @@ export const {
   channelsGotError,
   loadChatState,
   setCurrentChannel,
-  OpenDropDownFor,
-  addChannel,
+  openDropDownFor,
+  newChannel,
   renameChannel,
-  deleteChannel,
+  removeChannel,
 } = channelsData.actions;
 
 export default channelsData.reducer;

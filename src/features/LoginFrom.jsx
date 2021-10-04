@@ -24,8 +24,7 @@ const LoginFrom = () => {
       const { from } = location.state || { from: { pathname: '/' } };
       await history.replace(from);
     } catch (exception) {
-      if (exception.isAxiosError && exception.response
-        && exception.response.status === 401) {
+      if (exception.isAxiosError && exception.response.status === 401) {
         return setErrors({ authFailed: true });
       }
     }

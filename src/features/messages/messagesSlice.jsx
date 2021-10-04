@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { loadChatState, deleteChannel } from '../channels/channelsSlice';
+import { loadChatState } from '../channels/channelsSlice';
 
 const messagesSlice = createSlice({
   name: 'messagesData',
@@ -9,7 +9,7 @@ const messagesSlice = createSlice({
     messageError: 'none',
   },
   reducers: {
-    addMessage: (state, action) => {
+    newMessage: (state, action) => {
       const newMessage = action.payload;
       state.messages.push(newMessage);
     },
@@ -18,10 +18,6 @@ const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    [deleteChannel]: (state, action) => {
-      const id = action.payload;
-      state.messages.filter((message) => message.channelId !== id);
-    },
     [loadChatState]: (state, action) => {
       const { messages } = action.payload;
       state.messages = messages;
@@ -30,7 +26,7 @@ const messagesSlice = createSlice({
 });
 
 export const {
-  addMessage, messageError,
+  newMessage, messageError,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
