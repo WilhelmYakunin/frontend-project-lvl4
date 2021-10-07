@@ -2,10 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Modal, FormGroup, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import cn from 'classnames';
 import getOnlyUniqeChannelName from './getOnlyUniqueSchema';
 import { channelsGotError } from '../channels/channelsSlice';
+import ModalHeader from '../../components/ModalHeader';
+import ModalInput from '../../components/ModalInput';
+import ModalFooter from '../../components/ModalFooter';
 import { closeModal } from './modalFormsSlice';
 import { getAllChannels } from '../../store/selectors';
 import SocketContext from '../../contexts/SocketContext';
@@ -16,6 +19,16 @@ const NewChannelForm = () => {
   const channels = useSelector(getAllChannels);
   const channelsNames = channels.map((channel) => channel.name);
   const { addChannel } = React.useContext(SocketContext);
+  const handleAddChannel = (newChannelName, { resetForm }) => {
+    try {
+      const { name } = newChannelName;
+      addChannel(name);
+      resetForm();
+      dispatch(closeModal());
+    } catch (exception) {
+      dispatch(channelsGotError(exception.message));
+    }
+  };
 
   return (
     <>
@@ -26,46 +39,20 @@ const NewChannelForm = () => {
         validationSchema={getOnlyUniqeChannelName(channelsNames)}
         validateOnMount
         validateOnChange={false}
-        onSubmit={(newChannelName, { resetForm }) => {
-          try {
-            const { name } = newChannelName;
-            addChannel(name);
-            resetForm();
-            dispatch(closeModal());
-          } catch (exception) {
-            dispatch(channelsGotError(exception.message));
-          }
-        }}
+        onSubmit={handleAddChannel}
       >
         {({ errors, isValid }) => (
           <Form>
-            <Modal.Header closeButton>
-              <Modal.Title>{t('modals.add')}</Modal.Title>
-            </Modal.Header>
+            <ModalHeader text={t('modals.add')} />
             <Modal.Body>
-              <FormGroup>
-                <Field
-                  autoFocus
-                  name="name"
-                  data-testid="add-channel"
-                  aria-label="add channel"
-                  required
-                  className={cn(
-                    'mr-2 form-control',
-                    !isValid && 'is-invalid',
-                  )}
-                />
-                { errors.name && (
-                <div className="invalid-feedback">{t(errors.name)}</div>
-                ) }
-              </FormGroup>
+              <ModalInput
+                dataTestid="add-channel"
+                ariaLabel="add channel"
+                isValid={isValid}
+                error={t(errors.name)}
+              />
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={() => dispatch(closeModal())}>
-                {t('modals.cancel')}
-              </Button>
-              <Button type="submit" variant="primary">{t('modals.submit')}</Button>
-            </Modal.Footer>
+            <ModalFooter textCancel={t('modals.cancel')} textSubmit={t('modals.submit')} submitButtonVariant="primary" />
           </Form>
         )}
       </Formik>

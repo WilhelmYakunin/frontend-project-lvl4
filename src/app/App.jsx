@@ -5,7 +5,6 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import initLocalization from '../locales/initLocalization';
 import AppHeader from '../features/AppHeader';
 import LoginFrom from '../features/LoginFrom';
 import SignupFrom from '../features/signup/SignupFrom';
@@ -28,27 +27,23 @@ const PrivateRoute = ({ children, path }) => {
   );
 };
 
-const App = () => {
-  initLocalization();
-
-  return (
-    <div className="d-flex flex-column h-100">
-      <Router>
-        <React.Suspense fallback={<LoadSpinner />}>
-          <AppHeader />
-          <Switch>
-            <PrivateRoute exact path="/">
-              <ChatPage exact path="/" />
-            </PrivateRoute>
-            <Route exact path="/login" component={LoginFrom} />
-            <Route exact path="/signup" component={SignupFrom} />
-            <Route path="*" component={NoMatch} />
-          </Switch>
-          <ModalForm />
-        </React.Suspense>
-      </Router>
-    </div>
-  );
-};
+const App = () => (
+  <div className="d-flex flex-column h-100">
+    <Router>
+      <React.Suspense fallback={<LoadSpinner />}>
+        <AppHeader />
+        <Switch>
+          <PrivateRoute exact path="/">
+            <ChatPage exact path="/" />
+          </PrivateRoute>
+          <Route exact path="/login" component={LoginFrom} />
+          <Route exact path="/signup" component={SignupFrom} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
+        <ModalForm />
+      </React.Suspense>
+    </Router>
+  </div>
+);
 
 export default App;

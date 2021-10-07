@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { Provider, useDispatch } from 'react-redux';
+import { io } from 'socket.io-client';
 import rollbarConfig from '../rollbar';
 import createStore from '../store/createStore';
 import AuthContext from '../contexts/AuthContext';
 import SocketContext from '../contexts/SocketContext';
 import App from './App';
+import initLocalization from '../locales/initLocalization';
 import registerSocketsHandlers from '../API/registerSocketsHandlers';
 
-const init = (socket, preloadedState) => {
+const initApp = (socket = io(), preloadedState) => {
   const store = createStore(preloadedState);
 
   const AuthContextProvider = ({ children }) => {
@@ -37,6 +39,7 @@ const init = (socket, preloadedState) => {
   };
 
   const SocketContextProdiver = ({ children }) => {
+    initLocalization();
     const dispatch = useDispatch();
     registerSocketsHandlers(socket, dispatch);
 
@@ -77,4 +80,4 @@ const init = (socket, preloadedState) => {
   return vdom;
 };
 
-export default init;
+export default initApp;
