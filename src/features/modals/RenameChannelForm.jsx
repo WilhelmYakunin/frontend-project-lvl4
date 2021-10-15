@@ -33,12 +33,11 @@ const RenameChannelForm = () => {
   return (
     <>
       <Formik
+        validationSchema={getOnlyUniqeChannelName(allChannelsNames)}
         initialValues={{
           name: allChannels.filter((channel) => channel.id === idOfRenamingChannel)[0].name,
         }}
-        validationSchema={getOnlyUniqeChannelName(allChannelsNames)}
-        validateOnMount
-        validateOnChange
+        validateOnMount={false}
         onSubmit={handleRenameChannel}
       >
         {({ errors, isValid }) => (

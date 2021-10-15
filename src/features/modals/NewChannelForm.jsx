@@ -37,8 +37,7 @@ const NewChannelForm = () => {
           name: '',
         }}
         validationSchema={getOnlyUniqeChannelName(channelsNames)}
-        validateOnMount
-        validateOnChange={false}
+        validateOnMount={false}
         onSubmit={handleAddChannel}
       >
         {({ errors, isValid }) => (

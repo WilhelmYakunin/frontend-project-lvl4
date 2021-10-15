@@ -8,7 +8,7 @@ const signupSchema = yup.object().shape({
   password: yup.string()
     .min(6, 'signup.passMin')
     .required('signup.required'),
-  confirmPassword: yup.string()
+  confirm: yup.string()
     .min(6, 'signup.passMin')
     .oneOf([yup.ref('password'), null], 'signup.mustMatch'),
 });

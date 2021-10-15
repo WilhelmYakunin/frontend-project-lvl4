@@ -15,7 +15,6 @@ const RemoveChannelForm = () => {
   const dispatch = useDispatch();
   const idOfDeleetingChannel = useSelector(showDropdownForChannel);
   const { removeChannel } = React.useContext(SocketContext);
-
   const handleRemoveChannel = () => {
     try {
       const removeChannelInfo = { id: idOfDeleetingChannel };

@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
-import { Form, Alert } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import signupSchema from './signupSchema';
 import AuthContext from '../../contexts/AuthContext';
+import AuthFormContainer from '../../components/authFormContainer';
 import routes from '../../API/routes';
+import AuthInput from '../../components/AuthInput';
+import AuthButton from '../../components/AuthButton';
 
 const SignupFrom = () => {
   const { t } = useTranslation();
@@ -18,10 +21,9 @@ const SignupFrom = () => {
     initialValues: {
       username: '',
       password: '',
-      confirmPassword: '',
+      confirm: '',
     },
     validationSchema: signupSchema,
-    validateOnChange: true,
     onSubmit: async (userInfo, { setSubmitting, setErrors, resetForm }) => {
       setSubmitting(true);
       try {
@@ -34,7 +36,7 @@ const SignupFrom = () => {
         setSubmitting(false);
       } catch (exception) {
         if (exception.isAxiosError && exception.response.status === 409) {
-          setErrors({ authFailed: true });
+          setErrors({ signupFailed: true });
         }
         const { from } = location.state || { from: { pathname: '/signup' } };
         history.replace(from);
@@ -43,72 +45,39 @@ const SignupFrom = () => {
   });
 
   return (
-    <div className="container-fluid h-100">
-      <div className="row justify-content-center align-content-center h-100">
-        <div className="col-12 col-md-8 col-xxl-6">
-          <div className="card shadow">
-            <div className="card-body row p-5">
-              <Form onSubmit={formik.handleSubmit} className="m-auto p-3 w-50">
-                <Form.Group>
-                  <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
-                  <Form.Control
-                    autoFocus
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
-                    placeholder={t('signup.usernameConstraints')}
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    className="shadow"
-                    isInvalid={formik.touched.username && formik.errors.username}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
-                  <Form.Control
-                    type="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    placeholder={t('signup.passMin')}
-                    name="password"
-                    id="password"
-                    autoComplete="current-password"
-                    className="shadow"
-                    isInvalid={formik.touched.password && formik.errors.password}
-                  />
-                  <Form.Control.Feedback type="invalid">{t('signup.passMin')}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label htmlFor="password">{t('signup.confirm')}</Form.Label>
-                  <Form.Control
-                    type="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.confirmPassword}
-                    placeholder={t('signup.mustMatch')}
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    autoComplete="current-password"
-                    className="shadow"
-                    isInvalid={formik.errors.confirmPassword}
-                  />
-                  <Form.Control.Feedback type="invalid">{t('signup.mustMatch')}</Form.Control.Feedback>
-                </Form.Group>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">
-                  {t('signup.submit')}
-                </button>
-                { formik.errors.authFailed && (
-                <Alert variant="danger">
-                  {t('signup.alreadyExists')}
-                </Alert>
-                )}
-              </Form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <AuthFormContainer>
+      <Form onSubmit={formik.handleSubmit} className="m-auto p-3 w-50">
+        <AuthInput
+          name="username"
+          formik={formik}
+          label={t('signup.username')}
+          placeHolder={t('signup.usernameConstraints')}
+          errMessage={t(formik.errors.username)}
+        />
+        <AuthInput
+          name="password"
+          type="password"
+          formik={formik}
+          label={t('signup.password')}
+          placeHolder={t('signup.passMin')}
+          errMessage={t(formik.errors.password)}
+        />
+        <AuthInput
+          name="confirm"
+          type="password"
+          formik={formik}
+          label={t('signup.confirm')}
+          placeHolder={t('signup.mustMatch')}
+          errMessage={t('signup.mustMatch')}
+        />
+        <AuthButton text={t('signup.submit')} isSubmitting={formik.isSubmitting} />
+        { formik.errors.signupFailed && (
+        <Alert variant="danger">
+          {t('signup.alreadyExists')}
+        </Alert>
+        )}
+      </Form>
+    </AuthFormContainer>
   );
 };
 
