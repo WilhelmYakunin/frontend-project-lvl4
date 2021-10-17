@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { Button } from 'react-bootstrap';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { messageError } from './messagesSlice';
 import { getCurrentChannelId } from '../../store/selectors';
 import SocketContext from '../../contexts/SocketContext';
 import AuthContext from '../../contexts/AuthContext';
@@ -14,16 +13,11 @@ const NewMessageForm = () => {
   const channelId = useSelector(getCurrentChannelId);
   const { user } = useContext(AuthContext);
   const { addMessage } = useContext(SocketContext);
-  const dispatch = useDispatch();
   const handelMessageSubmit = (messageBody, { resetForm }) => {
-    try {
-      const { body } = messageBody;
-      const messageInfo = { user: user.username, channelId, body };
-      addMessage(messageInfo);
-      resetForm();
-    } catch (exception) {
-      dispatch(messageError(exception.message));
-    }
+    const { body } = messageBody;
+    const messageInfo = { user: user.username, channelId, body };
+    addMessage(messageInfo);
+    resetForm();
   };
 
   return (

@@ -1,69 +1,38 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { openDropDownFor, channelsGotError } from './channelsSlice';
-import { openModal, modalsGotError } from '../modals/modalFormsSlice';
+import { openModal } from '../modals/modalFormsSlice';
 import { getCurrentChannelId } from '../../store/selectors';
 
 const ChannelDropdownMenu = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const currentChannelId = useSelector(getCurrentChannelId);
-  const isCurrent = () => (channelId === currentChannelId && 'btn-secondary');
-
-  const handleOpenDeleteModal = (e) => {
-    e.preventDefault();
-    try {
-      dispatch(openModal('removeModal'));
-    } catch (exception) {
-      dispatch(modalsGotError());
-    }
-  };
-
-  const handleOpenRenameModal = (e) => {
-    e.preventDefault();
-    try {
-      dispatch(openModal('renameModal'));
-    } catch (exception) {
-      dispatch(modalsGotError());
-    }
-  };
-
-  const handleReciveDropdownOpen = () => {
-    try {
-      dispatch(openDropDownFor(channelId));
-    } catch (exception) {
-      dispatch(channelsGotError());
-    }
-  };
 
   return (
     <>
       <button
-        onClick={handleReciveDropdownOpen}
         type="button"
         role="menu"
         id="dropdownMenuButton"
         data-toggle="dropdown"
-        className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${isCurrent()}`}
+        className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${channelId === currentChannelId && 'btn-secondary'}`}
       />
       <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a
-          onClick={handleOpenDeleteModal}
+        <button
+          onClick={() => dispatch(openModal({ type: 'removeModal', channelId }))}
           className="dropdown-item"
-          href="/"
-          role="button"
+          type="button"
         >
           {t('channels.remove')}
-        </a>
-        <a
-          onClick={handleOpenRenameModal}
+        </button>
+        <button
+          onClick={() => dispatch(openModal({ type: 'renameModal', channelId }))}
           className="dropdown-item"
-          href="/"
-          role="button"
+          type="submit"
         >
           {t('channels.rename')}
-        </a>
+        </button>
       </div>
     </>
   );

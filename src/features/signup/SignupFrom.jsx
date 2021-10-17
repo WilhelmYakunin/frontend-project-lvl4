@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';

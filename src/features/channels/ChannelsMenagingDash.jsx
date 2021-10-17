@@ -1,26 +1,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { openModal, modalsGotError } from '../modals/modalFormsSlice';
+import { openModal } from '../modals/modalFormsSlice';
 import ChannelsContainer from './ChannelsContainer';
 
 const ChannelsDash = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const setAddChannelModal = () => {
-    try {
-      dispatch(openModal('addModal'));
-    } catch (exception) {
-      dispatch(modalsGotError(exception));
-    }
-  };
-
   return (
     <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
       <div className="d-flex justify-content-between px-2 mb-2">
         <span>{t('channels.channels')}</span>
-        <button type="button" onClick={setAddChannelModal} className="p-0 text-primary btn btn-group-vertical">
+        <button type="button" onClick={() => dispatch(openModal({type: 'addModal'}))} className="p-0 text-primary btn btn-group-vertical">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"

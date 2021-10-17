@@ -13,9 +13,6 @@ const messagesSlice = createSlice({
       const newMessage = action.payload;
       state.messages.push(newMessage);
     },
-    messageError: (state, action) => {
-      state.messageError = action.payload;
-    },
   },
   extraReducers: {
     [loadChatState]: (state, action) => {

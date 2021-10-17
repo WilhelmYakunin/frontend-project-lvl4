@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import { channelsGotError, setCurrentChannel } from './channelsSlice';
+import { setCurrentChannel } from './channelsSlice';
 import ChannelDropdownMenu from './ChannelDropdownMenu';
 
 const ChannelButton = ({
@@ -9,21 +8,12 @@ const ChannelButton = ({
   currentChannelId,
 }) => {
   const dispatch = useDispatch();
-
-  const isCurrent = () => (id === currentChannelId && 'btn-secondary');
-
-  const handleSetCurrentChannel = () => {
-    try {
-      dispatch(setCurrentChannel(id));
-    } catch (exception) {
-      dispatch(channelsGotError(exception.message));
-    }
-  };
+  const handleSetCurrentChannel = () => dispatch(setCurrentChannel(id));
 
   return (
     <div role="group" className="d-flex dropdown btn-group">
       <button
-        className={`w-100 rounded-0 mr-0 btn ${isCurrent(id)}`}
+        className={`w-100 rounded-0 mr-0 btn ${id === currentChannelId && 'btn-secondary'}`}
         onClick={handleSetCurrentChannel}
         type="submit"
       >
@@ -33,15 +23,6 @@ const ChannelButton = ({
       {removable && <ChannelDropdownMenu channelId={id} />}
     </div>
   );
-};
-
-ChannelButton.propTypes = {
-  channel: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    removable: PropTypes.bool,
-  }).isRequired,
-  currentChannelId: PropTypes.number.isRequired,
 };
 
 export default ChannelButton;

@@ -12,7 +12,6 @@
   Redux-toolkit
   i18next
   react-router-dom
-  redux-persist
   formik
   soket.io
   axios

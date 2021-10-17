@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { loadChatState, channelsGotError } from './channels/channelsSlice';
+import { loadChatState } from './channels/channelsSlice';
 import routes from '../API/routes';
 import LoadSpinner from '../components/LoadSpinner';
 import ChannelsMenagingDash from './channels/ChannelsMenagingDash';
 import Messages from './messages/Messages';
 import NewMessageForm from './messages/NewMessageForm';
-import { isServerDataLoaded } from '../store/selectors';
 import AuthContext from '../contexts/AuthContext';
 
 const Chat = () => (
@@ -24,30 +23,30 @@ const Chat = () => (
 );
 
 const ChatPage = () => {
-  const isLoad = useSelector(isServerDataLoaded);
-  const spinner = !isLoad && <LoadSpinner />;
-  const content = isLoad && <Chat />;
+  const [chatLoaded, setLoaded] = useState(false);
+  const spinner = !chatLoaded && <LoadSpinner />;
+  const content = chatLoaded && <Chat />;
   const location = useLocation();
   const history = useHistory();
-
   const dispatch = useDispatch();
   const { getAuthHeader } = useContext(AuthContext);
   const channelsDataUrl = routes.dataPath();
 
-  axios({
+  const getChatLoaded = () => !chatLoaded && axios({
     method: 'get',
     url: channelsDataUrl,
     headers: getAuthHeader(),
     timeout: 10000,
   }).then((res) => {
     dispatch(loadChatState(res.data));
+    setLoaded(true);
   })
-    .catch((exception) => {
-      const { message } = exception;
-      dispatch(channelsGotError(message));
+    .catch(() => {
       const { from } = location.state || { from: { pathname: '/login' } };
       history.replace(from);
     });
+
+  getChatLoaded();
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

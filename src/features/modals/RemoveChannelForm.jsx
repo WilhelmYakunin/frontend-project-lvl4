@@ -5,24 +5,19 @@ import { Modal } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import ModalHeader from '../../components/ModalHeader';
 import ModalFooter from '../../components/ModalFooter';
-import { channelsGotError } from '../channels/channelsSlice';
 import { closeModal } from './modalFormsSlice';
-import { showDropdownForChannel } from '../../store/selectors';
+import { modalChannelId } from '../../store/selectors';
 import SocketContext from '../../contexts/SocketContext';
 
 const RemoveChannelForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const idOfDeleetingChannel = useSelector(showDropdownForChannel);
+  const idOfDeleetingChannel = useSelector(modalChannelId);
   const { removeChannel } = React.useContext(SocketContext);
   const handleRemoveChannel = () => {
-    try {
-      const removeChannelInfo = { id: idOfDeleetingChannel };
-      removeChannel(removeChannelInfo);
-      dispatch(closeModal());
-    } catch (exception) {
-      dispatch(channelsGotError(exception.message));
-    }
+    const removeChannelInfo = { id: idOfDeleetingChannel };
+    removeChannel(removeChannelInfo);
+    dispatch(closeModal());
   };
 
   return (

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Modal } from 'react-bootstrap';
-import cn from 'classnames';
 import getOnlyUniqeChannelName from './getOnlyUniqueSchema';
-import { channelsGotError } from '../channels/channelsSlice';
 import ModalHeader from '../../components/ModalHeader';
 import ModalInput from '../../components/ModalInput';
 import ModalFooter from '../../components/ModalFooter';
@@ -20,14 +18,10 @@ const NewChannelForm = () => {
   const channelsNames = channels.map((channel) => channel.name);
   const { addChannel } = React.useContext(SocketContext);
   const handleAddChannel = (newChannelName, { resetForm }) => {
-    try {
-      const { name } = newChannelName;
-      addChannel(name);
-      resetForm();
-      dispatch(closeModal());
-    } catch (exception) {
-      dispatch(channelsGotError(exception.message));
-    }
+    const { name } = newChannelName;
+    addChannel(name);
+    resetForm();
+    dispatch(closeModal());
   };
 
   return (
@@ -37,10 +31,9 @@ const NewChannelForm = () => {
           name: '',
         }}
         validationSchema={getOnlyUniqeChannelName(channelsNames)}
-        validateOnMount={false}
         onSubmit={handleAddChannel}
       >
-        {({ errors, isValid }) => (
+        {({ errors, isValid, handleBlur }) => (
           <Form>
             <ModalHeader text={t('modals.add')} />
             <Modal.Body>

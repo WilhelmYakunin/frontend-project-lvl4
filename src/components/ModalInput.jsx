@@ -3,8 +3,10 @@ import { Field } from 'formik';
 import cn from 'classnames';
 
 const ModalInput = ({
-  dataTestid, ariaLabel, isValid, error,
-}) => (
+  dataTestid, ariaLabel, isValid, onBlur, error,
+}) =>{ 
+
+  return (
   <>
     <Field
       autoFocus
@@ -19,6 +21,6 @@ const ModalInput = ({
     />
     { error && <div className="invalid-feedback">{error}</div> }
   </>
-);
+)};
 
 export default ModalInput;

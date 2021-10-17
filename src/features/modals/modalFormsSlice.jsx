@@ -5,18 +5,16 @@ const modalFromsSlice = createSlice({
   name: 'modal',
   initialState: {
     modalType: 'unset',
-    modalProccedingError: 'none',
+    channelId: 'unset',
   },
   reducers: {
     openModal: (state, action) => {
-      state.modalType = action.payload;
+      const { type, channelId} = action.payload;
+      state.modalType = type;
+      state.channelId = channelId;
     },
     closeModal: (state) => {
       state.modalType = 'unset';
-    },
-    modalsGotError: (state, action) => {
-      const errInfo = action.payload;
-      state.modalProccedingError = errInfo;
     },
   },
 });
@@ -24,7 +22,6 @@ const modalFromsSlice = createSlice({
 export const {
   openModal,
   closeModal,
-  modalsGotError,
 } = modalFromsSlice.actions;
 
 export default modalFromsSlice.reducer;
