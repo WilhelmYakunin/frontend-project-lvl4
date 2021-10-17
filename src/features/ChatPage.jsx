@@ -32,7 +32,7 @@ const ChatPage = () => {
   const { getAuthHeader } = useContext(AuthContext);
   const channelsDataUrl = routes.dataPath();
 
-  const getChatLoaded = () => !chatLoaded && axios({
+  const getChatLoaded = () => !chatLoaded && axios.get({
     method: 'get',
     url: channelsDataUrl,
     headers: getAuthHeader(),

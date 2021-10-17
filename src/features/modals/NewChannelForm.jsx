@@ -33,7 +33,7 @@ const NewChannelForm = () => {
         validationSchema={getOnlyUniqeChannelName(channelsNames)}
         onSubmit={handleAddChannel}
       >
-        {({ errors, isValid, handleBlur }) => (
+        {({ errors, isValid }) => (
           <Form>
             <ModalHeader text={t('modals.add')} />
             <Modal.Body>
